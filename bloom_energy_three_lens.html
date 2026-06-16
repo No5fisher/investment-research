@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom Energy BE · 三镜头判决</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --void:     #080b10;
+  --deep:     #0d1117;
+  --panel:    #111820;
+  --border:   #1c2535;
+  --border2:  #2a3a50;
+  --text:     #c2cfe0;
+  --text2:    #7a90a8;
+  --text3:    #3d5268;
+  --bright:   #e8f0fc;
+
+  /* Persona palette — energy / industrial feel */
+  --buffett:  #c8a84b;   /* gold ledger — capital patience */
+  --buffett-d:#1a1508;
+  --buffett-b:#2a2210;
+  --thiel:    #5b8af5;   /* cold electric blue — systems / power */
+  --thiel-d:  #060d1f;
+  --thiel-b:  #0d1830;
+  --schmehl:  #4fd18b;   /* surge green — momentum / signal */
+  --schmehl-d:#051309;
+  --schmehl-b:#0b2015;
+
+  --danger:   #e05555;
+  --warn:     #e0a045;
+
+  --grotesk: 'Space Grotesk', sans-serif;
+  --mono:    'Space Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--grotesk);
+  font-size: 13px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--deep);
+  border-bottom: 1px solid var(--border2);
+  padding: 24px 32px 20px;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+.co-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--bright);
+  letter-spacing: -0.02em;
+}
+.co-sub {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 4px;
+  font-style: italic;
+}
+.price-right { text-align: right; }
+.price-big {
+  font-family: var(--mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--schmehl);
+  letter-spacing: -0.02em;
+}
+.price-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.tag-up { background: #0b2015; color: var(--schmehl); }
+.tag-warn { background: #1a100a; color: var(--warn); }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.stat {
+  flex: 1;
+  padding: 10px 16px;
+  border-right: 1px solid var(--border);
+  min-width: 100px;
+}
+.stat:last-child { border-right: none; }
+.stat-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 3px;
+}
+.stat-val {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--bright);
+}
+.stat-note { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.stat-note.up { color: var(--schmehl); }
+.stat-note.warn { color: var(--warn); }
+.stat-note.danger { color: var(--danger); }
+
+/* ── DIVIDER ── */
+.divider {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--deep);
+}
+
+/* ── SITUATION BRIEF ── */
+.situation {
+  padding: 20px 32px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+}
+.sit-block {
+  padding: 0 20px 0 0;
+}
+.sit-block + .sit-block {
+  padding: 0 20px 0 20px;
+  border-left: 1px solid var(--border);
+}
+.sit-title {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+.sit-body { font-size: 12px; color: var(--text); line-height: 1.6; }
+.sit-body strong { color: var(--bright); }
+
+/* ── THREE COLUMNS ── */
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+}
+
+.persona {
+  background: var(--deep);
+  padding: 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Persona title bar */
+.persona-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid;
+}
+.persona-bar.B { border-color: var(--buffett); }
+.persona-bar.T { border-color: var(--thiel); }
+.persona-bar.S { border-color: var(--schmehl); }
+
+.persona-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-B { background: var(--buffett); box-shadow: 0 0 8px var(--buffett); }
+.dot-T { background: var(--thiel);   box-shadow: 0 0 8px var(--thiel); }
+.dot-S { background: var(--schmehl); box-shadow: 0 0 8px var(--schmehl); }
+
+.persona-name { font-size: 17px; font-weight: 700; color: var(--bright); }
+.persona-lens {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+.lens-B { color: var(--buffett); }
+.lens-T { color: var(--thiel); }
+.lens-S { color: var(--schmehl); }
+
+/* Question */
+.persona-q {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text2);
+  padding: 10px 12px;
+  border-left: 2px solid var(--border2);
+  margin-bottom: 16px;
+  line-height: 1.5;
+  background: var(--panel);
+  border-radius: 0 3px 3px 0;
+}
+
+/* Verdict */
+.verdict {
+  padding: 12px 14px;
+  border-radius: 3px;
+  margin-bottom: 18px;
+}
+.verdict.B { background: var(--buffett-b); border: 1px solid #3a2e10; }
+.verdict.T { background: var(--thiel-b);   border: 1px solid #102040; }
+.verdict.S { background: var(--schmehl-b); border: 1px solid #0f3020; }
+
+.verdict-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.vl-B { color: var(--buffett); }
+.vl-T { color: var(--thiel); }
+.vl-S { color: var(--schmehl); }
+
+.verdict-body {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* Criteria */
+.criteria { display: flex; flex-direction: column; gap: 0; }
+.crit {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.crit:last-child { border-bottom: none; }
+.crit-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  gap: 8px;
+}
+.crit-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bright);
+  flex: 1;
+}
+.pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.p-strong  { background: #0b2a14; color: #4fd18b; }
+.p-yes     { background: #0a1e30; color: #5b8af5; }
+.p-partial { background: #1f1a08; color: #c8a84b; }
+.p-warn    { background: #1f1008; color: #e0a045; }
+.p-no      { background: #1f0808; color: #e05555; }
+.p-neutral { background: #151a22; color: #7a90a8; }
+
+.crit-body {
+  font-size: 11.5px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+
+/* ── SCORE ROW ── */
+.score-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border2);
+  border-top: 2px solid var(--border2);
+}
+.score-cell {
+  background: var(--panel);
+  padding: 18px 20px;
+  text-align: center;
+}
+.sc-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.sc-label.B { color: var(--buffett); }
+.sc-label.T { color: var(--thiel); }
+.sc-label.S { color: var(--schmehl); }
+.sc-label.X { color: var(--text3); }
+.sc-num {
+  font-family: var(--mono);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+.sc-num.B { color: var(--buffett); }
+.sc-num.T { color: var(--thiel); }
+.sc-num.S { color: var(--schmehl); }
+.sc-num.X { color: var(--text3); }
+.sc-denom { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+.sc-word { font-size: 11px; font-style: italic; color: var(--text3); margin-top: 4px; }
+
+/* ── KEY TENSION ── */
+.tension {
+  padding: 22px 32px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.tension-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--thiel);
+  margin-bottom: 10px;
+}
+.tension-text {
+  font-size: 14px;
+  color: var(--bright);
+  line-height: 1.7;
+  font-weight: 300;
+}
+.tension-text strong { font-weight: 600; color: var(--bright); }
+
+/* ── BOTTOM GRID ── */
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+}
+.bottom-block {
+  background: var(--deep);
+  padding: 20px 24px;
+}
+.bb-title {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.bb-body {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.bb-body strong { color: var(--bright); }
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 32px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text3);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="eyebrow">NYSE: BE &nbsp;·&nbsp; Clean Energy / Fuel Cell Technology &nbsp;·&nbsp; 三镜头判决框架</div>
+      <div class="co-name">Bloom Energy Corp.</div>
+      <div class="co-sub">固态氧化物燃料电池 · AI数据中心供电基础设施 · 氢能转型平台</div>
+    </div>
+    <div class="price-right">
+      <div class="price-big">$262.50</div>
+      <div class="price-meta">
+        <span class="tag tag-up">▲ +1,483% · 52W</span>
+        <span class="tag tag-warn">52W Low $20.93</span>
+        <span class="tag tag-warn">High $322.83</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-label">FY2025 Revenue</div>
+      <div class="stat-val">$2.02B</div>
+      <div class="stat-note up">+37.3% YoY · 记录</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Q1 2026 Revenue</div>
+      <div class="stat-val">$751M</div>
+      <div class="stat-note up">+130% YoY</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">FY2026 Rev 指引</div>
+      <div class="stat-val">$3.4–3.8B</div>
+      <div class="stat-note up">+68–88% YoY</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">合同积压</div>
+      <div class="stat-val">$20B</div>
+      <div class="stat-note up">产品积压 2.5× YoY</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">GAAP 净利润 FY25</div>
+      <div class="stat-val">-$88M</div>
+      <div class="stat-note danger">仍亏损 · 203% 恶化</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">负债/权益</div>
+      <div class="stat-val">3.11×</div>
+      <div class="stat-note warn">净现金 -$461M</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Forward P/E</div>
+      <div class="stat-val">~116×</div>
+      <div class="stat-note warn">极高估值</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Oracle 协议规模</div>
+      <div class="stat-val">2.8 GW</div>
+      <div class="stat-note up">+$5B Brookfield 融资</div>
+    </div>
+  </div>
+</div>
+
+<!-- SITUATION BRIEF -->
+<div class="situation">
+  <div class="sit-block">
+    <div class="sit-title">公司做什么</div>
+    <div class="sit-body">Bloom Energy 生产<strong>固态氧化物燃料电池（SOFC）系统</strong>，将天然气（或氢气）在高温下通过电化学反应直接转化为电力，无需燃烧。核心产品 Bloom Energy Server 提供现场、持续、高效的分布式发电，适用于数据中心、医院、半导体工厂等对可靠性要求极高的场景。同时提供固态氧化物电解槽（SOEC）用于绿氢生产。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-title">为什么现在爆发</div>
+    <div class="sit-body">AI算力爆炸带来的<strong>电网承载危机</strong>——传统电网根本无法在18-24个月内满足超大规模数据中心的供电需求。Bloom 的 SOFC 可以<strong>绕过电网、在现场直接发电</strong>，部署周期远快于核电或新建变电站。Oracle 2.8GW 协议 + AEP 1GW 协议 + Brookfield $50亿融资，在90天内锁定$76.5亿合同，验证了这一叙事。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-title">核心风险摘要</div>
+    <div class="sit-body">① GAAP 持续亏损，重度依赖<strong>非GAAP调整</strong>讲故事；② 股价52周上涨1483%，Forward P/E ~116×，任何执行失误将导致灾难性回调；③ 仍以<strong>天然气为主要燃料</strong>，长期绿氢路径尚未商业验证；④ 内部人过去12个月净卖出$7300万；⑤ Crusoe Energy 项目暂停引发的单一客户风险。</div>
+  </div>
+</div>
+
+<div class="divider">— 三位投资者·同一份财报·三种完全不同的结论 —</div>
+
+<!-- THREE COLUMNS -->
+<div class="three-col">
+
+  <!-- BUFFETT -->
+  <div class="persona">
+    <div class="persona-bar B">
+      <div class="persona-dot dot-B"></div>
+      <div class="persona-name">Warren Buffett</div>
+      <div class="persona-lens lens-B">护城河 · 现金流 · 永久持有</div>
+    </div>
+
+    <div class="persona-q">"这家公司2035年的护城河，会比2025年更宽还是更窄？我能预测它的现金流吗？"</div>
+
+    <div class="verdict B">
+      <div class="verdict-label vl-B">判决 · 不会碰 · 明确回避</div>
+      <div class="verdict-body">"这不是我能理解的生意。燃料电池在十年前就应该主导市场了，但它没有。现在AI数据中心让它看起来找到了用武之地，但我不知道五年后它的竞争格局是什么样的，我也看不懂它现在的财务报表。GAAP亏损，EBITDA调整繁多——我从不买我不理解的公司。"</div>
+    </div>
+
+    <div class="criteria">
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">可预期的现金流</span>
+          <span class="pill p-no">不具备</span>
+        </div>
+        <div class="crit-body">GAAP 净亏损2021年$164M，2022年$301M，2023年$302M，2024年$29M，2025年$88M——五年累计亏损近$900M。非GAAP EBITDA 在改善，但巴菲特不看非GAAP指标。他要求的是真实的owner earnings，而不是"剔除股权激励后的盈利"。这是他第一道就会把公司筛掉的标准。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">护城河可识别性</span>
+          <span class="pill p-warn">极难评估</span>
+        </div>
+        <div class="crit-body">SOFC 技术是否构成真正的护城河？专利护城河在能源领域的持久性存疑；规模壁垒还在建设中（从1GW扩产到2GW）；切换成本主要来源于20年服务协议，具有一定黏性，但客户续约取决于电价和技术迭代。巴菲特需要能用常识解释的护城河——"燃料电池效率高"不是他的语言。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">资产负债表健康度</span>
+          <span class="pill p-warn">警惕</span>
+        </div>
+        <div class="crit-body">负债/权益3.11×，净现金负$461M，过去一年股本增发14.99%——持续稀释股东。巴菲特对重资产、高杠杆的能源设备公司历来保持距离（他投的能源公司是 Occidental Petroleum 这类有强大自由现金流和低负债的油气企业）。Bloom 的资产负债表结构与他的偏好相反。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">估值安全边际</span>
+          <span class="pill p-no">完全缺失</span>
+        </div>
+        <div class="crit-body">Forward P/E ~116×，EV/EBITDA ~320×，股价过去一年上涨1483%。巴菲特的安全边际原则在这里毫无立足之地。他宁愿"以合理价格买入优秀公司"，而不是"以任何价格买入热门主题"。Bloom 当前的估值需要未来5年的完美执行才能消化，这不是他的风格。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">管理层资本分配</span>
+          <span class="pill p-warn">红旗</span>
+        </div>
+        <div class="crit-body">过去90天内部人合计卖出约37万股，涉及$6140万，而公司股价处于历史高点附近。巴菲特最厌恶的行为之一——业务在讲高速增长故事，管理层自己却在大量变现。他会把这视为"管理层对自己故事的信心不足"的信号。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">能否"永久持有"</span>
+          <span class="pill p-no">不可能</span>
+        </div>
+        <div class="crit-body">这是对巴菲特最有力的否定：Bloom 的商业逻辑高度依赖于AI数据中心电力需求、天然气价格、绿氢政策、电网监管、燃料电池技术迭代的特定组合。其中任何一个变量的变化都可能从根本上改变公司价值。巴菲特不在需要持续监控宏观变量的公司里投资。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THIEL -->
+  <div class="persona">
+    <div class="persona-bar T">
+      <div class="persona-dot dot-T"></div>
+      <div class="persona-name">Peter Thiel</div>
+      <div class="persona-lens lens-T">秘密 · 垄断 · 零到一 · 基础设施</div>
+    </div>
+
+    <div class="persona-q">"Bloom 找到了什么别人不相信的真相？它正在建立垄断，还是在竞争一个所有人都看见的市场？"</div>
+
+    <div class="verdict T">
+      <div class="verdict-label vl-T">判决 · 高度兴趣 · 但有根本性保留</div>
+      <div class="verdict-body">"这是一个真实的'零到一'时刻——他们在别人不相信的时候坚持了20年，然后AI创造了证明他们正确的市场。但现在每个人都看见这个机会了，我想知道的是：Bloom 是这个市场的垄断者，还是先发者？这两个不同。"</div>
+    </div>
+
+    <div class="criteria">
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">原始"秘密"的真实性</span>
+          <span class="pill p-strong">真实且罕见</span>
+        </div>
+        <div class="crit-body">Thiel 会立刻认可：KR Sridhar 在2001年创立 Bloom，相信固态氧化物燃料电池可以革命性地改变分布式发电——当时没有人相信这件事，风投逃避了十年。SOFC 的核心原理：在600-1000摄氏度高温环境下，燃料与氧气直接进行电化学反应输出电流，无需燃烧或机械做功，效率高、排放低、燃料灵活——这是一个被主流能源界长期忽视的真实技术秘密。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">技术 10× 优势</span>
+          <span class="pill p-yes">成立</span>
+        </div>
+        <div class="crit-body">2025-2026年市场给出了最终裁决：SOFC 的基负荷发电特性比 PEM 燃料电池更适合数据中心的持续供电需求；2.8GW Oracle 协议和1GW AEP 协议解决了此前关于大规模部署可行性的疑问。在数据中心"绕过电网"这个具体应用场景里，Bloom 的技术组合确实有10×优势——部署速度、可靠性、效率的综合表现没有可比竞争者。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">垄断结构是否形成</span>
+          <span class="pill p-partial">形成中，未完成</span>
+        </div>
+        <div class="crit-body">Thiel 的核心判断题：Bloom 是这个市场的 Oracle（数据库标准），还是 Sun Microsystems（先发但被后来者取代）？Bloom 目前正在从辅助电源升级为主电源角色，2026年的$76.5亿合同建立了先发优势。但规模化能否产生真正的制造成本护城河，取决于1GW到2GW再到更大规模的学习曲线是否可防御。这一点尚未被证明。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">反共识度（现在）</span>
+          <span class="pill p-warn">已被发现</span>
+        </div>
+        <div class="crit-body">这是 Thiel 最大的保留：2026年的 Bloom 不再是他在2001年就应该投的那个 Bloom。股价上涨1483%，$20B 积压全球皆知，27位分析师覆盖，Wall Street Journal 做封面报道。Thiel 的哲学是在"无人相信"的时候投注——现在所有人都相信了，定义上这已经不再是反共识投资。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">国防/基础设施视角</span>
+          <span class="pill p-strong">高度匹配</span>
+        </div>
+        <div class="crit-body">Thiel 对"国家关键基础设施"有特别的偏爱（Palantir 就是这个逻辑）。Bloom 的 SOFC 系统正在成为军事数据中心、情报机构、国防部设施的备选供电方案，它的"现场发电、不依赖电网"特性对国家安全场景具有独特价值。这条隐性叙事——Bloom 作为数字基础设施的能源主权提供者——正是 Thiel 会深度共鸣的叙事。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">氢能转型的"零到一"潜力</span>
+          <span class="pill p-partial">真实但遥远</span>
+        </div>
+        <div class="crit-body">如果 Bloom 的 SOEC 电解槽能够在绿氢经济成熟后成为大规模制氢基础设施，那才是 Thiel 真正会疯狂的时刻——一家从天然气发电设备公司转型为氢能基础设施垄断者。但这个时间线是2030年后，技术和政策路径仍有巨大不确定性。Thiel 押注时间表清晰的秘密，不押注时间表模糊的美好愿景。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHMEHL -->
+  <div class="persona">
+    <div class="persona-bar S">
+      <div class="persona-dot dot-S"></div>
+      <div class="persona-name">Mark Schmehl</div>
+      <div class="persona-lens lens-S">动量 · 改善 · 过度反应 · 换仓</div>
+    </div>
+
+    <div class="persona-q">"这家公司正在经历的变化，市场是高估了还是低估了？现在的价格是买入还是离场信号？"</div>
+
+    <div class="verdict S">
+      <div class="verdict-label vl-S">判决 · 已建仓并获利 · 此刻高度警惕</div>
+      <div class="verdict-body">"我爱这个故事的2024年版本——基本面从亏损改善、AI电力需求开始被低估、股价从$10起来的。但现在$260，+1483%，Forward P/E 116×，这不再是'被低估的正面变化'，这是'已经被充分定价甚至超额定价的正面变化'。我的工作是找到下一个这样的机会，而不是持有一个所有人都知道的故事。"</div>
+    </div>
+
+    <div class="criteria">
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">正面变化被低估（过去）</span>
+          <span class="pill p-strong">完美符合（2024）</span>
+        </div>
+        <div class="crit-body">Schmehl 最喜欢的 pattern 在2024年的 Bloom 上完美呈现：AI 电力需求是一个被低估的正面变化；SOFC 解决数据中心电力危机的能力是一个被怀疑的洞察；公司从连续亏损走向盈利拐点是基本面改善信号。FY2025 营收$2.02B，连续第二年经营现金流为正——这就是他的买入时机窗口，那时在$20-50区间。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">当前正面变化是否被低估</span>
+          <span class="pill p-no">不，已被过度定价</span>
+        </div>
+        <div class="crit-body">BE 股价以119倍远期市盈率交易，远超分析师平均目标价$143.80（写于较早时期）。当前$262，27位分析师平均目标价$187.85——意味着即便专业共识认为当前股价已经超出合理价值。Schmehl 的核心原则是"市场对正面变化反应不足"——这里完全相反，市场已经反应过度。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">动量延续性</span>
+          <span class="pill p-warn">脆弱</span>
+        </div>
+        <div class="crit-body">Q1 2026 营收+130%、产品收入+208%——数字惊人，但这种增速是不可持续的基期效应。2027年开始，同比基数将异常困难。Schmehl 极其敏感于动量减速——一旦营收增速从130%降至50%甚至"只有"40%，在当前估值下股价可能腰斩。他买动量，也卖动量，他不做"基本面好但动量减速"的持仓。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">项目执行风险</span>
+          <span class="pill p-warn">新增警报</span>
+        </div>
+        <div class="crit-body">Crusoe Energy 暂停一个1.8GW 数据中心项目，导致 BE 单日跌超10%。这正是 Schmehl 最担心的：当估值定价的是完美执行，任何一个合作方出问题都会引发不成比例的股价反应。$20B 积压的每一个项目都变成了潜在的"负面催化剂"。他的系统在这里会快速减仓。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">卖出信号已触发？</span>
+          <span class="pill p-warn">接近触发</span>
+        </div>
+        <div class="crit-body">Schmehl 的卖出逻辑是明确的：① 估值已不再便宜；② 执行风险出现（Crusoe 事件）；③ 内部人持续卖出；④ 所有人都在讲同一个故事。他不会在一个叙事已被充分定价的公司里占用仓位——他的资金应该找下一个"被低估的正面变化"的机会，而不是捍卫一个已经成真的赌注。</div>
+      </div>
+      <div class="crit">
+        <div class="crit-top">
+          <span class="crit-name">如果再次发生大跌，他会重新买入？</span>
+          <span class="pill p-partial">取决于条件</span>
+        </div>
+        <div class="crit-body">若 BE 从$262 回落至$120-150（约-45%），且届时季报显示 Oracle/AEP 合同部署按计划推进、毛利率持续扩张、氢能产品线出现首批商业订单——那将创造他重新买入的条件。但他不会在下跌趋势中接刀，他会等待基本面确认后的反弹起点。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SCORE ROW -->
+<div class="score-row">
+  <div class="score-cell">
+    <div class="sc-label B">Buffett</div>
+    <div class="sc-num B">8</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">明确回避</div>
+  </div>
+  <div class="score-cell">
+    <div class="sc-label T">Thiel</div>
+    <div class="sc-num T">58</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">欣赏叙事·保留估值</div>
+  </div>
+  <div class="score-cell">
+    <div class="sc-label S">Schmehl</div>
+    <div class="sc-num S">35</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">已过最佳买点</div>
+  </div>
+  <div class="score-cell">
+    <div class="sc-label X">三人共识</div>
+    <div class="sc-num X">34</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">分歧最大的案例</div>
+  </div>
+</div>
+
+<!-- TENSION -->
+<div class="tension">
+  <div class="tension-label">▸ 三镜头共同指向的核心悖论</div>
+  <div class="tension-text">
+    Bloom Energy 是<strong>一个真实的技术突破，正在被一个荒谬的价格定价。</strong><br><br>
+    巴菲特看到的是一家他永远不会买的公司——不是因为生意不好，而是因为他看不懂它、也算不清它的现金流；Thiel 看到的是一个真实的"零到一"叙事，但恰好在所有人都看见它之后才被充分定价——他应该在2018年就投，而不是2026年；Schmehl 看到的是一个他可能已经完美执行了的交易，现在他在思考的不是"要不要买"，而是"什么时候卖"。<br><br>
+    三人一致同意的唯一一件事：<strong>当前价格$262包含了太多已知的好消息，几乎没有为未知风险留下余量。</strong> 这不是估值便宜的机会，这是一个需要完美执行才能兑现的赌注——而三位最伟大的投资者都不赌完美执行。
+  </div>
+</div>
+
+<!-- BOTTOM GRID -->
+<div class="bottom">
+  <div class="bottom-block">
+    <div class="bb-title">Bloom vs Adobe · 两种截然不同的折价/溢价逻辑</div>
+    <div class="bb-body">上一张看板（Adobe）是一个<strong>被市场折价的卓越公司</strong>——基本面扎实，估值创历史低点，下跌来自叙事恐惧而非基本面恶化。Bloom 是完全相反的案例：<strong>被市场大幅溢价的新兴公司</strong>——基本面正在快速改善，但定价已包含未来数年的完美执行。三镜头框架在这两个案例上产生了几乎完全相反的信号，这正是框架的价值——它不给你方向，它帮你理解当前价格到底定价了什么。</div>
+  </div>
+  <div class="bottom-block">
+    <div class="bb-title">什么情况下 Bloom 会变成三人都感兴趣的标的</div>
+    <div class="bb-body">
+      <strong>对 Buffett：</strong>连续四季 GAAP 盈利，自由现金流转正且可预测，负债/权益降至1×以下，估值回落至P/FCF ~20×以下。需要7-10年去实现，届时他可能会看。<br><br>
+      <strong>对 Thiel：</strong>股价回调50%+，同时氢能电解槽获得首批规模化政府合同——将叙事从"AI数据中心"升级为"能源主权基础设施"。<br><br>
+      <strong>对 Schmehl：</strong>股价回调至$120-150，季报显示毛利率扩张持续、积压转化率正常，重新创造"被低估的正面变化"格局。
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Bloom Energy Corp. · NYSE: BE · 三镜头投资判决 · Buffett / Thiel / Schmehl</span>
+  <span>数据截至 June 13, 2026 · Q1 2026 财报已发布（April 28, 2026）</span>
+</div>
+
+</body>
+</html>
