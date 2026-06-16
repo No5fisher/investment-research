@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地平线 9660.HK · Schmehl Watch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --border: #1e2230;
+    --border-bright: #2e3450;
+    --text: #c8cfe0;
+    --text-dim: #5a6280;
+    --text-bright: #eef0f8;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+
+    /* Signal colors */
+    --green: #00e5a0;
+    --green-dim: rgba(0,229,160,0.12);
+    --red: #ff4d6a;
+    --red-dim: rgba(255,77,106,0.12);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.12);
+    --blue: #4d9eff;
+    --blue-dim: rgba(77,158,255,0.1);
+    --neutral: #5a6280;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 28px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .ticker {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: -0.01em;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .price-block {
+    text-align: right;
+  }
+  .price-now {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: -0.02em;
+  }
+  .price-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .price-ipo { color: var(--amber); }
+  .price-high { color: var(--red); }
+
+  /* ── VERDICT BANNER ── */
+  .verdict {
+    margin: 16px 28px;
+    border: 1px solid var(--amber);
+    background: var(--amber-dim);
+    border-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .verdict-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    white-space: nowrap;
+  }
+  .verdict-text {
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .verdict-text strong { color: var(--amber); }
+
+  /* ── GRID LAYOUT ── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin: 0 28px 28px;
+  }
+  .grid-full { grid-column: 1 / -1; }
+
+  .panel {
+    background: var(--surface);
+    padding: 18px 20px;
+  }
+
+  .panel-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── METRICS TABLE ── */
+  .metric-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-name { font-size: 12px; color: var(--text); }
+  .metric-value {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-bright);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .metric-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    text-align: center;
+    white-space: nowrap;
+    min-width: 52px;
+  }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .badge-red { background: var(--red-dim); color: var(--red); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); }
+  .badge-neutral { background: rgba(90,98,128,0.15); color: var(--neutral); }
+
+  /* ── SIGNAL INDICATORS ── */
+  .signal-list { display: flex; flex-direction: column; gap: 10px; }
+  .signal-item {
+    display: grid;
+    grid-template-columns: 6px 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .signal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+  .dot-amber { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+  .dot-neutral { background: var(--neutral); }
+  .signal-content { }
+  .signal-title { font-size: 12px; color: var(--text-bright); font-weight: 600; }
+  .signal-desc { font-size: 11px; color: var(--text-dim); margin-top: 2px; line-height: 1.45; }
+  .signal-threshold {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .signal-threshold span { display: block; }
+  .thr-buy { color: var(--green); }
+  .thr-sell { color: var(--red); }
+  .thr-watch { color: var(--amber); }
+
+  /* ── THREAT MATRIX ── */
+  .threat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+  .threat-cell {
+    background: var(--surface);
+    padding: 14px 16px;
+  }
+  .threat-header {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .threat-item {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    padding: 4px 0;
+    display: flex;
+    gap: 8px;
+  }
+  .threat-item::before { content: '→'; color: var(--border-bright); flex-shrink: 0; }
+  .threat-item strong { color: var(--text); }
+
+  /* ── TRIGGER SECTION ── */
+  .trigger-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .trigger-col-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .trigger-col-title.buy { background: var(--green-dim); color: var(--green); }
+  .trigger-col-title.sell { background: var(--red-dim); color: var(--red); }
+  .trigger-item {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: start;
+  }
+  .trigger-item:last-child { border-bottom: none; }
+  .trigger-item .ti-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--border-bright);
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .trigger-item strong { color: var(--text); }
+
+  /* ── CONVICTION METER ── */
+  .conviction-wrap { margin-top: 4px; }
+  .conviction-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 8px 0 4px;
+  }
+  .conviction-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--amber) 0%, var(--green) 100%);
+    width: 42%;
+    transition: width 0.5s;
+  }
+  .conviction-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .conviction-score {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 2px;
+  }
+  .conviction-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ── SCHMEHL CHECKLIST ── */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-icon {
+    font-size: 12px;
+    text-align: center;
+  }
+  .check-text { font-size: 12px; color: var(--text); }
+  .check-text .sub { font-size: 11px; color: var(--text-dim); display: block; }
+  .check-score {
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .score-yes { color: var(--green); }
+  .score-partial { color: var(--amber); }
+  .score-no { color: var(--red); }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 12px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ── TABS for Signal Panel ── */
+  .tabs { display: flex; gap: 0; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+  .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+  .tab-btn:hover:not(.active) { color: var(--text); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 16px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    padding: 6px 0 6px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border-bright);
+  }
+  .tl-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-bottom: 2px;
+  }
+  .tl-event { font-size: 12px; color: var(--text); }
+  .tl-impact {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .tl-item.negative::before { background: var(--red); }
+  .tl-item.positive::before { background: var(--green); }
+  .tl-item.watch::before { background: var(--amber); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="ticker">SEHK · 9660.HK · SCHMEHL WATCH · AUTONOMOUS DRIVING</div>
+    <div class="header-title">地平线机器人 Horizon Robotics</div>
+    <div class="header-sub">Independent ADAS/AD chip & solution provider · "Democratizing smart driving"</div>
+  </div>
+  <div class="price-block">
+    <div class="price-now">HK$4.59</div>
+    <div class="price-meta">
+      <span class="price-ipo">IPO HK$3.99 ▲+15%</span> &nbsp;·&nbsp;
+      <span class="price-high">52W High HK$11.32 ▼-59%</span>
+    </div>
+  </div>
+</div>
+
+<!-- VERDICT -->
+<div class="verdict">
+  <div class="verdict-label">Current Stance</div>
+  <div class="verdict-text">
+    <strong>WATCHLIST · Not yet building position.</strong>
+    Market is pricing "Nvidia-victim" narrative. Schmehl needs two consecutive quarters of margin recovery + J6P new design-win acceleration before pulling trigger. Geopolitical moat (Nvidia export risk) is the structural bull case being underweighted.
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="grid">
+
+  <!-- PANEL 1: Key Metrics -->
+  <div class="panel">
+    <div class="panel-label">Fundamental Snapshot</div>
+    <div class="metric-row">
+      <span class="metric-name">2025 Revenue</span>
+      <span class="metric-value">¥23.8亿 (+57.7%)</span>
+      <span class="metric-badge badge-green">↑ ACCEL</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">2025 Gross Margin</span>
+      <span class="metric-value">~51% (↓ 13ppt)</span>
+      <span class="metric-badge badge-red">WATCH</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">Operating Loss 2025</span>
+      <span class="metric-value">¥33.4亿 (+55.7%)</span>
+      <span class="metric-badge badge-red">WIDENING</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">J6 Chip Shipments</span>
+      <span class="metric-value">401万套 (+38.8%)</span>
+      <span class="metric-badge badge-green">↑ OK</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">Premium ADAS Shipments</span>
+      <span class="metric-value">180万套 (+≈5×)</span>
+      <span class="metric-badge badge-green">↑ STRONG</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">OEM Design Wins (J6系)</span>
+      <span class="metric-value">≈400 models</span>
+      <span class="metric-badge badge-green">↑ BROAD</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">HSD (城市NOA) NPS</span>
+      <span class="metric-value">83%</span>
+      <span class="metric-badge badge-green">STRONG</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">Current P/S (est.)</span>
+      <span class="metric-value">~14–16× trailing</span>
+      <span class="metric-badge badge-amber">FAIR</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">Analyst Consensus (21)</span>
+      <span class="metric-value">TP HK$11.03</span>
+      <span class="metric-badge badge-green">STRONG BUY</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-name">Breakeven Est.</span>
+      <span class="metric-value">2027–2028</span>
+      <span class="metric-badge badge-amber">PENDING</span>
+    </div>
+  </div>
+
+  <!-- PANEL 2: Schmehl Checklist -->
+  <div class="panel">
+    <div class="panel-label">Schmehl Criterion Check</div>
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-icon">✓</div>
+        <div class="check-text">
+          颠覆性创新赛道
+          <span class="sub">L2+智驾渗透率从11%加速，全球CAGR 49%</span>
+        </div>
+        <div class="check-score score-yes">YES</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">✓</div>
+        <div class="check-text">
+          市场对负面变化过度反应
+          <span class="sub">-59%跌幅隐含"被取代"末日叙事，但实际出货持续增长</span>
+        </div>
+        <div class="check-score score-yes">YES</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">◐</div>
+        <div class="check-text">
+          高增长动量可持续
+          <span class="sub">收入仍快速增长；但毛利率拐点未出现</span>
+        </div>
+        <div class="check-score score-partial">PARTIAL</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">◐</div>
+        <div class="check-text">
+          平台型护城河
+          <span class="sub">27家OEM采用；但英伟达正从侧翼渗透</span>
+        </div>
+        <div class="check-score score-partial">PARTIAL</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">✓</div>
+        <div class="check-text">
+          隐性结构性优势
+          <span class="sub">地缘政治护城河：英伟达出口管制风险是地平线的竞争壁垒</span>
+        </div>
+        <div class="check-score score-yes">YES</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">✗</div>
+        <div class="check-text">
+          基本面底部确认
+          <span class="sub">毛利率尚未触底回升；亏损仍在扩大</span>
+        </div>
+        <div class="check-score score-no">NOT YET</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">✓</div>
+        <div class="check-text">
+          估值可容忍
+          <span class="sub">P/S ~15×，远低于高峰40×；IPO价附近</span>
+        </div>
+        <div class="check-score score-yes">YES</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">◐</div>
+        <div class="check-text">
+          海外市场突破
+          <span class="sub">博世合作日本车企将于2026年落地，但体量仍小</span>
+        </div>
+        <div class="check-score score-partial">EMERGING</div>
+      </div>
+    </div>
+    <!-- Conviction Meter -->
+    <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--border);">
+      <div class="panel-label" style="margin-bottom:8px;">Schmehl Conviction Score</div>
+      <div class="conviction-score">42 / 100</div>
+      <div class="conviction-bar-bg">
+        <div class="conviction-bar-fill"></div>
+      </div>
+      <div class="conviction-labels">
+        <span>PASS · 不建仓</span>
+        <span style="color:var(--amber)">▲ 当前</span>
+        <span>BUY · 建仓</span>
+      </div>
+      <div class="conviction-note">需达到 65+ 分才符合 Schmehl 的建仓阈值。关键缺口：毛利率底部确认 (+15pt) + 新大客户定点 (+8pt)。</div>
+    </div>
+  </div>
+
+  <!-- PANEL 3: Signal Tracker (full width with tabs) -->
+  <div class="panel grid-full">
+    <div class="panel-label">实时跟踪指标信号系统</div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('growth')">出货 & 增长</button>
+      <button class="tab-btn" onclick="switchTab('margin')">毛利 & 成本</button>
+      <button class="tab-btn" onclick="switchTab('competition')">竞争格局</button>
+      <button class="tab-btn" onclick="switchTab('macro')">地缘 & 监管</button>
+    </div>
+
+    <!-- Tab: Growth -->
+    <div class="tab-pane active" id="tab-growth">
+      <div class="signal-list">
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">J6P 高端芯片定点增速</div>
+            <div class="signal-desc">征程6P是地平线向高阶突破的核心产品，定点增速直接决定单车ASP走势。当前定点扩展仍以中端为主，J6P的车企名单质量至关重要。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 新增3+主流OEM/季</span>
+            <span class="thr-watch">WATCH: 1–2个/季</span>
+            <span class="thr-sell">SELL: 定点停滞 0/季</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">单车平均售价 ASP 趋势</div>
+            <div class="signal-desc">2025年ASP已同比提升75%+。若J6P放量，ASP应继续上行。ASP拐头向下意味着高端突破失败，低价值芯片占比回升。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: ASP Q/Q +10%+</span>
+            <span class="thr-watch">WATCH: ASP持平</span>
+            <span class="thr-sell">SELL: ASP Q/Q -5%+</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-green"></div>
+          <div class="signal-content">
+            <div class="signal-title">HSD 城市NOA 月度交付量</div>
+            <div class="signal-desc">2025年11月首月交付2.2万套，NPS 83%。这是"软件定义汽车"模式成立与否的核心指标。用户留存和持续激活才是真实护城河。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: &gt;5万套/月</span>
+            <span class="thr-watch">WATCH: 2–5万套/月</span>
+            <span class="thr-sell">SELL: 增速停滞或下滑</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">非比亚迪客户收入占比</div>
+            <div class="signal-desc">客户集中度是Schmehl最敏感的风险点。比亚迪占比若持续超过30%，代表战略依赖仍存。奇瑞、大众、Bosch、日系扩张速度是核心观察变量。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 比亚迪占比 &lt;25%</span>
+            <span class="thr-watch">WATCH: 25–35%</span>
+            <span class="thr-sell">SELL: &gt;40% 且 BYD 减单</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">海外市场订单落地</div>
+            <div class="signal-desc">博世日本车企方案预计2026年量产。这是打破"中国本土局限"叙事的关键。Schmehl对地缘多元化高度敏感，任何海外车企公开宣布量产均是正向信号。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 日系/欧系量产宣布</span>
+            <span class="thr-watch">WATCH: 仅定点无量产</span>
+            <span class="thr-sell">SELL: 海外项目推迟</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Margin -->
+    <div class="tab-pane" id="tab-margin">
+      <div class="signal-list">
+        <div class="signal-item">
+          <div class="signal-dot dot-red"></div>
+          <div class="signal-content">
+            <div class="signal-title">产品解决方案毛利率</div>
+            <div class="signal-desc">2025年毛利率下滑13ppt，管理层归因于HSD以域控形式初期交付（过渡安排）。2026年起域控转移给Tier1，地平线回归芯片+软件。毛利率回升是建仓的核心确认信号。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: GM% Q/Q回升 3ppt+</span>
+            <span class="thr-watch">WATCH: 持平或小幅回升</span>
+            <span class="thr-sell">SELL: 继续下滑 &gt;3ppt</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">研发费用率 (R&D/Revenue)</div>
+            <div class="signal-desc">2025年研发投入约1.37× 营收，这是早期芯片公司的正常形态。关键不是绝对值，而是营收增速是否开始超越R&D增速——即研发杠杆效应何时出现。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 收入增速 &gt; R&D增速</span>
+            <span class="thr-watch">WATCH: 同步增长</span>
+            <span class="thr-sell">SELL: R&D增速 &gt;&gt; 收入增速</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">授权 & 服务收入增速</div>
+            <div class="signal-desc">高毛利的授权及服务板块2025年增速从71%降至17.4%。管理层解释为IPO前收入确认效应消散。若该板块增速能重新加速至30%+，代表软件变现能力回归。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 增速回升 &gt;30%</span>
+            <span class="thr-watch">WATCH: 15–30%</span>
+            <span class="thr-sell">SELL: 增速持续 &lt;10%</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">现金消耗速率 (Cash Burn)</div>
+            <div class="signal-desc">亏损公司的生命线指标。总资产约203亿元，权益约119亿元，现金储备充裕。但亏损若持续以55%+ 速度扩大，市场会对2027年盈亏平衡预期产生怀疑。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 季度亏损 Q/Q 收窄</span>
+            <span class="thr-watch">WATCH: 亏损稳定</span>
+            <span class="thr-sell">SELL: 亏损扩大 且 现金减少</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Competition -->
+    <div class="tab-pane" id="tab-competition">
+      <div class="signal-list">
+        <div class="signal-item">
+          <div class="signal-dot dot-red"></div>
+          <div class="signal-content">
+            <div class="signal-title">英伟达 DRIVE Hyperion 中国落地进度</div>
+            <div class="signal-desc">2026年3月英伟达宣布与比亚迪、吉利围绕L4全场景智驾深度绑定。从公告到量产通常需2–3年，但每一个量产节点都是对地平线核心客户的侵蚀。需要紧密跟踪其实际交付时间线。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 落地延期 &gt;18个月</span>
+            <span class="thr-watch">WATCH: 按预期推进</span>
+            <span class="thr-sell">SELL: BYD宣布量产英伟达方案</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">比亚迪自研芯片（天璇）实质进展</div>
+            <div class="signal-desc">2025年7月杨冬生明确表示BYD对自研大算力芯片"目前没有清晰规划"。但比亚迪发布天璇平台是重要信号节点。区分"宣传性自研"和"量产替代地平线"是关键判断。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: BYD官宣继续采购J6P</span>
+            <span class="thr-watch">WATCH: 天璇测试/小批量</span>
+            <span class="thr-sell">SELL: 天璇宣布2026年大规模量产</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">新势力自研芯片覆盖范围</div>
+            <div class="signal-desc">蔚来神玑、小鹏图灵（4颗/车，3000 TOPS）、理想马赫100（1280 TOPS/颗）均已入局。关注其是否仅自用，还是开始对外销售——若对外销售将直接挤压地平线中高端市场。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 自研仅限自用</span>
+            <span class="thr-watch">WATCH: 试探性对外销售</span>
+            <span class="thr-sell">SELL: 规模化对外销售</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-green"></div>
+          <div class="signal-content">
+            <div class="signal-title">英伟达出口管制风险变化</div>
+            <div class="signal-desc">Schmehl 最可能低估的正向信号。若美国进一步收紧对华AI芯片出口管制，英伟达在中国智驾市场的空间将直接萎缩，所有"英伟达替代"叙事都将重估，地平线是最大受益方。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 新一轮管制收紧</span>
+            <span class="thr-watch">WATCH: 现状维持</span>
+            <span class="thr-sell">SELL: 管制放松/豁免</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">市场份额：10–20万元价格带</div>
+            <div class="signal-desc">这是地平线的核心基本盘。2025年在200元以下主力价格带高阶方案市占率44.2%。若该比例持续提升代表护城河稳固；若黑芝麻/高通开始侵蚀，则需重新评估。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 份额 &gt;50%</span>
+            <span class="thr-watch">WATCH: 40–50%</span>
+            <span class="thr-sell">SELL: 份额快速下滑 &lt;35%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Macro -->
+    <div class="tab-pane" id="tab-macro">
+      <div class="signal-list">
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">中国 L2+/L3 智驾渗透率</div>
+            <div class="signal-desc">2024年L2+渗透率约11%，2025年9月跃至33.5%，2026年预计突破40%。这是行业蛋糕大小的核心变量。渗透率加速意味着即使份额不变，绝对量也在快速扩张。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: 月度渗透率 &gt;35%</span>
+            <span class="thr-watch">WATCH: 25–35%</span>
+            <span class="thr-sell">SELL: 增长停滞 &lt;20%</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-green"></div>
+          <div class="signal-content">
+            <div class="signal-title">中国新能源汽车月度销量趋势</div>
+            <div class="signal-desc">地平线的收入直接锚定在新车交付量上。新能源车销量加速（当前渗透率47%）是地平线最强的量增催化剂，且无需任何市场份额提升。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: NEV月销 &gt;120万辆</span>
+            <span class="thr-watch">WATCH: 100–120万辆</span>
+            <span class="thr-sell">SELL: 销量同比下滑</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-amber"></div>
+          <div class="signal-content">
+            <div class="signal-title">中美科技脱钩：芯片管制烈度</div>
+            <div class="signal-desc">这是双向变量。管制收紧 → 英伟达受限 → 地平线受益；管制放松 → 英伟达大举进入中国市场 → 地平线承压。Schmehl 对地缘政治信号高度敏感，需持续追踪BIS出口令动向。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: H20等禁令升级</span>
+            <span class="thr-watch">WATCH: 现状不变</span>
+            <span class="thr-sell">SELL: 中美科技和解/豁免</span>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-dot dot-neutral"></div>
+          <div class="signal-content">
+            <div class="signal-title">港股科技板块流动性 & 估值环境</div>
+            <div class="signal-desc">Schmehl 的基金以美股为主（80–95%），港股仓位受制于流动性和汇率。港股整体环境（南向资金、国际机构持仓）会影响地平线的再评级速度，即便基本面改善，港股折价可能持续。</div>
+          </div>
+          <div class="signal-threshold">
+            <span class="thr-buy">BUY: HSI整体估值修复</span>
+            <span class="thr-watch">WATCH: 中性</span>
+            <span class="thr-sell">SELL: 港股流动性收紧</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 4: Threat Matrix -->
+  <div class="panel">
+    <div class="panel-label">竞争威胁矩阵</div>
+    <div class="threat-grid">
+      <div class="threat-cell">
+        <div class="threat-header" style="color:var(--red)">↑高 概率 × ↑高 影响</div>
+        <div class="threat-item"><strong>英伟达下探主力市场</strong> · 规模效应摊薄成本向20–30万价格带渗透</div>
+        <div class="threat-item"><strong>毛利率结构性下移</strong> · 价格战压缩芯片售价</div>
+      </div>
+      <div class="threat-cell">
+        <div class="threat-header" style="color:var(--amber)">↑高 概率 × ↓低 影响</div>
+        <div class="threat-item"><strong>新势力自研芯片</strong> · 仅自用，短期影响有限</div>
+        <div class="threat-item"><strong>黑芝麻追赶</strong> · 落后1年+ 仍无量产定点</div>
+      </div>
+      <div class="threat-cell">
+        <div class="threat-header" style="color:var(--amber)">↓低 概率 × ↑高 影响</div>
+        <div class="threat-item"><strong>BYD天璇量产替代</strong> · 官方表态尚无大算力芯片规划</div>
+        <div class="threat-item"><strong>管制放松英伟达入华</strong> · 政治可能性低，但影响巨大</div>
+      </div>
+      <div class="threat-cell">
+        <div class="threat-header" style="color:var(--neutral)">↓低 概率 × ↓低 影响</div>
+        <div class="threat-item"><strong>传统车企放弃智驾</strong> · 市场已不可逆转</div>
+        <div class="threat-item"><strong>Mobileye 重返中国</strong> · 地缘政治壁垒</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 5: Event Timeline -->
+  <div class="panel">
+    <div class="panel-label">关键事件时间线</div>
+    <div class="timeline">
+      <div class="tl-item negative">
+        <div class="tl-date">2026年3月</div>
+        <div class="tl-event">英伟达宣布与BYD、吉利 DRIVE Hyperion 全栈合作</div>
+        <div class="tl-impact">叙事核心冲击 → 股价从11港元跌至4.5港元</div>
+      </div>
+      <div class="tl-item watch">
+        <div class="tl-date">2026年Q2（进行中）</div>
+        <div class="tl-event">地平线Q1 2026财报 · 毛利率趋势是核心观察点</div>
+        <div class="tl-impact">若毛利率回升 → Schmehl建仓阈值提升</div>
+      </div>
+      <div class="tl-item watch">
+        <div class="tl-date">2026年中</div>
+        <div class="tl-event">博世日本车企合作项目量产落地</div>
+        <div class="tl-impact">首个海外量产公告将打破"中国局限"叙事</div>
+      </div>
+      <div class="tl-item positive">
+        <div class="tl-date">2026年全年目标</div>
+        <div class="tl-event">管理层指引：出货量550万套(+30%) · HSD持续放量</div>
+        <div class="tl-impact">若达标 → 收入预计突破40亿元</div>
+      </div>
+      <div class="tl-item watch">
+        <div class="tl-date">2026–2027</div>
+        <div class="tl-event">BYD天璇自研芯片进度节点</div>
+        <div class="tl-impact">最大尾部风险来源，需持续追踪</div>
+      </div>
+      <div class="tl-item positive">
+        <div class="tl-date">2027（预期）</div>
+        <div class="tl-event">管理层预期盈利拐点</div>
+        <div class="tl-impact">若2026H2毛利率回升，提前见到盈亏平衡将触发大幅重估</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 6: Buy/Sell Triggers -->
+  <div class="panel grid-full">
+    <div class="panel-label">Schmehl 式 建仓 / 减仓 触发条件</div>
+    <div class="trigger-cols">
+      <div>
+        <div class="trigger-col-title buy">▲ 建仓信号 · 需同时满足 2–3 项</div>
+        <div class="trigger-item">
+          <span class="ti-num">01</span>
+          <span><strong>毛利率连续2季回升</strong> · 域控业务转移Tier1后GM%回到55%+，确认"过渡性下滑"管理层表述成立</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">02</span>
+          <span><strong>J6P新增非比亚迪大OEM定点</strong> · 奇瑞/大众/广汽/日系宣布J6P高端方案量产，客户集中度下降</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">03</span>
+          <span><strong>英伟达中国落地出现实质延迟</strong> · 监管阻碍/供应链问题使BYD-英伟达量产推迟至2028年以后</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">04</span>
+          <span><strong>出口管制升级</strong> · 美国BIS收紧H20等中端GPU在华销售，地平线"唯一合规选项"地位确立</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">05</span>
+          <span><strong>海外量产首单落地</strong> · 博世合作日系车企宣布正式量产，打开中国以外叙事空间</span>
+        </div>
+      </div>
+      <div>
+        <div class="trigger-col-title sell">▼ 减仓/清仓信号 · 任意1项触发立即行动</div>
+        <div class="trigger-item">
+          <span class="ti-num">01</span>
+          <span><strong>BYD正式宣布自研芯片2026年量产</strong> · 不再是"没有清晰规划"，而是实际替代地平线的明确时间表</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">02</span>
+          <span><strong>毛利率连续3季下滑</strong> · 管理层"过渡性"解释无法兑现，结构性价格压力确认</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">03</span>
+          <span><strong>BYD宣布英伟达方案量产时间表</strong> · L4方案量产节点明确在2027年以内，核心客户叙事彻底破裂</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">04</span>
+          <span><strong>J6P定点季度环比归零</strong> · 高端突破战略停滞，公司被锁定在低价值芯片竞争格局</span>
+        </div>
+        <div class="trigger-item">
+          <span class="ti-num">05</span>
+          <span><strong>找到更好标的</strong> · Schmehl 的惯常操作——一旦有更高信念/更好风险收益比的创新公司，主动换仓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>地平线机器人 · SEHK:9660 · 分析框架基于 Mark Schmehl / Fidelity Global Innovators 投资逻辑</span>
+  <span>更新基准：财报发布后72h内 · 重大事件实时更新 · June 2026</span>
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
