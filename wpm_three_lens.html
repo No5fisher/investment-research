@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wheaton Precious Metals WPM · 三镜头判决</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300&family=Source+Code+Pro:wght@400;600&display=swap');
+
+:root {
+  /* Deep precious metals palette — gold leaf + vault grey */
+  --vault:    #111210;
+  --deep:     #181a16;
+  --panel:    #1e211b;
+  --border:   #2c3028;
+  --border2:  #3d4238;
+
+  --text:     #d4cfc0;
+  --text2:    #8a8570;
+  --text3:    #4a4840;
+  --bright:   #f0ead8;
+
+  /* Gold spectrum */
+  --gold:     #c8a84a;
+  --gold2:    #e8c86a;
+  --gold-d:   #18120a;
+  --gold-b:   #2a200e;
+  --gold-m:   #5a3c0a;
+
+  /* Silver */
+  --silver:   #b0aaa0;
+  --silver-d: #141618;
+  --silver-b: #1e2024;
+
+  /* Persona tones */
+  --buffett:  #c8a84a;   /* gold — he belongs here */
+  --buffett-l:#1a160a;
+  --buffett-b:#2a220e;
+  --thiel:    #5a7a98;   /* cold steel — strategic skeptic */
+  --thiel-l:  #0e1620;
+  --thiel-b:  #162030;
+  --schmehl:  #6aaa58;   /* commodity green — momentum */
+  --schmehl-l:#0e1a0c;
+  --schmehl-b:#182a16;
+
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Source Sans 3', system-ui, sans-serif;
+  --mono:  'Source Code Pro', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--vault);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--deep);
+  border-bottom: 1px solid var(--gold-m);
+  padding: 0;
+}
+.header-top {
+  padding: 26px 36px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+.co-name {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--bright);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.co-name em {
+  font-style: normal;
+  color: var(--gold);
+}
+.co-sub {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 6px;
+  font-style: italic;
+}
+.price-block { text-align: right; }
+.price-num {
+  font-family: var(--mono);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--gold2);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.price-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text2);
+  margin-top: 5px;
+}
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  margin-left: 4px;
+}
+.tag-g { background: var(--schmehl-b); color: var(--schmehl); }
+.tag-w { background: var(--gold-b); color: var(--gold); }
+.tag-n { background: var(--border); color: var(--text3); }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: flex;
+  overflow-x: auto;
+  padding: 0;
+}
+.stat {
+  flex: 1;
+  min-width: 110px;
+  padding: 12px 18px;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.sl {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 3px;
+}
+.sv {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bright);
+}
+.sn { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.sn-g { color: var(--schmehl); }
+.sn-w { color: var(--gold); }
+
+/* ── WHAT IS STREAMING BOX ── */
+.model-box {
+  margin: 18px 36px;
+  border: 1px solid var(--gold-m);
+  border-radius: 3px;
+  background: var(--gold-b);
+  padding: 14px 20px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.model-icon {
+  font-family: var(--serif);
+  font-size: 32px;
+  color: var(--gold);
+  line-height: 1;
+  padding-top: 2px;
+}
+.model-text {}
+.model-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+  filter: brightness(0.85);
+}
+.model-body {
+  font-size: 12.5px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.model-body strong { color: var(--gold2); }
+
+/* ── DIVIDER ── */
+.divider {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+
+/* ── THREE COL ── */
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+}
+.col {
+  background: var(--deep);
+  padding: 22px 22px;
+}
+
+/* Persona header */
+.col-bar {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.col-bar.B { border-color: var(--buffett); }
+.col-bar.T { border-color: var(--thiel); }
+.col-bar.S { border-color: var(--schmehl); }
+
+.col-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--bright);
+}
+.col-lens {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.cl-B { color: var(--buffett); }
+.cl-T { color: var(--thiel); }
+.cl-S { color: var(--schmehl); }
+
+/* Q */
+.col-q {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text2);
+  padding: 9px 12px;
+  border-left: 2px solid var(--border2);
+  margin-bottom: 14px;
+  line-height: 1.5;
+  background: var(--panel);
+  border-radius: 0 3px 3px 0;
+}
+
+/* Verdict */
+.verdict {
+  border-radius: 3px;
+  padding: 11px 14px;
+  margin-bottom: 16px;
+}
+.vd-B { background: var(--buffett-b); border: 1px solid var(--gold-m); }
+.vd-T { background: var(--thiel-b);   border: 1px solid #1e3a5a; }
+.vd-S { background: var(--schmehl-b); border: 1px solid #1a3a18; }
+
+.v-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.vl-B { color: var(--buffett); }
+.vl-T { color: var(--thiel); }
+.vl-S { color: var(--schmehl); }
+
+.v-body {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* Criteria */
+.crit {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.crit:last-child { border-bottom: none; }
+.crit-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+.crit-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bright);
+  flex: 1;
+}
+.pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.p-s { background: #0f2a10; color: #6aaa58; border: 1px solid #2a5a28; }
+.p-y { background: #1a200a; color: #a8c850; border: 1px solid #3a5018; }
+.p-p { background: var(--gold-b); color: var(--gold); border: 1px solid var(--gold-m); }
+.p-w { background: #1a1608; color: #b09030; border: 1px solid #3a3010; }
+.p-n { background: #1a1010; color: #a05050; border: 1px solid #3a2020; }
+.p-x { background: var(--panel); color: var(--text3); border: 1px solid var(--border); }
+
+.crit-body {
+  font-size: 11.5px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+
+/* ── SCORE ROW ── */
+.score-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--gold-m);
+  border-top: 2px solid var(--gold-m);
+}
+.sc {
+  background: var(--panel);
+  padding: 18px 20px;
+  text-align: center;
+}
+.sc-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.sc-label.B { color: var(--buffett); }
+.sc-label.T { color: var(--thiel); }
+.sc-label.S { color: var(--schmehl); }
+.sc-label.X { color: var(--text3); }
+.sc-num {
+  font-family: var(--serif);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+}
+.sc-num.B { color: var(--buffett); }
+.sc-num.T { color: var(--thiel); }
+.sc-num.S { color: var(--schmehl); }
+.sc-num.X { color: var(--text3); }
+.sc-denom { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+.sc-word { font-size: 11px; font-style: italic; color: var(--text2); margin-top: 3px; }
+
+/* ── BOTTOM GRID ── */
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+}
+.bb {
+  background: var(--deep);
+  padding: 18px 22px;
+}
+.bb-title {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  filter: brightness(0.8);
+}
+.bb-body {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.bb-body strong { color: var(--text); }
+
+/* ── KEY QUESTION ── */
+.key-q {
+  padding: 20px 36px;
+  background: var(--gold-b);
+  border-top: 1px solid var(--gold-m);
+  border-bottom: 1px solid var(--gold-m);
+}
+.kq-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  filter: brightness(0.85);
+}
+.kq-text {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--bright);
+  line-height: 1.7;
+}
+.kq-text strong { font-style: normal; color: var(--gold2); }
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 36px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text3);
+  background: var(--vault);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="eyebrow">NYSE/TSX: WPM &nbsp;·&nbsp; Precious Metals Streaming &nbsp;·&nbsp; 三镜头判决框架 &nbsp;·&nbsp; 加拿大 Vancouver</div>
+      <div class="co-name">Wheaton <em>Precious Metals</em></div>
+      <div class="co-sub">全球最大贵金属流媒体公司 · 流动资产轻资产模式 · 黄金+白银双引擎</div>
+    </div>
+    <div class="price-block">
+      <div class="price-num">US$116</div>
+      <div class="price-meta">
+        <span class="tag tag-g">▲ FY2025 EPS +178%</span>
+        <span class="tag tag-w">16分析师 Strong Buy</span>
+        <span class="tag tag-n">TP 均值 $181.83</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="sl">FY2025 Revenue</div>
+      <div class="sv">$2.31B</div>
+      <div class="sn sn-g">+80% YoY · 记录</div>
+    </div>
+    <div class="stat">
+      <div class="sl">FY2025 净利润</div>
+      <div class="sv">$1.47B</div>
+      <div class="sn sn-g">+178% YoY</div>
+    </div>
+    <div class="stat">
+      <div class="sl">Q1 2026 Revenue</div>
+      <div class="sv">$901M</div>
+      <div class="sn sn-g">+91.6% YoY · 记录</div>
+    </div>
+    <div class="stat">
+      <div class="sl">Q1 2026 营业现金流</div>
+      <div class="sv">$766M</div>
+      <div class="sn sn-g">季度记录</div>
+    </div>
+    <div class="stat">
+      <div class="sl">Q1 2026 净利润率</div>
+      <div class="sv">64.6%</div>
+      <div class="sn sn-g">固定成本杠杆效应</div>
+    </div>
+    <div class="stat">
+      <div class="sl">现金余额</div>
+      <div class="sv">$2.16B</div>
+      <div class="sn">零负债</div>
+    </div>
+    <div class="stat">
+      <div class="sl">P/E（TTM）</div>
+      <div class="sv">~29×</div>
+      <div class="sn sn-w">10年均值 71×</div>
+    </div>
+    <div class="stat">
+      <div class="sl">2030 产量指引</div>
+      <div class="sv">1.2M GEO</div>
+      <div class="sn sn-g">+50% vs 当前</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODEL BOX -->
+<div class="model-box">
+  <div class="model-icon">⬡</div>
+  <div class="model-text">
+    <div class="model-label">理解流媒体模式（Streaming Model）是一切分析的前提</div>
+    <div class="model-body">
+      Wheaton <strong>不是矿业公司</strong>。它不挖矿、不建矿、不雇矿工。它做的是：预先支付一笔资本（"上行付款"），换取未来矿山生产的贵金属按<strong>固定低价永久购买权</strong>。以 Salobo 为例：Wheaton 以$556/盎司的固定成本获得金矿产出，再以市场价（2026年Q1约$3000+/盎司）卖出——<strong>毛利率超过80%</strong>。矿山运营风险由合作矿商承担；金价上涨的收益几乎完全归 Wheaton。这是全球最精妙的商业模式之一——像是以固定成本持有了一系列贵金属价格期权，且永不到期。
+    </div>
+  </div>
+</div>
+
+<div class="divider">— 三位投资者·同一家公司·这次分歧最小，共识最深 —</div>
+
+<!-- THREE COLUMNS -->
+<div class="three-col">
+
+  <!-- BUFFETT -->
+  <div class="col">
+    <div class="col-bar B">
+      <div class="col-name">Warren Buffett</div>
+      <div class="col-lens cl-B">护城河 · 现金流 · 永久持有</div>
+    </div>
+
+    <div class="col-q">"如果我闭上眼睛十年，这家公司的竞争地位是否还在？"</div>
+
+    <div class="verdict vd-B">
+      <div class="v-label vl-B">判决 · 深度认可 · 接近完美的生意结构</div>
+      <div class="v-body">"这是我能理解的生意。矿山产金，Wheaton 用固定价格买走，再卖给市场。没有工人、没有挖掘机、没有矿难、没有环保罚款。它获取的是所有上行，规避了所有运营风险。如果黄金不消亡，这家公司的护城河就不会消亡。我会非常认真地看这个生意。"</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">商业模式可理解性与优雅性</span>
+        <span class="pill p-s">接近完美</span>
+      </div>
+      <div class="crit-body">这是巴菲特最喜欢的商业模式类型：没有复杂技术、没有客户关系维护、没有价格谈判（固定成本已锁定）、没有营销费用。收入公式极度简单：GEO出货量 × 市场金价 - 固定成本。他曾说"我喜欢简单到傻子都能经营的生意"——WPM 的运营团队约600人，服务22个操作中的矿山，这个人效比让他极为欣赏。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">护城河性质</span>
+        <span class="pill p-s">真实且持久</span>
+      </div>
+      <div class="crit-body">流媒体模式本身是护城河。大型矿商（BHP、Vale、Newmont）需要在矿山建设期获得资本，但不愿被银行利率束缚，也不愿稀释股东。WPM 提供了一种对矿商友好的"非债务融资"替代方案——这种价值主张在任何金属价格环境下都成立。Antamina 史上最大流媒体交易（$43亿）由BHP主动选择WPM，正是这种"信任关系护城河"的具体体现。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">现金流质量</span>
+        <span class="pill p-s">极高</span>
+      </div>
+      <div class="crit-body">Q1 2026 净利润率64.6%，Q3 2025 净利润率达到惊人的77.1%。营业现金流Q1 2026达$766M，覆盖股息支付和新流媒体投资后仍大量剩余。零负债，现金$2.16B——这是巴菲特评估企业质量的首要指标之一。他曾说"如果一家公司不需要大量再投资就能产生大量现金，那它就是一门好生意"。WPM 是这个描述的教科书案例。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">对黄金本身的态度</span>
+        <span class="pill p-w">历史上抗拒，但情境特殊</span>
+      </div>
+      <div class="crit-body">巴菲特著名的"黄金不产出任何东西"论断让他长期回避金矿股。但WPM 并非典型黄金投资——它更接近一种"收费公路"：无论金价如何，矿山在生产，Wheaton 在收取固定差价。他2020年买入巴里克金矿（后减仓）表明他并非完全排斥贵金属股。WPM 的商业模式比矿商更符合他的偏好，因为它是真正轻资本的。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">估值</span>
+        <span class="pill p-p">合理偏贵，但有逻辑</span>
+      </div>
+      <div class="crit-body">P/E ~29×，10年均值71×，当前估值处于历史相对低位。分析师平均目标价$181.83，较当前$116有57%上行空间。巴菲特不会买25倍PE的可口可乐，但若他相信固定成本 × 金价杠杆会持续放大盈利（2030年产量指引+50%），那么当前估值有充分的安全边际——特别是在金价仍处于历史高位的背景下。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">管理层资本配置</span>
+        <span class="pill p-s">优秀</span>
+      </div>
+      <div class="crit-body">季度股息连续提升，Q1 2026 股息+18% YoY，派息率仅17%（现金派息率35%），大量资本用于新流媒体协议投资。Antamina扩张、Jervois新协议显示管理层有纪律性地在金属价格强势时锁定长期低成本资产。这是巴菲特最欣赏的"好球再打"式资本配置风格。</div>
+    </div>
+  </div>
+
+  <!-- THIEL -->
+  <div class="col">
+    <div class="col-bar T">
+      <div class="col-name">Peter Thiel</div>
+      <div class="col-lens cl-T">秘密 · 垄断 · 反共识 · 结构判断</div>
+    </div>
+
+    <div class="col-q">"流媒体模式是谁发明的，为什么竞争者没有复制到同等规模？这里隐藏着什么秘密？"</div>
+
+    <div class="verdict vd-T">
+      <div class="v-label vl-T">判决 · 罕见的正面看法 · 认可模式的零到一属性</div>
+      <div class="v-body">"流媒体模式本身是一个零到一的创造。它发现了一个被矿业和金融双方都忽视的价值空间：矿商需要非稀释性资本，投资者需要贵金属敞口但不想承担运营风险。这是一个真实的秘密，而且建立了相当深的护城河。我通常不投大宗商品，但这个模式不是大宗商品投资，它更像是一个精心设计的权利结构。"</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">模式的"零到一"属性</span>
+        <span class="pill p-s">真实 · 1994年创造</span>
+      </div>
+      <div class="crit-body">流媒体模式由 Silver Wheaton（WPM 前身）在2004年创建，并非显而易见的发明。它的秘密是：矿商持有银作为副产品（主业是铜、锌）但不知道如何为其定价融资；而投资者想要纯银/金敞口但不想要矿山运营风险。流媒体用一个精妙的合约结构同时解决了两边的问题。Thiel 会立即认可这是一个"发现了被忽视的真相"的商业模式创新。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">垄断结构</span>
+        <span class="pill p-s">已形成 · 规模护城河</span>
+      </div>
+      <div class="crit-body">WPM 拥有40个流媒体和版税协议，覆盖18个国家。规模本身是护城河——大矿商（BHP、Vale）在选择流媒体合作伙伴时，优先考虑有实力完成大额预付款（$43亿Antamina）、有国际声誉的合作方。WPM 的竞争者（Royal Gold、Franco-Nevada）存在，但无法达到同等体量。这是一个赢者通吃程度较高的市场——规模越大，越能接到最好的项目。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">反共识元素</span>
+        <span class="pill p-w">较少——已被充分覆盖</span>
+      </div>
+      <div class="crit-body">16位分析师全部给出"强烈买入"——这让 Thiel 感到不舒服。他最爱的是无人关注、无人相信的标的。WPM 是加拿大最知名的资产之一，被养老金基金、主权财富基金广泛持有。没有真正的"反共识"入场叙事。但 Thiel 的框架也承认：已经建立的垄断不需要反共识才值得持有——他投资 Facebook 时它已经不是反共识了。这里他会降低期望，而非拒绝投资。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">技术护城河（防复制性）</span>
+        <span class="pill p-p">关系与声誉 · 非技术</span>
+      </div>
+      <div class="crit-body">WPM 的护城河不是技术专利，而是与主要矿商20年积累的信任关系、行业声誉和交易执行能力。这类护城河难以量化，但Thiel 理解"关系资本"的价值——Palantir 的政府护城河也是基于信任关系而非绝对技术优势。矿商选择 WPM 不只是因为价格，而是因为"交易会成"的确定性。BHP 主动选择 WPM 作为 Antamina 流媒体合作方，正是这种声誉护城河的证明。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">宏观叙事匹配度</span>
+        <span class="pill p-s">Thiel 的世界观高度契合</span>
+      </div>
+      <div class="crit-body">Thiel 是出了名的黄金多头和美元空头——他持有比特币，相信法币体系面临长期结构性危机。在这个宏观背景下，WPM 是他最熟悉的"硬资产敞口"工具之一，且比直接持有黄金更有商业杠杆。他的 Founders Fund 对大宗商品和资源行业历来有配置——WPM 是他这类仓位的优质载体。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">唯一真实的保留</span>
+        <span class="pill p-w">非创造者，是受益者</span>
+      </div>
+      <div class="crit-body">WPM 的商业模式在2004年是零到一，但今天它是一个成熟的"维持既有垄断"生意，而非继续创造新事物。它的增长来自新流媒体协议（线性扩张），不是范式性创新。Thiel 真正疯狂的热情保留给了正在创造全新品类的公司——WPM 对他来说是一个值得尊重的优质资产，而非他最想押注的十倍回报故事。</div>
+    </div>
+  </div>
+
+  <!-- SCHMEHL -->
+  <div class="col">
+    <div class="col-bar S">
+      <div class="col-name">Mark Schmehl</div>
+      <div class="col-lens cl-S">动量 · 基本面改善 · 周期判断</div>
+    </div>
+
+    <div class="col-q">"金银价格的宏观驱动因素正在改变，WPM 的盈利杠杆是否已被市场充分定价？"</div>
+
+    <div class="verdict vd-S">
+      <div class="v-label vl-S">判决 · 持仓中 · 高信念但在评估减仓节奏</div>
+      <div class="v-body">"这是我仓位里少有的大宗商品相关股票。流媒体模式的杠杆很清楚：金价每涨$100，EPS 大幅跳升，而成本不动。2024-2025年我在金价上涨的早期就建了仓，现在我在评估：市场对2030年产量增长的定价是否已经充分，还是仍然在低估？目前还没有减仓信号。"</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">核心正面变化：金价超级周期</span>
+        <span class="pill p-s">市场仍在低估</span>
+      </div>
+      <div class="crit-body">黄金在2025-2026年突破$3000-4000/盎司，驱动因素：美元储备货币地位动摇、全球央行持续买入、地缘政治不确定性、实际利率仍为负。Schmehl 关注的不是金价本身，而是"市场是否充分理解了固定成本流媒体模式在金价上涨时的指数级利润放大效应"。Q1 2026 金价+98%推动净利润+129%——这种非线性关系正在被市场逐步消化，但尚未完全定价。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">基本面动量</span>
+        <span class="pill p-s">强劲且加速</span>
+      </div>
+      <div class="crit-body">FY2025：营收+80%，净利润+178%。Q1 2026：营收+91.6%，净利润+129.2%，营业现金流翻倍+。这是 Schmehl 最喜欢的动量形态：不只是线性增长，而是盈利增速超过营收增速——说明固定成本杠杆正在完全释放。2030年产量+50%的指引意味着即使金价维持当前水平，盈利也有进一步扩张的结构性支撑。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">正面变化被低估的证据</span>
+        <span class="pill p-p">部分定价，未完全</span>
+      </div>
+      <div class="crit-body">P/E ~29×，10年均值71×——理论上有大幅重估空间。但 Schmehl 关注的不是与历史均值的差距（那个均值时期盈利远低于现在），而是：若2026年营收按当前势头达到$3.5B+，调整后P/E会是多少？若产量到2030年增50%且金价维持，EPS可能达到$8-10——那当前股价$116实际上是11-14×的前瞻P/E，严重低估了增长路径。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">WPM vs Fidelity Global Innovators 的适配性</span>
+        <span class="pill p-w">非典型 · 但持有</span>
+      </div>
+      <div class="crit-body">Schmehl 的基金以科技成长股为主，WPM 是少见的资源类配置。他持有它的逻辑不是"创新"，而是"被低估的正面变化"——金价上涨的结构性力量被市场以周期性眼光定价（该卖出了），但实际上这次的驱动因素（去美元化、央行购金）是结构性的，不是周期性的。他在用自己最擅长的框架套用在非科技领域。</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">买入时机回顾</span>
+        <span class="pill p-s">执行完美</span>
+      </div>
+      <div class="crit-body">若 Schmehl 在2024年初金价$2000-2200时建仓（WPM 股价约$45-55），他已经实现了约2-2.5倍的回报。这是他体系里"市场对正面变化反应不足"的完美教科书案例——当时市场普遍认为金价上涨是短暂的，而 Schmehl 认为去美元化是结构性的。现在他的问题是：这个正面变化是否已被充分定价？</div>
+    </div>
+
+    <div class="crit">
+      <div class="crit-top">
+        <span class="crit-name">减仓触发条件</span>
+        <span class="pill p-y">清晰</span>
+      </div>
+      <div class="crit-body">① 金价大幅回落至$2500以下（去美元化叙事破裂）；② 美联储意外大幅加息压制实际利率（黄金的核心宏观对手盘）；③ 发现更高信念/更好风险收益比的科技创新机会（他会将资本换仓）；④ 新流媒体协议质量下降（用过高价格换低质量资产）。目前上述信号均未出现，持仓合理。</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SCORE ROW -->
+<div class="score-row">
+  <div class="sc">
+    <div class="sc-label B">Buffett</div>
+    <div class="sc-num B">85</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">最高分 · 接近理想</div>
+  </div>
+  <div class="sc">
+    <div class="sc-label T">Thiel</div>
+    <div class="sc-num T">68</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">认可模式 · 少反共识</div>
+  </div>
+  <div class="sc">
+    <div class="sc-label S">Schmehl</div>
+    <div class="sc-num S">77</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">持仓中 · 评估节奏</div>
+  </div>
+  <div class="sc">
+    <div class="sc-label X">三人共识</div>
+    <div class="sc-num X">77</div>
+    <div class="sc-denom">/ 100</div>
+    <div class="sc-word">本系列最高共识</div>
+  </div>
+</div>
+
+<!-- KEY QUESTION -->
+<div class="key-q">
+  <div class="kq-label">▸ 三镜头共同指向的核心洞察</div>
+  <div class="kq-text">
+    WPM 是这个系列迄今唯一一家让三位投资者<strong>同时给出70分以上的公司</strong>。原因在于：流媒体模式是少数能同时满足"巴菲特的护城河测试"（可理解、无运营风险、可预期现金流）、"Thiel 的零到一测试"（模式本身是真正的金融创新）和"Schmehl 的正面变化测试"（固定成本杠杆在金价上涨中的非线性收益）的商业模式。<br><br>
+    它不是科技公司，没有 AI 叙事，不在 Nasdaq 的聚光灯下——但它可能是这个系列里<strong>商业模式最优雅、护城河最持久、现金流最可预测的标的</strong>。
+  </div>
+</div>
+
+<!-- BOTTOM GRID -->
+<div class="bottom">
+  <div class="bb">
+    <div class="bb-title">与科技公司的关键差异：这里没有"颠覆风险"</div>
+    <div class="bb-body">Adobe 面临 AI 工具的颠覆；Duolingo 面临 ChatGPT 的叙事威胁；Bloom Energy 面临可再生能源长期替代；地平线面临英伟达竞争——<strong>WPM 没有任何对等的颠覆性风险</strong>。黄金不会被 AI 替代；矿商不会停止需要非稀释性融资；流媒体合约是法律锁定的。它的风险是宏观的（金价下跌、矿山事故、地缘政治），不是结构性的颠覆。这让三位投资者的分歧消失了大半。</div>
+  </div>
+  <div class="bb">
+    <div class="bb-title">为什么当前$116 vs 目标价$181 是真实的折价</div>
+    <div class="bb-body">
+      分析师目标价均值$181（NYSE）、$262（TSX，CAD计价），较当前有57-75%上行。这个折价的来源不是基本面恶化，而是<strong>三月份金银价格的一次技术性回调</strong>（"金价最差月 since 2013"）触发了对流媒体公司的连带抛售。若金价维持$3000+区间，2026年全年盈利可能达到$22-25亿，届时当前$116的入场价格对应的是约8-10×的2026年P/E——对于一家产量仍在增长50%的公司而言，这种定价是不合理的便宜。<br><br>
+      <strong>三位投资者罕见地在这一点上没有实质分歧。</strong>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Wheaton Precious Metals Corp. · NYSE/TSX: WPM · 三镜头投资判决 · Buffett / Thiel / Schmehl</span>
+  <span>数据截至 June 13, 2026 · Q1 2026 财报已发布（May 7, 2026）</span>
+</div>
+
+</body>
+</html>
