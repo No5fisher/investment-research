@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alphabet GOOGL · 三镜头判决</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink:      #1a1a1a;
+  --ink-2:    #3d3d3d;
+  --ink-3:    #7a7a7a;
+  --ink-4:    #b8b8b8;
+  --paper:    #f7f4ef;
+  --paper-2:  #eeebe4;
+  --rule:     #d8d4cc;
+
+  --buffett:  #1d4e2f;
+  --buffett-l:#e8f2ec;
+  --thiel:    #2b1f4e;
+  --thiel-l:  #ece9f5;
+  --schmehl:  #7a2020;
+  --schmehl-l:#f5eaea;
+
+  --gold:     #b8972a;
+  --gold-l:   #fdf6e3;
+
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --mono:  'DM Mono', monospace;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.masthead {
+  border-bottom: 2px solid var(--ink);
+  padding: 28px 36px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: end;
+}
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+.company-name {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.company-sub {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 6px;
+  font-style: italic;
+}
+.price-cluster { text-align: right; }
+.price-main {
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.price-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 4px;
+}
+.price-up { color: var(--buffett); }
+.price-stat {
+  display: inline-block;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  margin-left: 6px;
+}
+
+.facts-strip {
+  display: flex;
+  border-bottom: 1px solid var(--rule);
+  overflow-x: auto;
+}
+.fact {
+  flex: 1;
+  min-width: 110px;
+  padding: 12px 18px;
+  border-right: 1px solid var(--rule);
+}
+.fact:last-child { border-right: none; }
+.fact-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+.fact-value {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.fact-note { font-size: 10px; color: var(--ink-3); margin-top: 1px; }
+.fact-note-up { font-size: 10px; color: var(--buffett); margin-top: 1px; }
+.fact-note-warn { font-size: 10px; color: var(--schmehl); margin-top: 1px; }
+
+.situation-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+.sit-block {
+  padding: 14px 20px;
+  border-right: 1px solid var(--rule);
+}
+.sit-block:last-child { border-right: none; }
+.sit-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 7px;
+}
+.sit-body { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+.sit-body strong { color: var(--ink); }
+
+.section-rule {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-3);
+  text-align: center;
+  padding: 10px 36px;
+  border-bottom: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  background: var(--paper-2);
+  margin: 0;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--rule);
+}
+.persona-col {
+  padding: 24px 28px;
+  border-right: 1px solid var(--rule);
+}
+.persona-col:last-child { border-right: none; }
+
+.persona-header {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid;
+}
+.persona-header.buffett { border-color: var(--buffett); }
+.persona-header.thiel   { border-color: var(--thiel); }
+.persona-header.schmehl { border-color: var(--schmehl); }
+
+.persona-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.persona-name.buffett { color: var(--buffett); }
+.persona-name.thiel   { color: var(--thiel); }
+.persona-name.schmehl { color: var(--schmehl); }
+
+.persona-tag {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.verdict-box {
+  border-left: 3px solid;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  border-radius: 0 2px 2px 0;
+}
+.verdict-box.buffett { border-color: var(--buffett); background: var(--buffett-l); }
+.verdict-box.thiel   { border-color: var(--thiel);   background: var(--thiel-l); }
+.verdict-box.schmehl { border-color: var(--schmehl); background: var(--schmehl-l); }
+
+.verdict-stance {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.verdict-stance.buffett { color: var(--buffett); }
+.verdict-stance.thiel   { color: var(--thiel); }
+.verdict-stance.schmehl { color: var(--schmehl); }
+
+.verdict-text {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.criterion {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.criterion:last-child { border-bottom: none; }
+.crit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.crit-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.crit-score {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.score-strong  { background:#d4edda; color:#155724; }
+.score-yes     { background:#d1ecf1; color:#0c5460; }
+.score-partial { background:#fff3cd; color:#856404; }
+.score-concern { background:#f8d7da; color:#721c24; }
+.score-no      { background:#e2e3e5; color:#495057; }
+
+.crit-body {
+  font-size: 11.5px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.persona-question {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-style: italic;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  background: var(--paper-2);
+  border-radius: 2px;
+  border-left: 2px solid var(--rule);
+}
+
+.score-band {
+  display: flex;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+.score-cell {
+  flex: 1;
+  padding: 14px 18px;
+  border-right: 1px solid var(--rule);
+  text-align: center;
+}
+.score-cell:last-child { border-right: none; }
+.score-cell-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.score-cell-label.buffett { color: var(--buffett); }
+.score-cell-label.thiel   { color: var(--thiel); }
+.score-cell-label.schmehl { color: var(--schmehl); }
+.score-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}
+.score-num.buffett { color: var(--buffett); }
+.score-num.thiel   { color: var(--thiel); }
+.score-num.schmehl { color: var(--schmehl); }
+.score-denom { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+.score-verdict-word {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-3);
+  margin-top: 4px;
+}
+
+.key-question {
+  padding: 20px 36px;
+  background: var(--gold-l);
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+}
+.kq-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.kq-text {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.kq-text strong { font-style: normal; }
+
+.synthesis {
+  padding: 24px 36px;
+  border-top: 1px solid var(--rule);
+}
+.synth-title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.synth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.synth-block {
+  padding: 14px 16px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+.synth-block-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+.synth-block-body {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.synth-block-body strong { color: var(--ink); }
+
+.footer {
+  border-top: 2px solid var(--ink);
+  padding: 12px 36px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-left">
+    <div class="eyebrow">Nasdaq: GOOGL / GOOG &nbsp;·&nbsp; Search · Cloud · AI · Autonomous Driving &nbsp;·&nbsp; 三镜头判决框架</div>
+    <div class="company-name">Alphabet Inc.</div>
+    <div class="company-sub">"全栈AI公司，以搜索为根，以云为翼，以未来为赌注" — Sundar Pichai</div>
+  </div>
+  <div class="price-cluster">
+    <div class="price-main">~$360</div>
+    <div class="price-sub">
+      <span class="price-up">▲ +110% YoY · 市值 $4.39T</span>
+      <span class="price-stat">P/E ~27×</span>
+      <span class="price-stat">10年均值 27×</span>
+    </div>
+  </div>
+</div>
+
+<!-- FACTS STRIP -->
+<div class="facts-strip">
+  <div class="fact">
+    <div class="fact-label">FY2025 Revenue</div>
+    <div class="fact-value">$400B+</div>
+    <div class="fact-note-up">首家突破$400B · +18%</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">Q1 2026 Revenue</div>
+    <div class="fact-value">$109.9B</div>
+    <div class="fact-note-up">+22% YoY · 11季连续双位数增长</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">Google Cloud Q1 2026</div>
+    <div class="fact-value">$20.0B</div>
+    <div class="fact-note-up">+63% YoY · 积压$460B</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">Search Q1 2026</div>
+    <div class="fact-value">+19% YoY</div>
+    <div class="fact-note-up">查询量历史新高</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">Q1 2026 净利润</div>
+    <div class="fact-value">$62.6B</div>
+    <div class="fact-note-up">+81% YoY（含股权收益）</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">2026 CapEx 指引</div>
+    <div class="fact-value">$180–190B</div>
+    <div class="fact-note-warn">较2025年 $91B 翻倍+</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">Waymo 周自动驾驶</div>
+    <div class="fact-value">400K次</div>
+    <div class="fact-note-up">估值 $126B · 累计 20M+</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">Gemini MAU</div>
+    <div class="fact-value">750M+</div>
+    <div class="fact-note-up">超越 ChatGPT 用户规模</div>
+  </div>
+</div>
+
+<!-- SITUATION STRIP -->
+<div class="situation-strip">
+  <div class="sit-block">
+    <div class="sit-label">当前处境</div>
+    <div class="sit-body">Alphabet 市值突破$4.39T，一年内翻倍。这已不只是搜索广告公司——<strong>Q1 2026 Google Cloud 以63%增速、$20B 季度收入成为真正的第二支柱</strong>，Cloud积压订单$460B。同时搜索依然增长19%，查询量历史新高——市场数年来担忧的"AI 杀死搜索"尚未发生，反而AI Overviews 和 AI Mode 正在提升用户参与度。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-label">最大赌注：$180B CapEx</div>
+    <div class="sit-body">2026年资本支出指引$180-190B，较2025年$91B<strong>几乎翻倍</strong>，用于AI基础设施、数据中心、Google DeepMind 算力。这是人类历史上单一公司最大年度资本支出计划之一。同时配套了$84.75B 股权融资（含Berkshire $10B投资）、Blackstone $25B TPU合资、SpaceX $30B 云计算协议和 Anthropic $36B 芯片租赁安排。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-label">三个核心争议</div>
+    <div class="sit-body">① <strong>$180B CapEx 的ROI是否可信</strong>——若AI Infrastructure 投资无法在2027-2028年转化为Cloud利润，自由现金流将受重压；② <strong>DOJ 反垄断裁决</strong>——搜索垄断案、广告技术案双线挂起，Chrome 或 Android 被迫剥离是尾部风险；③ <strong>Waymo 的变现路径</strong>——400K次/周已确立技术领先，但竞争格局正在加速。</div>
+  </div>
+</div>
+
+<!-- SECTION RULE -->
+<div class="section-rule">
+  三位投资者面对同一家"AI全栈帝国"，问的是三个截然不同的问题——以下是各自的答案
+</div>
+
+<!-- THREE COLUMNS -->
+<div class="three-col">
+
+  <!-- BUFFETT -->
+  <div class="persona-col">
+    <div class="persona-header buffett">
+      <div class="persona-name buffett">Warren Buffett</div>
+      <div class="persona-tag">价值 · 护城河 · 可预期现金流 · 永久持有</div>
+    </div>
+
+    <div class="persona-question">"二十年后，企业和个人还会通过谷歌找到他们需要的东西吗？搜索广告的定价权是否持久？"</div>
+
+    <div class="verdict-box buffett">
+      <div class="verdict-stance buffett">判决 · 一生中最好的生意之一 · 唯一顾虑是CapEx</div>
+      <div class="verdict-text">"谷歌搜索是我见过的最完美的商业模式——用户免费使用，广告商为精准意图付费，且谷歌几乎没有边际成本。这比报纸广告、电视广告都优越得多，因为你能知道广告真的有没有效果。$180B 的资本支出让我皱眉——但如果Cloud 能以60%的速度持续增长，也许这笔钱值得。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">搜索广告：最完美的商业模式</span>
+        <span class="crit-score score-strong">接近无敌</span>
+      </div>
+      <div class="crit-body">广告商在用户有明确购买意图的瞬间付费，谷歌作为意图的守门人收取过路费。这是巴菲特定义的"Economic Franchise"的极致形态：高市场份额（全球搜索约90%）、高定价权、极低边际成本、极高转换成本（企业一旦依赖Google Analytics、Google Ads 生态，难以迁移）。Search Q1 2026 仍增长19%，查询量历史新高——AI Overviews 没有替代搜索，而是让用户做更多、问更多。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">护城河的广度与深度</span>
+        <span class="crit-score score-strong">多层叠加</span>
+      </div>
+      <div class="crit-body">谷歌的护城河不是单一的，而是相互强化的多层结构：搜索数据飞轮（搜索越多→算法越准→用户越多）；Android 生态（全球25亿+活跃设备作为数据入口）；Chrome 浏览器（全球65%份额）；YouTube（搜索引擎和娱乐平台的双重身份，年收入$60B+）；Google Workspace（企业级锁定）。任何单一对手只能挑战其中一层，而不能同时撼动全部。巴菲特最欣赏的是：这些护城河相互加固，而非相互独立。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">现金流质量</span>
+        <span class="crit-score score-strong">卓越</span>
+      </div>
+      <div class="crit-body">FY2025 营业现金流$164.71B，是巴菲特见过的顶级现金流机器之一。P/E ~27×，与10年历史均值持平，考虑到EPS正在加速增长（Q1 2026 净利润+81%），这意味着隐含的前瞻P/E可能仅15-18×。即使仅持有搜索业务，按保守估计也值$2T+——而当前$4.39T 的市值还包含了Cloud、YouTube、Waymo 等资产，这些资产在独立估值时往往被低估。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">$180B CapEx——巴菲特的最大顾虑</span>
+        <span class="crit-score score-concern">历史罕见规模</span>
+      </div>
+      <div class="crit-body">巴菲特最不喜欢"需要持续大量资本投入才能维持竞争力"的生意。$180B 年度资本支出相当于伯克希尔哈撒韦整个市值的1/3——这种规模让他本能地皱眉。但他对此的判断会是条件性的：若 Cloud 以60%+速度增长，且$460B 的积压订单能够兑现，这些投资的ROI是清晰的；若增速放缓，自由现金流将承受历史性压力。他会把这视为一个"需要持续核查"的条件，而非立即否决的理由。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">DOJ 反垄断：尾部风险评估</span>
+        <span class="crit-score score-partial">实质风险，但可控</span>
+      </div>
+      <div class="crit-body">巴菲特对监管风险有独特的评估方式——他看历史先例。微软1998年反垄断案最终没有分拆；美国电话电报（AT&T）1984年分拆后，各家反而表现更好。若 DOJ 强制谷歌剥离 Chrome 或 Android，巴菲特的评估是：搜索业务本身的护城河依然完整。他甚至可能认为某种形式的拆分会"解锁"各业务的独立价值——类似他持有的金融控股公司旗下各子公司独立上市后反而价值更清晰。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">Berkshire 已经行动</span>
+        <span class="crit-score score-strong">信念落地</span>
+      </div>
+      <div class="crit-body">Berkshire Hathaway 参与了Alphabet $84.75B股权融资中的<strong>$10B</strong>——这是巴菲特历史上对单一科技公司最大的直接投资之一（超过苹果的初始仓位规模）。他长期遗憾没有在更早阶段买入谷歌；这次直接参与大规模融资，是他以行动代替言辞的最有力信号。不是分析，是持仓。</div>
+    </div>
+  </div>
+
+  <!-- THIEL -->
+  <div class="persona-col">
+    <div class="persona-header thiel">
+      <div class="persona-name thiel">Peter Thiel</div>
+      <div class="persona-tag">秘密 · 垄断 · 零到一 · 护城河解剖</div>
+    </div>
+
+    <div class="persona-question">"谷歌有多个垄断，但哪一个是真正不可被替代的？AI 是在强化它的垄断，还是在瓦解它的护城河？"</div>
+
+    <div class="verdict-box thiel">
+      <div class="verdict-stance thiel">判决 · 帝国级垄断 · 但正在经历最危险的拐点</div>
+      <div class="verdict-text">"谷歌是我所见过的最成功的垄断建造者——搜索、Android、Chrome、YouTube，每一个都是独立的垄断，相互强化。但我从不投已经成为共识的垄断，我投那些正在形成、别人还没有看见的垄断。谷歌现在最大的问题不是竞争，而是AI 是否正在重新定义'搜索'这个概念本身。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">多垄断帝国的架构</span>
+        <span class="crit-score score-strong">最成功的垄断设计</span>
+      </div>
+      <div class="crit-body">Thiel 在《从零到一》中写道，伟大的公司建立垄断，然后用第一个垄断作为跳板扩张到下一个。谷歌完美诠释了这个路径：PageRank算法（专有技术）→ 搜索垄断→ Android（移动入口垄断）→ Chrome（浏览器垄断）→ YouTube（视频搜索垄断）→ Google Cloud（云 + AI基础设施）→ Waymo（自动驾驶）。每一步都是上一步垄断换来的资本与数据的再投资。这是他在《从零到一》中描述的最完整的垄断建造教科书案例。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">AI 对搜索垄断的威胁：真实程度</span>
+        <span class="crit-score score-partial">结构性拐点，非即时威胁</span>
+      </div>
+      <div class="crit-body">Thiel 会比任何人更严肃地思考这个问题。他的框架是：若AI能够直接回答用户的问题而无需点击任何链接，那么"意图守门人"的定价权将从谷歌转移到AI平台本身。这不是Perplexity 或 ChatGPT 能否"打败"谷歌的问题，而是"搜索"这个行为范式是否正在被重新定义。谷歌的回应（AI Overviews、AI Mode）目前正在增加查询量，但长期来看，他会持续追问：广告收入是否能在"AI回答"的世界里保持当前结构？</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">Google Cloud：新的零到一机会</span>
+        <span class="crit-score score-strong">这里 Thiel 最兴奋</span>
+      </div>
+      <div class="crit-body">Cloud +63% 增速，积压$460B，TPU（张量处理器）在AI推理效率上据称超越英伟达GPU——这才是 Thiel 真正感兴趣的部分。若谷歌的 TPU 生态加上 Vertex AI + Gemini 能够形成"AI基础设施的垄断"（类似AWS在云计算里做到的），那将是一个比搜索更大、更持久的护城河。自研芯片意味着谷歌不依赖英伟达，这在地缘政治分裂的AI竞争时代具有独特的战略价值。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">Waymo：Thiel 的终极判断</span>
+        <span class="crit-score score-strong">最接近新垄断的赌注</span>
+      </div>
+      <div class="crit-body">Waymo 400K次/周自动驾驶服务，$126B 估值，正在进入20+城市——这才是 Thiel 最想押注的叙事。若Waymo 能建立"自动驾驶里程数据飞轮"（越多里程→越安全→越多用户→越多里程），它将成为自动驾驶领域的垄断者，就像早期谷歌是搜索的垄断者一样。这不是辅助驾驶的竞争，而是"移动即服务"基础设施的终极控制权。他认为这是谷歌资产里最被低估的部分。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">$180B CapEx 的 Thiel 解读</span>
+        <span class="crit-score score-yes">信心的体现</span>
+      </div>
+      <div class="crit-body">巴菲特对$180B 感到顾虑，Thiel 对它感到兴奋——因为他的框架是：只有在建立垄断的路上，才值得这种规模的资本部署。$180B 意味着谷歌的管理层相信AI基础设施需求是结构性的、持久的，且自己有能力赢得这场战争。这不是防御性支出，而是进攻性的垄断建造。若他是对的，这$180B 将在未来五年创造数倍的返回；若他是错的，这是他见过的最大规模的资本配置错误之一。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">反共识要素</span>
+        <span class="crit-score score-partial">规模太大，已是共识</span>
+      </div>
+      <div class="crit-body">唯一让 Thiel 保持距离的因素：谷歌是全球最被广泛持有、最被充分分析的公司之一。几乎没有"别人看不到的秘密"可以发现。但他会反驳自己：即便是已知的垄断，只要垄断本身在加深，也值得持有。他当年投 Facebook 时它已经不是反共识了——但垄断在加深，所以持有是对的。谷歌的逻辑相似，只是规模更大，因此反共识溢价更低。</div>
+    </div>
+  </div>
+
+  <!-- SCHMEHL -->
+  <div class="persona-col">
+    <div class="persona-header schmehl">
+      <div class="persona-name schmehl">Mark Schmehl</div>
+      <div class="persona-tag">动量 · 正面变化 · 重估催化剂 · AI叙事</div>
+    </div>
+
+    <div class="persona-question">"市场用了多久才相信谷歌的AI不会死在ChatGPT手里？这个正面变化是否已被充分定价？"</div>
+
+    <div class="verdict-box schmehl">
+      <div class="verdict-stance schmehl">判决 · 持仓中 · 评估是否已充分定价</div>
+      <div class="verdict-text">"2024年初市场在恐惧'AI会杀死搜索'，我在那时建仓。现在市值$4.39T，一年内翻倍——那个被低估的正面变化已经被充分定价了。我现在的问题是：Cloud 63%增速、$460B 积压这个新正面变化，是否仍然被低估？还是说已经进入了我要开始找出口的阶段？"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">核心正面变化回顾：搜索的韧性</span>
+        <span class="crit-score score-strong">已被验证，但已定价</span>
+      </div>
+      <div class="crit-body">Schmehl 在2024年市场恐惧"ChatGPT 取代谷歌"时建仓，是完美的"市场对负面变化过度反应"的教科书案例。如今搜索Q1 2026 增长19%，查询量历史新高，AI Overviews 正在提升参与度而非侵蚀——这个"搜索没死"的正面变化已经被充分定价（市值翻倍）。他现在的问题是：下一个"被低估的正面变化"在哪里？</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">Cloud 63%：新的未被充分定价的变化</span>
+        <span class="crit-score score-strong">核心催化剂</span>
+      </div>
+      <div class="crit-body">Google Cloud Q1 2026 收入$20B，+63% YoY，积压$460B（较上年几乎翻倍），盈利能力快速提升。按当前增速，Cloud 将在2027年达到$100B+ 年收入——届时 Cloud 单独估值可能超过$1T（参照 AWS 的估值方法）。而当前$4.39T 的总市值中，市场可能仍在用搜索公司的估值框架定价整个 Alphabet，没有充分反映 Cloud 作为第二增长引擎的独立价值。这是 Schmehl 最喜欢的"正面变化尚未被充分定价"的信号。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">动量状态</span>
+        <span class="crit-score score-strong">收入与股价双向正向</span>
+      </div>
+      <div class="crit-body">11个季度连续双位数收入增长，Q1 2026 收入增速从Q4 2025的18%加速至22%——这是加速而非减速。股价YTD 表现强劲，分析师目标价均值$377（部分高达$400+）。不同于 Adobe 或 Duolingo 的"股价与基本面背离"，谷歌当前是"股价和基本面双向对齐"——这让 Schmehl 的买入窗口变窄，但持有逻辑极度清晰。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">CapEx 的 Schmehl 解读</span>
+        <span class="crit-score score-partial">短期FCF压力 vs 长期增长杠杆</span>
+      </div>
+      <div class="crit-body">$180B 资本支出将在2026年大幅压缩自由现金流——这可能是股价在基本面强劲的情况下出现短期回调的触发点。Schmehl 的框架：若 Cloud 增速维持60%+，$460B 积压转化为实际收入，2027-2028年的FCF爆发将远超2026年的压缩。他会把CapEx 高峰期的回调视为加仓机会，而非清仓信号——前提是Cloud 数据持续验证。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">Waymo 估值解锁</span>
+        <span class="crit-score score-yes">潜在重估催化剂</span>
+      </div>
+      <div class="crit-body">Waymo 独立估值$126B，但在 Alphabet 总市值$4.39T 里几乎被无视（不到3%）。若 Waymo 在2026-2027年宣布IPO或独立上市进程，将触发一次"被遗忘的资产价值发现"——类似 Alibaba 分拆蚂蚁金服时市场才意识到云业务的价值。这是 Schmehl 最喜欢的"已有资产被重新定价"类型的催化剂，时间节点明确，潜在影响量化清晰。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">卖出触发条件</span>
+        <span class="crit-score score-yes">清晰</span>
+      </div>
+      <div class="crit-body">① Cloud 增速从63%明显跌破40%（AI基础设施需求不如预期）；② 搜索收入增速跌破个位数（AI替代搜索的叙事开始被数据证实）；③ DOJ 强制剥离核心资产的判决落地（结构性护城河被破坏）；④ 发现更高信念的新标的（换仓）。目前这四个条件均未出现，持仓逻辑清晰。</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SCORE BAND -->
+<div class="score-band">
+  <div class="score-cell">
+    <div class="score-cell-label buffett">Buffett 评分</div>
+    <div class="score-num buffett">88</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">已用行动表态</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label thiel">Thiel 评分</div>
+    <div class="score-num thiel">74</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">帝国垄断，仍在加深</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label schmehl">Schmehl 评分</div>
+    <div class="score-num schmehl">72</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">持仓，评估节奏</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label" style="color:var(--gold)">三人共识</div>
+    <div class="score-num" style="color:var(--gold)">78</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">本系列第二高共识</div>
+  </div>
+</div>
+
+<!-- KEY QUESTION -->
+<div class="key-question">
+  <div class="kq-label">三视角共同指向的核心判断题</div>
+  <div class="kq-text">Alphabet 是这个系列里<strong>三人分歧最小的科技公司</strong>（共识78/100，仅次于WPM的77，但对比WPM的传统商业，Alphabet 在科技公司里共识最高）。原因只有一个：<strong>它同时满足了三种框架的核心需求</strong>——巴菲特的护城河（搜索定价权+Android+YouTube）、Thiel 的多垄断帝国（且TPU+Cloud 正在构建新垄断）、Schmehl 的正面变化（Cloud 63%增速尚未被充分定价）。<br><br>
+  真正的判断题不是"该不该投"，而是<strong>$180B CapEx 这场豪赌：若Cloud 维持60%+增速、Waymo 实现商业化、TPU 建立芯片护城河，当前$4.39T 是便宜的；若任何一个核心假设失败，它将成为人类历史上最昂贵的资本配置错误。</strong></div>
+</div>
+
+<!-- SYNTHESIS -->
+<div class="synthesis">
+  <div class="synth-title">三镜头综合叙事 · Alphabet 的三个维度</div>
+  <div class="synth-grid">
+    <div class="synth-block">
+      <div class="synth-block-title">Buffett 的Berkshire $10B：信念胜于分析</div>
+      <div class="synth-block-body">巴菲特长期自责没有早买谷歌。这次直接参与$84.75B 股权融资中的$10B，是他用行动代替遗憾。他看到的不是AI叙事，而是<strong>搜索广告是他见过最完美的定价权机制</strong>——当用户有意图，广告商就要付钱，且谷歌的边际成本趋近于零。Berkshire 的持仓是这个系列里最直接的"投资者行为确认信号"。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">Thiel 的最终判断：多垄断帝国与AI拐点的交汇</div>
+      <div class="synth-block-body">Thiel 会把 Alphabet 分拆分析：搜索是<strong>已证明的垄断</strong>（但面临AI定义重构的结构性问题）；Cloud+TPU 是<strong>正在形成的垄断</strong>（这是他真正兴奋的部分）；Waymo 是<strong>潜力中的垄断</strong>（若数据飞轮建立，将是交通基础设施的控制权）。他的投资建议会是：若能单独买 Waymo 和 Cloud，他会极度热情；买整个 Alphabet，他会说"值得，但叙事的精准度打了折扣"。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">Schmehl 的持仓逻辑演变</div>
+      <div class="synth-block-body">2024年买入时，他的论点是"搜索没死，市场对AI威胁过度反应"——那个论点已经被验证，并被充分定价（市值翻倍）。2026年他的新论点是：<strong>"Cloud 63%增速的独立价值仍未被市场以正确的估值框架定价"</strong>——他用的是"搜索公司升格为AI全栈平台"这个叙事升级的再定价逻辑，而不是便宜的估值。这与Adobe、Duolingo 的"叙事崩塌+便宜估值"是完全不同的建仓依据。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">系列对比：Alphabet vs WPM——两种不同的"高共识"</div>
+      <div class="synth-block-body">WPM（共识77）的高共识来自<strong>无颠覆风险</strong>——黄金不会被AI替代，流媒体模式护城河无争议。Alphabet（共识78）的高共识来自<strong>垄断足够深、变化足够快</strong>——搜索护城河已被验证，Cloud 正在成为第二支柱，Waymo 是未来的期权。两种高共识的本质不同：WPM 是"静态的完美"，Alphabet 是<strong>"动态的强大"</strong>——后者更令人兴奋，也更令人紧张。</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Alphabet Inc. · NASDAQ: GOOGL / GOOG · 三镜头投资判决框架 · Buffett / Thiel / Schmehl</span>
+  <span>数据截至 2026年6月 · Q1 2026 财报日 April 29, 2026 · Berkshire $10B 参与股权融资确认</span>
+</div>
+
+</body>
+</html>
