@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Netflix NFLX · 三镜头判决</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink:      #1a1a1a;
+  --ink-2:    #3d3d3d;
+  --ink-3:    #7a7a7a;
+  --ink-4:    #b8b8b8;
+  --paper:    #f7f4ef;
+  --paper-2:  #eeebe4;
+  --rule:     #d8d4cc;
+
+  /* Three persona colors — same as Adobe system */
+  --buffett:  #1d4e2f;
+  --buffett-l:#e8f2ec;
+  --thiel:    #2b1f4e;
+  --thiel-l:  #ece9f5;
+  --schmehl:  #7a2020;
+  --schmehl-l:#f5eaea;
+
+  --gold:     #b8972a;
+  --gold-l:   #fdf6e3;
+
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --mono:  'DM Mono', monospace;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 2px solid var(--ink);
+  padding: 28px 36px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: end;
+}
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+.company-name {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.company-sub {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 6px;
+  font-style: italic;
+}
+.price-cluster { text-align: right; }
+.price-main {
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.price-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 4px;
+}
+.price-down { color: var(--schmehl); }
+.price-stat {
+  display: inline-block;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  margin-left: 6px;
+}
+
+/* ── KEY FACTS STRIP ── */
+.facts-strip {
+  display: flex;
+  border-bottom: 1px solid var(--rule);
+  overflow-x: auto;
+}
+.fact {
+  flex: 1;
+  min-width: 110px;
+  padding: 12px 18px;
+  border-right: 1px solid var(--rule);
+}
+.fact:last-child { border-right: none; }
+.fact-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+.fact-value {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.fact-note {
+  font-size: 10px;
+  color: var(--ink-3);
+  margin-top: 1px;
+}
+.fact-note-up { font-size: 10px; color: var(--buffett); margin-top: 1px; }
+.fact-note-dn { font-size: 10px; color: var(--schmehl); margin-top: 1px; }
+
+/* ── SITUATION STRIP ── */
+.situation-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+.sit-block {
+  padding: 14px 20px;
+  border-right: 1px solid var(--rule);
+}
+.sit-block:last-child { border-right: none; }
+.sit-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 7px;
+}
+.sit-body {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.sit-body strong { color: var(--ink); }
+
+/* ── SECTION RULE ── */
+.section-rule {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-3);
+  text-align: center;
+  padding: 10px 36px;
+  border-bottom: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  background: var(--paper-2);
+  margin: 0;
+}
+
+/* ── THREE COLUMNS ── */
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--rule);
+}
+
+.persona-col {
+  padding: 24px 28px;
+  border-right: 1px solid var(--rule);
+}
+.persona-col:last-child { border-right: none; }
+
+/* Persona header */
+.persona-header {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid;
+}
+.persona-header.buffett { border-color: var(--buffett); }
+.persona-header.thiel   { border-color: var(--thiel); }
+.persona-header.schmehl { border-color: var(--schmehl); }
+
+.persona-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.persona-name.buffett { color: var(--buffett); }
+.persona-name.thiel   { color: var(--thiel); }
+.persona-name.schmehl { color: var(--schmehl); }
+
+.persona-tag {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Verdict box */
+.verdict-box {
+  border-left: 3px solid;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  border-radius: 0 2px 2px 0;
+}
+.verdict-box.buffett { border-color: var(--buffett); background: var(--buffett-l); }
+.verdict-box.thiel   { border-color: var(--thiel);   background: var(--thiel-l); }
+.verdict-box.schmehl { border-color: var(--schmehl); background: var(--schmehl-l); }
+
+.verdict-stance {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.verdict-stance.buffett { color: var(--buffett); }
+.verdict-stance.thiel   { color: var(--thiel); }
+.verdict-stance.schmehl { color: var(--schmehl); }
+
+.verdict-text {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Criterion rows */
+.criterion {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.criterion:last-child { border-bottom: none; }
+.crit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.crit-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.crit-score {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.score-strong  { background:#d4edda; color:#155724; }
+.score-yes     { background:#d1ecf1; color:#0c5460; }
+.score-partial { background:#fff3cd; color:#856404; }
+.score-concern { background:#f8d7da; color:#721c24; }
+.score-no      { background:#e2e3e5; color:#495057; }
+
+.crit-body {
+  font-size: 11.5px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+/* ── PERSONA QUESTION ── */
+.persona-question {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-style: italic;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  background: var(--paper-2);
+  border-radius: 2px;
+  border-left: 2px solid var(--rule);
+}
+
+/* ── SCORING BAND ── */
+.score-band {
+  display: flex;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+.score-cell {
+  flex: 1;
+  padding: 14px 18px;
+  border-right: 1px solid var(--rule);
+  text-align: center;
+}
+.score-cell:last-child { border-right: none; }
+.score-cell-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.score-cell-label.buffett { color: var(--buffett); }
+.score-cell-label.thiel   { color: var(--thiel); }
+.score-cell-label.schmehl { color: var(--schmehl); }
+.score-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}
+.score-num.buffett { color: var(--buffett); }
+.score-num.thiel   { color: var(--thiel); }
+.score-num.schmehl { color: var(--schmehl); }
+.score-denom {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.score-verdict-word {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-3);
+  margin-top: 4px;
+}
+
+/* ── KEY QUESTION ── */
+.key-question {
+  padding: 20px 36px;
+  background: var(--gold-l);
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+}
+.kq-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.kq-text {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.kq-text strong { font-style: normal; }
+
+/* ── BOTTOM SYNTHESIS ── */
+.synthesis {
+  padding: 24px 36px;
+  border-top: 1px solid var(--rule);
+}
+.synth-title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.synth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.synth-block {
+  padding: 14px 16px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+.synth-block-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+.synth-block-body {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.synth-block-body strong { color: var(--ink); }
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 2px solid var(--ink);
+  padding: 12px 36px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-left">
+    <div class="eyebrow">Nasdaq: NFLX &nbsp;·&nbsp; Streaming Entertainment &nbsp;·&nbsp; 三镜头判决框架</div>
+    <div class="company-name">Netflix, Inc.</div>
+    <div class="company-sub">"建设全球最受珍视的娱乐公司" — Reed Hastings / Greg Peters</div>
+  </div>
+  <div class="price-cluster">
+    <div class="price-main">~$81</div>
+    <div class="price-sub">
+      <span class="price-down">▼ -39% vs 52W High $134</span>
+      <span class="price-stat">52W Low $66.41</span>
+      <span class="price-stat">市值 $338B</span>
+    </div>
+  </div>
+</div>
+
+<!-- FACTS STRIP -->
+<div class="facts-strip">
+  <div class="fact">
+    <div class="fact-label">FY2025 Revenue</div>
+    <div class="fact-value">~$44B</div>
+    <div class="fact-note-up">+12–14% YoY</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">FY2025 营业利润</div>
+    <div class="fact-value">$13.3B</div>
+    <div class="fact-note-up">营业利润率 29.5%</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">Q1 2026 Revenue</div>
+    <div class="fact-value">$12.25B</div>
+    <div class="fact-note-up">+16% YoY</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">TTM 自由现金流</div>
+    <div class="fact-value">$26B</div>
+    <div class="fact-note-up">FCF 指引 $12.5B</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">净利润率（TTM）</div>
+    <div class="fact-value">28.5%</div>
+    <div class="fact-note-up">ROE 48.5%</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">广告层 MAU</div>
+    <div class="fact-value">90M+</div>
+    <div class="fact-note-up">广告商 4,000+</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">P/E（TTM）</div>
+    <div class="fact-value">~26×</div>
+    <div class="fact-note">10年均值 94×</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">2026 Rev 指引</div>
+    <div class="fact-value">$50.7–51.7B</div>
+    <div class="fact-note">营业利润率 31.5%</div>
+  </div>
+</div>
+
+<!-- SITUATION STRIP -->
+<div class="situation-strip">
+  <div class="sit-block">
+    <div class="sit-label">当前处境</div>
+    <div class="sit-body">股价从$134高点跌至$81，跌幅近40%。核心压力双重叠加：<strong>Warner Bros. 收购落败</strong>（输给Paramount/Skydance，支付$2.8B违约金出局）；<strong>估值重置</strong>，市场开始以成熟公司倍数（P/E ~26×）重新定价这家曾高达P/E 100×+的成长股。而收入、盈利、FCF 均创历史新高，广告层加速，留存率同比各地区全面改善。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-label">WBD 收购战始末</div>
+    <div class="sit-body">Netflix 2025年12月宣布以$82.7B收购Warner Bros.，包含HBO、华纳电影工作室、DC宇宙全部IP。Paramount/Skydance 以<strong>$31/股全现金出价</strong>最终胜出（Netflix 出价$27.75+股票）。WBD 董事会接受 Paramount 方案，Netflix 支付$2.8B违约金离场。这是流媒体史上最大并购战；Netflix 保留现金实力，失去最大IP整合机会。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-label">三个核心争议</div>
+    <div class="sit-body">① <strong>广告业务能否成为第二增长引擎</strong>——2026年广告收入预计翻倍，90M+ MAU，自建广告技术平台已上线；② <strong>直播体育投资回报率</strong>——WWE RAW、NFL圣诞场、泰森-保罗均创流媒体直播纪录；③ <strong>WBD 落败后内容竞争力如何重构</strong>——HBO 归入 Paramount，Netflix 失去填补内容缺口的最大机会，未来内容成本军备是否会更加昂贵？</div>
+  </div>
+</div>
+
+<!-- SECTION RULE -->
+<div class="section-rule">
+  三位投资者面对同一家流媒体帝国，问的是三个完全不同的问题——以下是各自的答案
+</div>
+
+<!-- THREE COLUMNS -->
+<div class="three-col">
+
+  <!-- BUFFETT -->
+  <div class="persona-col">
+    <div class="persona-header buffett">
+      <div class="persona-name buffett">Warren Buffett</div>
+      <div class="persona-tag">价值 · 护城河 · 定价权 · 可预期现金流</div>
+    </div>
+
+    <div class="persona-question">"人们十年后还会为优质娱乐内容每月付费吗？Netflix 是否拥有真实的定价权？"</div>
+
+    <div class="verdict-box buffett">
+      <div class="verdict-stance buffett">判决 · 首次认真评估 · 估值首次进入视野</div>
+      <div class="verdict-text">"我长期以来认为娱乐内容公司很难投资——每一季度都是新赌注。但 Netflix 越来越像一个习惯，而不是一个选择。$81 的价格对于年度自由现金流$12.5B 的公司，我会认真算一遍。内容成本的持续性是我唯一真实的顾虑。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">定价权——护城河的终极测试</span>
+        <span class="crit-score score-strong">已被证实</span>
+      </div>
+      <div class="crit-body">Netflix 过去三年多次提价，标准套餐从$15.49涨至$17.99+，用户流失可控。巴菲特最重视这个指标——"能在不失去客户的情况下提价的公司才有真正的护城河"。价格提升直接转化为利润率扩张（27%→29.5%→31.5%），证明内容成本增速慢于ARPU增长，规模经济正在发挥作用。Q1 2026 各地区留存率同比全面改善，是护城河加固的直接数据支撑。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">订阅模式现金流可预期性</span>
+        <span class="crit-score score-strong">极高</span>
+      </div>
+      <div class="crit-body">325M+ 付费会员，TTM 自由现金流$26B，全年FCF 指引$12.5B。"用户按月交费、绝大多数月份不取消"的结构，是巴菲特最能理解的现金流形态——类似他早年持有《华盛顿邮报》时喜爱的报纸订阅：用户惯性极强，取消需要主动行动。Netflix 的订阅续约率已属全球消费服务最高梯队。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">估值安全边际</span>
+        <span class="crit-score score-strong">历史性低点</span>
+      </div>
+      <div class="crit-body">P/E ~26×，历史10年均值94×——低于均值72%。基于$12.5B FCF 指引，P/FCF 约27×；若FCF增长至2027年$15B+，前瞻P/FCF约22×。对于一家收入以12-16%增速增长、利润率仍在扩张的全球最大流媒体平台，这是过去十年都难以见到的入场窗口——与2022年底 Netflix 跌至P/E ~20×时同等级别的机会。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">内容成本——核心顾虑</span>
+        <span class="crit-score score-concern">结构性挑战</span>
+      </div>
+      <div class="crit-body">巴菲特不喜欢"需要持续大量再投资才能维持竞争力"的生意——而内容公司正是如此。Netflix 每年内容支出超$17B，且必须持续产出爆款，否则用户将取消。这与可口可乐（配方永恒）或 See's Candies（品牌+固定工厂）完全不同。失去 HBO（WBD 收购落败）进一步加大了内容再投资压力，这是他持续关注、难以完全释怀的核心顾虑。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">广告业务：新的收费公路？</span>
+        <span class="crit-score score-yes">潜力真实</span>
+      </div>
+      <div class="crit-body">广告层 90M+ MAU，4,000+ 广告商，自建广告技术平台2025年4月于美国上线。这是巴菲特能理解的商业逻辑：用会员注意力换广告收入，类似电视网，但精准度远超传统电视。若广告收入2026年翻倍（管理层指引），代表一个全新的高利润率收入层——类似他长期持有媒体公司时喜爱的广告模式，且边际成本趋近于零。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">WBD 落败的资本视角</span>
+        <span class="crit-score score-partial">短痛，但非灾难</span>
+      </div>
+      <div class="crit-body">$2.8B 违约金是真实损失，约等于一个月FCF。但巴菲特深刻理解大型并购的整合复杂性——他历来回避高溢价并购（见 BNSF 是少数例外）。$82B 的整合若出现协同效应落空，损失远超$2.8B。失去 HBO 的竞争代价是真实的，但保留现金用于内容投资和股票回购，对长期股东价值的影响是模糊正向的。他会把这次"失败"视为一种资本纪律。</div>
+    </div>
+  </div>
+
+  <!-- THIEL -->
+  <div class="persona-col">
+    <div class="persona-header thiel">
+      <div class="persona-name thiel">Peter Thiel</div>
+      <div class="persona-tag">秘密 · 垄断 · 零到一 · 结构性判断</div>
+    </div>
+
+    <div class="persona-question">"Netflix 是在建立一个不可复制的垄断，还是正在成为一个所有有钱的公司都能竞争的市场里的最佳竞争者？"</div>
+
+    <div class="verdict-box thiel">
+      <div class="verdict-stance thiel">判决 · 尊重历史，质疑当下护城河</div>
+      <div class="verdict-text">"Netflix 在2013-2020年做的是真正的零到一——用数据替代直觉决定内容投资，颠覆线性电视。但那个秘密现在人人都知道。Apple、Amazon、Disney、Paramount 都在做流媒体。WBD 落败意味着它错失了用 HBO 重建 IP 垄断的窗口。这不是垄断，这是最优秀的竞争者。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">原始零到一：数据驱动内容</span>
+        <span class="crit-score score-partial">真实但已被复制</span>
+      </div>
+      <div class="crit-body">Netflix 2012-2013年的创新是真实的零到一：用收视数据预测内容成功概率，用算法替代直觉型高管决策，《纸牌屋》是数据分析而非赌博的产物。这在当时是反共识的秘密。但这个秘密今天已是行业常识——每家流媒体都在用数据驱动内容，护城河大幅稀释。发现一个好秘密是零到一；把秘密变成众所周知的最佳实践是一到N。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">当前垄断地位评估</span>
+        <span class="crit-score score-concern">领先，非垄断</span>
+      </div>
+      <div class="crit-body">325M 付费会员、全球TV观看份额约5%、美国市场约21%——规模领先，但远非垄断。Apple TV+、Disney+、Max、Prime Video 共同争夺同一块时间。Thiel 的框架清晰：当市场有4-5个接近规模的竞争者，这是竞争，不是垄断。竞争意味着内容成本军备无法停止，利润会被持续压缩——这是他的结构性担忧。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">WBD 落败：Thiel 的解读</span>
+        <span class="crit-score score-no">错失关键窗口</span>
+      </div>
+      <div class="crit-body">Thiel 会把这次失败看得非常严重。HBO 是流媒体世界里唯一做到"因品质本身而垄断"的品牌——《权力的游戏》、《切尔诺贝利》、《白莲花》定义了"精品电视"这个品类。若 Netflix 并购成功，它将拥有定义"优质"的叙事权。这个 IP 组合现在将帮助 Paramount 构建竞争护城河。Thiel 会认为，这个垄断机会窗口已经关闭，Netflix 未来的内容竞争将更昂贵且更不确定。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">直播体育：创造者还是跟随者</span>
+        <span class="crit-score score-concern">防御性跟随</span>
+      </div>
+      <div class="crit-body">WWE RAW、NFL 圣诞场、泰森-保罗拳击——Netflix 进入直播体育时，Amazon（NFL周四夜）、Apple（MLB、MLS）都已先行。Thiel 的判断是：Netflix 在用高价购买已有市场的门票，而不是在创造一个新市场。直播版权价格将被多方竞价推高，这不是垄断者的行为，而是竞争者的防御性资本配置——它会抬高全行业成本，而不能形成差异化护城河。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">AI 个性化：唯一的零到一潜力</span>
+        <span class="crit-score score-yes">值得关注</span>
+      </div>
+      <div class="crit-body">若 Netflix 能用 AI 实现"内容发现垄断"——用户70%的时间花在 Netflix 推荐的内容上而非主动搜索——那才是 Thiel 认为的真正护城河。CitizensBank 称其"发现主导的参与度货币化优势"正是这个方向。若 AI 推荐引擎能将用户平均会话时长提升20%+，广告库存将非线性增长。这是 Netflix 在 Thiel 框架内唯一剩余的"新秘密"候选方向，但尚未被证明。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">Thiel 投资的替代逻辑</span>
+        <span class="crit-score score-no">另有所好</span>
+      </div>
+      <div class="crit-body">他会更感兴趣的是：用 AI 生成个性化互动剧情的娱乐平台（从零定义"内容"的边界），或直接绕过内容成本的元宇宙娱乐基础设施。Netflix 对他来说是"流媒体时代最好的竞争者"——但"最好的竞争者"从来不是他押注的类型。他押注的是"唯一的垄断者"。</div>
+    </div>
+  </div>
+
+  <!-- SCHMEHL -->
+  <div class="persona-col">
+    <div class="persona-header schmehl">
+      <div class="persona-name schmehl">Mark Schmehl</div>
+      <div class="persona-tag">动量 · 过度反应 · 基本面确认 · 催化剂识别</div>
+    </div>
+
+    <div class="persona-question">"从$134跌到$81：市场对 WBD 失败和估值重置的反应过度了吗？正面变化是否被低估？"</div>
+
+    <div class="verdict-box schmehl">
+      <div class="verdict-stance schmehl">判决 · 强烈建仓信号 · 等待动量确认入场</div>
+      <div class="verdict-text">"WBD 失败是负面催化剂，$2.8B 违约金是痛点，但它改变了什么根本面？325M 会员还在，广告层90M MAU 还在增长，FCF 还是$26B。市场在恐惧一个叙事损失，而非基本面崩塌。P/E 26× 的时候，这是我喜欢的那种'负面过度反应'机会。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">市场过度反应的证据</span>
+        <span class="crit-score score-strong">明确</span>
+      </div>
+      <div class="crit-body">股价从$134跌至$81，跌幅40%——同期 Q1 2026 收入+16%，FCF 创历史新高$26B，留存率各地区同比全面改善。WBD 失败是叙事层面的打击（丢失了整合IP帝国的故事），而非基本面的破坏。$2.8B 违约金约等于一个月的FCF——市场却将其定价为永久性价值损失。这是 Schmehl 最擅长识别的"情绪驱动的错误定价"模式。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">广告层——被低估的正面变化</span>
+        <span class="crit-score score-strong">核心催化剂</span>
+      </div>
+      <div class="crit-body">广告层 MAU 90M+，2026年广告收入预计翻倍，4,000+ 广告商，自建广告技术平台于2025年4月在美上线。广告层目前仅占总收入约6%，但增速远超订阅收入。若广告收入3年内达到总收入15-20%，且利润率高于订阅（无内容边际成本），将触发一次重大的盈利率重估——这正是 Schmehl 最喜欢的"已经发生但市场还没充分定价的正面变化"类型。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">当前动量状态</span>
+        <span class="crit-score score-partial">收入动量正向，股价动量负向</span>
+      </div>
+      <div class="crit-body">Q1 2026 收入+16%，但股价YTD -12%，距高点跌40%。典型的"股价动量负向、基本面动量正向"分离——Schmehl 的系统通常等待两者重新对齐。他会在$80-85区间建立初始仓位，等待股价动量转正（分析师开始上调目标价、广告层数据超预期）后加仓。Mark Mahaney 维持Buy/$115目标价，Jefferies 维持Buy——这正是他等待的先行信号。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">直播体育：留存率催化剂</span>
+        <span class="crit-score score-yes">中期加分</span>
+      </div>
+      <div class="crit-body">WWE RAW 每周全球 Top 10，NFL 圣诞场成史上最多收看NFL赛事，泰森-保罗成史上最多收看直播体育赛事——这些是真实观看数据。Schmehl 的视角不在于版权成本是否合理，而在于：直播体育是否成为"用户续订的理由"。若年度留存率因直播提升1-2%，对 FCF 的影响是数十亿量级——这个杠杆比直播版权成本本身更重要。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">卖出触发条件</span>
+        <span class="crit-score score-yes">清晰可识别</span>
+      </div>
+      <div class="crit-body">① 广告层 MAU 增速跌破低个位数（广告 thesis 破裂）；② 定价提升导致规模性用户流失（护城河破裂）；③ 内容成本增速持续超过收入增速（利润率下滑趋势确认）；④ 直播版权竞价战推高成本至不可持续水平。目前这些信号均未出现——Q1 2026 各区域留存率同比改善是相反方向的有力证据，持仓合理。</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SCORE BAND -->
+<div class="score-band">
+  <div class="score-cell">
+    <div class="score-cell-label buffett">Buffett 评分</div>
+    <div class="score-num buffett">69</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">首次认真评估</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label thiel">Thiel 评分</div>
+    <div class="score-num thiel">38</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">竞争者，非垄断</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label schmehl">Schmehl 评分</div>
+    <div class="score-num schmehl">76</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">强烈建仓信号</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label" style="color:var(--gold)">三人共识</div>
+    <div class="score-num" style="color:var(--gold)">61</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">Thiel 独立分歧</div>
+  </div>
+</div>
+
+<!-- KEY QUESTION -->
+<div class="key-question">
+  <div class="kq-label">三视角共同指向的核心判断题</div>
+  <div class="kq-text">Netflix 目前的困境不是经营问题，而是一个<strong>护城河性质的争议</strong>：市场在用"叙事折价"（WBD 落败 + 估值重置）压低一家基本面仍在改善的公司，而三位投资者对"规模是否等于护城河"这道题的答案彼此不同。<br><br>真正的判断题是：<strong>在内容成本军备竞赛永无止境的世界里，Netflix 的 325M 会员规模、数据飞轮和广告技术平台，是否构成了不可复制的结构性优势？还是说任何有足够资本的公司最终都能争夺同样的用户时间？</strong> 这道题没有今天的答案，只有未来的数据。</div>
+</div>
+
+<!-- SYNTHESIS -->
+<div class="synthesis">
+  <div class="synth-title">三镜头综合叙事 · 同一家流媒体帝国的三个真实</div>
+  <div class="synth-grid">
+    <div class="synth-block">
+      <div class="synth-block-title">为什么巴菲特在$81 首次真正感兴趣</div>
+      <div class="synth-block-body">巴菲特历来回避娱乐内容公司，原因是无法预测现金流——每季度都是新赌注。但 Netflix 在2026年的形态已经不同：<strong>订阅收入是可预期的年金，定价权被多次验证，FCF 达到$26B</strong>。这让它更像他喜欢的"用户惯性驱动的消费服务"。在P/E历史新低附近，他第一次有了认真算出内在价值的理由。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">为什么 Thiel 对 WBD 落败的判断比市场更悲观</div>
+      <div class="synth-block-body">市场把WBD 失败看作是"节省了$82B 并购风险"的正面事件。Thiel 的解读截然相反：<strong>HBO 是流媒体世界里唯一做到"因品质定义品类"的品牌</strong>，这种垄断地位无法用钱买回来。Netflix 错失的不是一个资产，而是一个重建"内容垄断"叙事的机会窗口。这个损失是战略性的，不是财务性的。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">为什么 Schmehl 看到别人忽视的信号</div>
+      <div class="synth-block-body">广告层正在从"实验性产品"向"第二收入引擎"演化，但市场还在用"Netflix 是纯订阅公司"的旧框架定价它。<strong>90M MAU 广告用户、65% 为完全新增用户（非从付费层流失）、Q1 2026 各地区留存率同比改善</strong>——这些数据说明广告 thesis 正在静默地被验证。一旦广告收入出现季度级别的加速，重新定价会非常迅速。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">Netflix vs Adobe：同样的叙事折价，不同的护城河性质</div>
+      <div class="synth-block-body">Adobe 被"AI威胁"折价，但其护城河（工作流切换成本）与AI竞争无关；Netflix 被"WBD落败叙事"折价，但其护城河（规模+习惯+定价权）也并未因此受损。两家公司都是<strong>"叙事比基本面跌得更快"的经典案例</strong>。区别在于：Adobe 的再投资需求低（软件边际成本趋零），Netflix 的再投资需求极高（内容永无止境）。这是两者估值修复速度的根本差异。</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Netflix, Inc. · NASDAQ: NFLX · 三镜头投资判决框架 · Buffett / Thiel / Schmehl</span>
+  <span>数据截至 2026年6月 · Q1 2026 财报日 April 16, 2026 · WBD并购落败确认 February 2026</span>
+</div>
+
+</body>
+</html>
