@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment Research · 三镜头判决框架</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink:      #1a1a1a;
+  --ink-2:    #3d3d3d;
+  --ink-3:    #7a7a7a;
+  --paper:    #f7f4ef;
+  --paper-2:  #eeebe4;
+  --rule:     #d8d4cc;
+  --buffett:  #1d4e2f;
+  --thiel:    #2b1f4e;
+  --schmehl:  #7a2020;
+  --gold:     #b8972a;
+  --gold-l:   #fdf6e3;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --mono:  'DM Mono', monospace;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+.site-header {
+  border-bottom: 2px solid var(--ink);
+  padding: 32px 48px 24px;
+}
+.site-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+.site-title {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.site-sub {
+  font-size: 13px;
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.lens-legend {
+  display: flex;
+  gap: 24px;
+  padding: 14px 48px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper-2);
+  flex-wrap: wrap;
+}
+.lens-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.lens-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.main {
+  padding: 32px 48px 48px;
+  max-width: 1100px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 32px;
+}
+
+.report-card {
+  background: var(--paper);
+  padding: 20px 22px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: background 0.12s;
+}
+.report-card:hover {
+  background: var(--paper-2);
+}
+
+.card-ticker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 5px;
+}
+.card-name {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.card-desc {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.card-scores {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.card-score {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.cs-b { background: #e8f2ec; color: var(--buffett); }
+.cs-t { background: #ece9f5; color: var(--thiel); }
+.cs-s { background: #f5eaea; color: var(--schmehl); }
+.cs-x { background: var(--gold-l); color: var(--gold); font-weight: 600; }
+.card-arrow {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.section-note {
+  font-size: 12px;
+  color: var(--ink-3);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.special-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 20px 22px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: background 0.12s;
+  margin-bottom: 1px;
+}
+.special-card:hover { background: var(--paper-2); }
+
+.site-footer {
+  border-top: 2px solid var(--ink);
+  padding: 14px 48px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="site-eyebrow">No5fisher · Investment Research · 三镜头判决框架</div>
+  <div class="site-title">公司分析报告库</div>
+  <div class="site-sub">以 Buffett · Thiel · Schmehl 三种视角，审视同一家公司的价值与风险</div>
+</div>
+
+<div class="lens-legend">
+  <div class="lens-item">
+    <div class="lens-dot" style="background:var(--buffett)"></div>
+    <span style="color:var(--buffett)">Buffett</span>
+    <span style="color:var(--ink-3)">· 护城河 · 现金流 · 永久持有</span>
+  </div>
+  <div class="lens-item">
+    <div class="lens-dot" style="background:var(--thiel)"></div>
+    <span style="color:var(--thiel)">Thiel</span>
+    <span style="color:var(--ink-3)">· 秘密 · 垄断 · 零到一</span>
+  </div>
+  <div class="lens-item">
+    <div class="lens-dot" style="background:var(--schmehl)"></div>
+    <span style="color:var(--schmehl)">Schmehl</span>
+    <span style="color:var(--ink-3)">· 动量 · 过度反应 · 催化剂</span>
+  </div>
+  <div class="lens-item">
+    <div class="lens-dot" style="background:var(--gold)"></div>
+    <span style="color:var(--gold)">共识</span>
+    <span style="color:var(--ink-3)">· 三人综合评分</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="section-label">三镜头报告 · Three-Lens Reports</div>
+
+  <div class="report-grid">
+
+    <a href="alphabet_three_lens.html" class="report-card">
+      <div class="card-ticker">NASDAQ: GOOGL · AI · Cloud · Search</div>
+      <div class="card-name">Alphabet</div>
+      <div class="card-desc">全栈 AI 帝国 · $4.39T 市值 · Cloud +63% · Waymo · $180B CapEx 豪赌</div>
+      <div class="card-scores">
+        <span class="card-score cs-b">B 88</span>
+        <span class="card-score cs-t">T 74</span>
+        <span class="card-score cs-s">S 72</span>
+        <span class="card-score cs-x">共识 78</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="wpm_three_lens.html" class="report-card">
+      <div class="card-ticker">NYSE/TSX: WPM · Precious Metals Streaming</div>
+      <div class="card-name">Wheaton Precious Metals</div>
+      <div class="card-desc">全球最大贵金属流媒体 · 固定成本杠杆 · Q1 2026 净利润率 64.6%</div>
+      <div class="card-scores">
+        <span class="card-score cs-b">B 85</span>
+        <span class="card-score cs-t">T 68</span>
+        <span class="card-score cs-s">S 77</span>
+        <span class="card-score cs-x">共识 77</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="duolingo_three_lens.html" class="report-card">
+      <div class="card-ticker">NASDAQ: DUOL · Consumer EdTech</div>
+      <div class="card-name">Duolingo</div>
+      <div class="card-desc">行为惯性护城河 · P/E 从175×压至14× · DAU +21% · AI威胁是叙事非实质</div>
+      <div class="card-scores">
+        <span class="card-score cs-b">B 72</span>
+        <span class="card-score cs-t">T 44</span>
+        <span class="card-score cs-s">S 81</span>
+        <span class="card-score cs-x">共识 66</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="netflix_three_lens.html" class="report-card">
+      <div class="card-ticker">NASDAQ: NFLX · Streaming Entertainment</div>
+      <div class="card-name">Netflix</div>
+      <div class="card-desc">325M 会员 · WBD 收购落败 · 广告层 90M MAU · P/E ~26× 历史低位</div>
+      <div class="card-scores">
+        <span class="card-score cs-b">B 69</span>
+        <span class="card-score cs-t">T 38</span>
+        <span class="card-score cs-s">S 76</span>
+        <span class="card-score cs-x">共识 61</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="adobe_three_lens.html" class="report-card">
+      <div class="card-ticker">NASDAQ: ADBE · Creative Software</div>
+      <div class="card-name">Adobe</div>
+      <div class="card-desc">创意工具垄断 · P/FCF ~10× 历史低 · AI Firefly · WBD 落败叙事折价</div>
+      <div class="card-scores">
+        <span class="card-score cs-b">B 78</span>
+        <span class="card-score cs-t">T 31</span>
+        <span class="card-score cs-s">S 63</span>
+        <span class="card-score cs-x">共识 57</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="bloom_energy_three_lens.html" class="report-card">
+      <div class="card-ticker">NYSE: BE · Clean Energy · Fuel Cell</div>
+      <div class="card-name">Bloom Energy</div>
+      <div class="card-desc">固态氧化物燃料电池 · Oracle 2.8GW · 52周涨1483% · Forward P/E ~116×</div>
+      <div class="card-scores">
+        <span class="card-score cs-b">B 8</span>
+        <span class="card-score cs-t">T 58</span>
+        <span class="card-score cs-s">S 35</span>
+        <span class="card-score cs-x">共识 34</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="section-label">双镜头报告 · Two-Lens Reports</div>
+  <div class="section-note">部分公司因题目特性，采用两位投资者的专项深度研判</div>
+
+  <div class="report-grid">
+    <a href="circle_two_lens.html" class="report-card">
+      <div class="card-ticker">NYSE: CRCL · Stablecoin · Financial Infrastructure</div>
+      <div class="card-name">Circle Internet Group</div>
+      <div class="card-desc">USDC 发行方 · 金融基础设施严肃研判 · Buffett vs Thiel · 95% 收入来自利息</div>
+      <div class="card-scores">
+        <span class="card-score cs-b">B 22</span>
+        <span class="card-score cs-t">T 51</span>
+        <span class="card-score cs-x">共识 37</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label">专项追踪看板 · Tracking Dashboards</div>
+  <div class="section-note">非评分类报告，用于跟踪特定公司的关键信号变化</div>
+
+  <div class="report-grid">
+    <a href="horizon_tracker.html" class="report-card">
+      <div class="card-ticker">SEHK: 9660 · Autonomous Driving · ADAS Chip</div>
+      <div class="card-name">地平线机器人</div>
+      <div class="card-desc">Schmehl 视角跟踪看板 · J6P 定点信号 · 毛利率触底确认 · 英伟达竞争威胁矩阵</div>
+      <div class="card-scores">
+        <span class="card-score cs-s">Schmehl Watch</span>
+        <span class="card-score" style="background:var(--paper-2);color:var(--ink-3)">信号追踪</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<div class="site-footer">
+  <span>No5fisher · Investment Research · 三镜头判决框架 · Buffett / Thiel / Schmehl</span>
+  <span>持续更新 · 数据截至各报告发布日期 · 仅供研究参考，不构成投资建议</span>
+</div>
+
+</body>
+</html>
