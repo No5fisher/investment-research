@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三镜头判决框架 · 使用说明</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink:      #1a1a1a;
+  --ink-2:    #3d3d3d;
+  --ink-3:    #7a7a7a;
+  --ink-4:    #b8b8b8;
+  --paper:    #f7f4ef;
+  --paper-2:  #eeebe4;
+  --rule:     #d8d4cc;
+
+  --buffett:  #1d4e2f;
+  --buffett-l:#e8f2ec;
+  --buffett-m:#c2dfc9;
+  --thiel:    #2b1f4e;
+  --thiel-l:  #ece9f5;
+  --thiel-m:  #c0bad8;
+  --schmehl:  #7a2020;
+  --schmehl-l:#f5eaea;
+  --schmehl-m:#dbbcbc;
+
+  --gold:     #b8972a;
+  --gold-l:   #fdf6e3;
+  --gold-m:   #dfc980;
+
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --mono:  'DM Mono', monospace;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 2px solid var(--ink);
+  padding: 32px 36px 24px;
+}
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+.title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink-3);
+  margin-bottom: 16px;
+}
+.intro-text {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.75;
+  max-width: 740px;
+}
+
+/* ── SECTION HEADING ── */
+.section-head {
+  padding: 28px 36px 0;
+  margin-bottom: 20px;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+/* ── RULE ── */
+.rule {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-3);
+  text-align: center;
+  padding: 10px 36px;
+  border-bottom: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  background: var(--paper-2);
+}
+
+/* ── THREE PHILOSOPHER PANELS ── */
+.philosophers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.phil {
+  padding: 28px 28px 32px;
+  border-right: 1px solid var(--rule);
+}
+.phil:last-child { border-right: none; }
+
+.phil-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+.phil-badge.B { background: var(--buffett-l); color: var(--buffett); }
+.phil-badge.T { background: var(--thiel-l);   color: var(--thiel); }
+.phil-badge.S { background: var(--schmehl-l); color: var(--schmehl); }
+
+.phil-name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+.phil-name.B { color: var(--buffett); }
+.phil-name.T { color: var(--thiel); }
+.phil-name.S { color: var(--schmehl); }
+
+.phil-alias {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+
+.phil-divider {
+  height: 2px;
+  margin-bottom: 16px;
+}
+.phil-divider.B { background: var(--buffett); }
+.phil-divider.T { background: var(--thiel); }
+.phil-divider.S { background: var(--schmehl); }
+
+.phil-q {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-3);
+  padding: 10px 14px;
+  background: var(--paper-2);
+  border-radius: 2px;
+  border-left: 2px solid var(--rule);
+  margin-bottom: 18px;
+  line-height: 1.55;
+}
+
+.phil-section {
+  margin-bottom: 16px;
+}
+.phil-section-title {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule);
+}
+.phil-body {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+.phil-body strong { color: var(--ink); }
+
+.phil-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+.pillar {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  border-radius: 2px;
+  border: 1px solid;
+}
+.pillar.B { background: var(--buffett-l); border-color: var(--buffett-m); }
+.pillar.T { background: var(--thiel-l);   border-color: var(--thiel-m); }
+.pillar.S { background: var(--schmehl-l); border-color: var(--schmehl-m); }
+
+.pillar-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.pillar-num.B { color: var(--buffett); }
+.pillar-num.T { color: var(--thiel); }
+.pillar-num.S { color: var(--schmehl); }
+
+.pillar-text {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.pillar-text strong { color: var(--ink); }
+
+/* ── CONTRAST TABLE ── */
+.contrast-section {
+  padding: 28px 36px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.contrast-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+}
+.contrast-table th {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  text-align: left;
+  font-weight: 500;
+}
+.contrast-table th.B { color: var(--buffett); }
+.contrast-table th.T { color: var(--thiel); }
+.contrast-table th.S { color: var(--schmehl); }
+.contrast-table th.dim { color: var(--ink-3); }
+
+.contrast-table td {
+  font-size: 12px;
+  color: var(--ink-2);
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  line-height: 1.5;
+  vertical-align: top;
+}
+.contrast-table td.dim {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper-2);
+}
+.contrast-table tr:nth-child(even) td:not(.dim) {
+  background: #faf8f4;
+}
+
+/* ── INDEPENDENCE VALUE ── */
+.independence {
+  padding: 28px 36px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ind-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.ind-block {
+  padding: 16px 18px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: var(--paper);
+}
+.ind-block-title {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+.ind-block-body {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+.ind-block-body strong { color: var(--ink); }
+
+/* ── SIGNAL MATRIX ── */
+.signal-section {
+  padding: 28px 36px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 6px;
+}
+.sig-cell {
+  background: var(--paper);
+  padding: 14px 16px;
+}
+.sig-cell.header {
+  background: var(--paper-2);
+}
+.sig-header-text {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.sig-header-text.B { color: var(--buffett); }
+.sig-header-text.T { color: var(--thiel); }
+.sig-header-text.S { color: var(--schmehl); }
+
+.sig-scenario {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule);
+  grid-column: 1 / -1;
+  background: var(--paper-2);
+}
+.sig-score {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+.sig-score.high { background: #d4edda; color: #155724; }
+.sig-score.mid  { background: #fff3cd; color: #856404; }
+.sig-score.low  { background: #f8d7da; color: #721c24; }
+.sig-body {
+  font-size: 11.5px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+/* ── FULL SCENARIO TABLE ── */
+.scenario-rows {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 6px;
+}
+
+.sr-cell {
+  background: var(--paper);
+  padding: 12px 14px;
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.sr-cell.label {
+  background: var(--paper-2);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  writing-mode: horizontal-tb;
+  white-space: nowrap;
+}
+.sr-cell.head {
+  background: var(--paper-2);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.sr-cell.head.B { color: var(--buffett); }
+.sr-cell.head.T { color: var(--thiel); }
+.sr-cell.head.S { color: var(--schmehl); }
+
+/* ── HOW TO READ ── */
+.how-to {
+  padding: 28px 36px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 6px;
+}
+.step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink-4);
+  line-height: 1;
+  text-align: right;
+  padding-top: 2px;
+}
+.step-content {}
+.step-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+.step-body {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+.step-body strong { color: var(--ink); }
+
+/* ── KEY QUESTION ── */
+.key-q {
+  padding: 22px 36px;
+  background: var(--gold-l);
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+}
+.kq-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.kq-text {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.kq-text strong { font-style: normal; }
+
+/* ── SERIES INDEX ── */
+.series {
+  padding: 24px 36px;
+  border-bottom: 1px solid var(--rule);
+}
+.series-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  font-size: 12px;
+}
+.series-table th {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 8px 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  text-align: left;
+  font-weight: 500;
+}
+.series-table td {
+  padding: 9px 12px;
+  border: 1px solid var(--rule);
+  color: var(--ink-2);
+  line-height: 1.4;
+  vertical-align: middle;
+}
+.series-table td.company { font-weight: 600; color: var(--ink); }
+.series-table td.ticker {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+.score-chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 2px;
+  margin: 0 2px;
+}
+.sc-b { background: var(--buffett-l); color: var(--buffett); }
+.sc-t { background: var(--thiel-l);   color: var(--thiel); }
+.sc-s { background: var(--schmehl-l); color: var(--schmehl); }
+.sc-x { background: var(--gold-l);    color: var(--gold); font-weight: 600; }
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 2px solid var(--ink);
+  padding: 14px 36px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="eyebrow">No5fisher · Investment Research · 读者使用说明</div>
+  <div class="title">三镜头判决框架</div>
+  <div class="subtitle">Three-Lens Investment Decision Framework</div>
+  <div class="intro-text">
+    本研究系列以三位在投资史上具有真实业绩验证、且思维体系截然不同的投资大师为分析透镜，对同一家公司同时进行三个独立维度的评判。框架的核心前提是：没有任何一种投资哲学能覆盖所有市场情境——<strong>三种视角的分歧本身就是信息，三种视角的共识是更高可信度的结论</strong>。这份说明帮助读者理解每位投资者的思维体系，以及三种视角共存如何提升决策质量。
+  </div>
+</div>
+
+<!-- SECTION 1 HEADING -->
+<div class="section-head" style="padding-bottom:0">
+  <div class="section-label">Part One</div>
+  <div class="section-title">三位投资大师的哲学思想框架</div>
+</div>
+
+<div class="rule">三位投资者面对同一家公司，问的是三个完全不同的问题——这不是偶然，而是设计</div>
+
+<!-- THREE PHILOSOPHERS -->
+<div class="philosophers">
+
+  <!-- BUFFETT -->
+  <div class="phil">
+    <div class="phil-badge B">价值 · 护城河 · 永久持有</div>
+    <div class="phil-name B">Warren Buffett</div>
+    <div class="phil-alias">沃伦·巴菲特 / 奥马哈先知 / 伯克希尔哈撒韦</div>
+    <div class="phil-divider B"></div>
+
+    <div class="phil-q">"我只买我十年后还能预测其竞争地位的公司。如果我必须持续关注这家公司的新闻才能判断它还值不值得持有，我就不该买它。"</div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">思想根基</div>
+      <div class="phil-body">巴菲特的投资哲学脱胎于本杰明·格雷厄姆的价值投资传统，但被查理·芒格的"优秀企业更胜廉价企业"洞见深刻修正。他的核心信念是：<strong>市场短期是投票机，长期是称重机</strong>——伟大的企业长期一定会被市场认可，因此在合理价格买入并永久持有，才是创造财富的正道。他拒绝预测宏观经济、利率走势或市场时机，只专注于企业本身的内在价值和竞争优势的持久性。</div>
+    </div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">核心评估支柱</div>
+      <div class="phil-pillars">
+        <div class="pillar B">
+          <span class="pillar-num B">01</span>
+          <span class="pillar-text"><strong>护城河（Moat）</strong>——公司是否拥有让竞争对手无法复制的持久竞争优势？来源包括：品牌认同（可口可乐）、转换成本（微软Office）、网络效应（Visa/Mastercard）、成本优势（GEICO）、规模经济。</span>
+        </div>
+        <div class="pillar B">
+          <span class="pillar-num B">02</span>
+          <span class="pillar-text"><strong>定价权</strong>——公司能否在不失去客户的情况下持续提价？这是护城河的终极测试。能提价的公司有真实护城河；不得不跟随竞争者定价的公司只是在竞争。</span>
+        </div>
+        <div class="pillar B">
+          <span class="pillar-num B">03</span>
+          <span class="pillar-text"><strong>可预期的自由现金流</strong>——他要求能合理预测公司未来十年的现金流曲线。若商业模式过于复杂或变化太快，即便企业优秀他也无法估值，因此选择回避。</span>
+        </div>
+        <div class="pillar B">
+          <span class="pillar-num B">04</span>
+          <span class="pillar-text"><strong>资本配置纪律</strong>——管理层是否把每一分钱用在创造股东价值的地方？他最欣赏"在股价低于内在价值时大力回购"的管理层，最厌恶"用股东的钱进行破坏价值的并购"。</span>
+        </div>
+        <div class="pillar B">
+          <span class="pillar-num B">05</span>
+          <span class="pillar-text"><strong>安全边际</strong>——以显著低于内在价值的价格买入，为估算误差和意外冲击预留缓冲。他从不为"伟大的故事"支付全价，只为"可量化的护城河"买单。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">他会立刻放弃的公司类型</div>
+      <div class="phil-body">商业模式频繁变化的公司、持续亏损依赖融资的公司、需要持续大量再投资才能维持竞争力的公司（他称之为"资本密集型陷阱"）、VIE结构等法律所有权与经济利益分离的结构、以及任何他"用十分钟解释不清楚核心商业逻辑"的公司。</div>
+    </div>
+  </div>
+
+  <!-- THIEL -->
+  <div class="phil">
+    <div class="phil-badge T">零到一 · 垄断 · 反共识</div>
+    <div class="phil-name T">Peter Thiel</div>
+    <div class="phil-alias">彼得·蒂尔 / PayPal联合创始人 / Founders Fund</div>
+    <div class="phil-divider T"></div>
+
+    <div class="phil-q">"竞争是失败者的游戏。最有价值的公司不参与竞争，它们用秘密创造，建立在别人还不相信的真相之上，然后构建一个别人永远无法进入的垄断。"</div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">思想根基</div>
+      <div class="phil-body">蒂尔的投资哲学建立在他对技术、权力和人类组织的深刻不信任之上。他相信<strong>进步不是线性渐进的，而是由少数看见了别人看不见的真相的人驱动的突破性创造</strong>。他的《从零到一》核心论断：每一个伟大的商业都建立在一个秘密之上——一个重要的真相，几乎没有人赞同你。他同时具有强烈的反共识本能：一个已经被所有人接受的观点，必然已经被充分定价，因此无法产生超额回报。</div>
+    </div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">核心评估支柱</div>
+      <div class="phil-pillars">
+        <div class="pillar T">
+          <span class="pillar-num T">01</span>
+          <span class="pillar-text"><strong>秘密（The Secret）</strong>——公司的创立依赖于什么别人还不相信的重要真相？真正的"零到一"公司发现的秘密，在公司创立时是反直觉的、被主流拒绝的。已经是常识的洞察，不再是秘密。</span>
+        </div>
+        <div class="pillar T">
+          <span class="pillar-num T">02</span>
+          <span class="pillar-text"><strong>垄断的四个来源</strong>——专有技术（比竞争者好10倍以上）、网络效应（用户越多越有价值）、规模经济（边际成本递减）、品牌（无法被复制的信任资产）。垄断不一定在大市场，但必须在它所在的市场具有主导地位。</span>
+        </div>
+        <div class="pillar T">
+          <span class="pillar-num T">03</span>
+          <span class="pillar-text"><strong>从小到大的扩张路径</strong>——伟大的公司先占领一个具体的小市场形成垄断，再用这个垄断作为跳板向外扩张（亚马逊从书到AWS，SpaceX从发射到Starlink）。试图一开始就瞄准巨大市场的公司通常无法形成真正的垄断。</span>
+        </div>
+        <div class="pillar T">
+          <span class="pillar-num T">04</span>
+          <span class="pillar-text"><strong>创始人特质（Founder Effect）</strong>——伟大的公司往往由有异常思维的创始人建立，他们有能力长期维持对"重要但反直觉的真相"的信念。他会评估创始人的思维质量，而不只是业绩数字。</span>
+        </div>
+        <div class="pillar T">
+          <span class="pillar-num T">05</span>
+          <span class="pillar-text"><strong>反共识的入场时机</strong>——他只在"别人还不相信这个秘密"的阶段投资。一旦一个公司或赛道成为市场共识，即便公司本身仍然优秀，也不再符合他的投资逻辑——因为超额回报来自别人看不见的地方。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">他会立刻放弃的公司类型</div>
+      <div class="phil-body">在激烈竞争的市场里争夺份额的公司（"竞争者"而非"垄断者"）、商业模式是已有模式的渐进改良而非真正创造的公司、被所有分析师覆盖、所有人都谈论的"热门股"（缺乏反共识溢价）、以及核心护城河仅依赖监管合规而非真实技术或网络优势的公司。</div>
+    </div>
+  </div>
+
+  <!-- SCHMEHL -->
+  <div class="phil">
+    <div class="phil-badge S">动量 · 改善 · 过度反应</div>
+    <div class="phil-name S">Mark Schmehl</div>
+    <div class="phil-alias">马克·施梅尔 / Fidelity Global Innovators Fund</div>
+    <div class="phil-divider S"></div>
+
+    <div class="phil-q">"我不是在找便宜的股票，也不是在找完美的公司。我在找一件事：市场对正在发生的变化，是反应不足了还是过度了？这个错误定价就是我的利润。"</div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">思想根基</div>
+      <div class="phil-body">施梅尔的投资逻辑来自行为金融学和市场微观结构的深刻洞察：<strong>市场在短期内系统性地对"正在发生的变化"反应不足，对"已经发生的冲击"反应过度</strong>。他相信市场情绪会持续偏离基本面，而这种偏离创造了可捕捉的超额回报机会。他不试图预测宏观，不尝试"找到被低估的伟大公司"，而是专注于识别"市场正在犯错的那个时刻"，并在错误被纠正之前行动。</div>
+    </div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">核心评估支柱</div>
+      <div class="phil-pillars">
+        <div class="pillar S">
+          <span class="pillar-num S">01</span>
+          <span class="pillar-text"><strong>正面变化被低估</strong>——公司基本面正在发生的积极改变（收入加速、利润率扩张、新产品放量、市场拓展），是否还没有被市场充分定价？这是他最主要的买入信号。</span>
+        </div>
+        <div class="pillar S">
+          <span class="pillar-num S">02</span>
+          <span class="pillar-text"><strong>负面事件的过度反应</strong>——当市场因为一个一次性的、可以量化的负面事件（监管罚款、季度预期miss、叙事崩塌）对一家基本面健康的公司给予过度惩罚时，这是他最看重的"左尾买入"机会。</span>
+        </div>
+        <div class="pillar S">
+          <span class="pillar-num S">03</span>
+          <span class="pillar-text"><strong>催化剂的明确性</strong>——他需要一个明确的、时间可预期的催化剂来触发价格重估：季报超预期、指数纳入、大客户合同宣布、监管靴子落地。没有催化剂的"便宜"对他没有价值。</span>
+        </div>
+        <div class="pillar S">
+          <span class="pillar-num S">04</span>
+          <span class="pillar-text"><strong>动量的双向确认</strong>——他寻找"股价动量"和"基本面动量"同时正向对齐的机会；当两者背离时（股价下跌但基本面改善），这本身就是错误定价的信号，也是他的切入点。</span>
+        </div>
+        <div class="pillar S">
+          <span class="pillar-num S">05</span>
+          <span class="pillar-text"><strong>快速的卖出纪律</strong>——他的最大特点之一：一旦基本面出现恶化信号，立即卖出，不寻找理由辩护。他的超额回报来自准确的进场和纪律性的离场，而不是"长期持有伟大公司"。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-section">
+      <div class="phil-section-title">他会立刻放弃的公司类型</div>
+      <div class="phil-body">价格已经充分反映所有已知好消息的公司（正面变化已被定价）、没有可识别催化剂的"价值陷阱"、基本面出现结构性恶化迹象的公司（他会快速离场而非等待修复）、以及估值极度脱离任何基本面支撑、完全依赖叙事维持的公司（买入风险过高）。</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SECTION 2 -->
+<div class="section-head" style="padding-top:32px">
+  <div class="section-label">Part Two</div>
+  <div class="section-title">三个视角独立性的决策价值</div>
+</div>
+
+<div class="rule">如果三位投资者用的是同一套框架，他们的分歧就没有意义；正因为他们问的是根本不同的问题，他们的共识才具有格外高的可信度</div>
+
+<!-- CONTRAST TABLE -->
+<div class="contrast-section">
+  <div class="phil-section-title">三种框架的核心维度对比</div>
+  <table class="contrast-table">
+    <thead>
+      <tr>
+        <th class="dim">评估维度</th>
+        <th class="B">Buffett · 巴菲特</th>
+        <th class="T">Thiel · 蒂尔</th>
+        <th class="S">Schmehl · 施梅尔</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="dim">核心问题</td>
+        <td>十年后这家公司的竞争地位是否还在？</td>
+        <td>这家公司发现了什么别人不相信的秘密？</td>
+        <td>市场对正在发生的变化，定价正确吗？</td>
+      </tr>
+      <tr>
+        <td class="dim">时间维度</td>
+        <td>永久持有 · 十年以上</td>
+        <td>早期投入 · 垄断形成前</td>
+        <td>1–3年 · 催化剂驱动</td>
+      </tr>
+      <tr>
+        <td class="dim">护城河理解</td>
+        <td>行为惰性、转换成本、品牌、规模——可持久的竞争优势</td>
+        <td>垄断的四个来源：专有技术、网络效应、规模经济、品牌</td>
+        <td>护城河是次要的——只要正面变化仍在被低估就值得持有</td>
+      </tr>
+      <tr>
+        <td class="dim">估值态度</td>
+        <td>安全边际至上 · 拒绝为故事买单 · P/FCF是核心锚</td>
+        <td>不在乎短期估值 · 垄断价值可能是当前价格的10–100倍</td>
+        <td>估值是参考，不是决策依据 · 更看重基本面改善速度</td>
+      </tr>
+      <tr>
+        <td class="dim">对竞争的态度</td>
+        <td>竞争会侵蚀护城河 · 偏爱"无竞争"或"寡头"行业</td>
+        <td>"竞争是失败者的游戏" · 只投垄断者</td>
+        <td>竞争激烈的行业里更容易出现"市场过度反应"的机会</td>
+      </tr>
+      <tr>
+        <td class="dim">对AI的立场</td>
+        <td>AI是否会破坏现有护城河？若护城河依赖"人类技能"则有风险</td>
+        <td>AI创造了新的"零到一"垄断机会 · 关注算力和数据的新垄断者</td>
+        <td>AI叙事制造了大量"市场过度反应"机会 · 是他的猎场</td>
+      </tr>
+      <tr>
+        <td class="dim">对监管风险的立场</td>
+        <td>监管框架越稳定越好 · 商业模式若依赖监管套利则高度警惕</td>
+        <td>监管者也可以是垄断的来源（政府合同护城河）</td>
+        <td>监管事件常产生过度反应 · 一次性罚款 = 潜在买入机会</td>
+      </tr>
+      <tr>
+        <td class="dim">对创始人的态度</td>
+        <td>管理层资本配置纪律重于个人魅力 · 稳定胜于聪明</td>
+        <td>创始人特质是核心资产 · "异常思维者"才能发现秘密</td>
+        <td>管理层回购行动是最直接的内部人信心信号</td>
+      </tr>
+      <tr>
+        <td class="dim">卖出逻辑</td>
+        <td>若护城河开始侵蚀则卖出 · 或发现估值更合理的更好机会</td>
+        <td>若秘密已成为常识则卖出 · 或发现新的零到一机会</td>
+        <td>基本面一出现恶化迹象立即卖出 · 不留情、不辩护</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- INDEPENDENCE VALUE -->
+<div class="independence">
+  <div class="phil-section-title" style="margin-bottom:6px">三种独立视角如何提升决策质量</div>
+  <div class="ind-grid">
+
+    <div class="ind-block">
+      <div class="ind-block-title">① 识别"不同类型的好公司"</div>
+      <div class="ind-block-body">巴菲特高分（护城河深厚）+ Thiel 低分（没有新的秘密）= 这是一家<strong>成熟期的垄断者</strong>，适合长期持有但不太可能产生10倍回报。Thiel 高分 + 巴菲特低分 = 这是一家<strong>早期垄断建造者</strong>，高风险高潜力，需要承受持续亏损的波动。三人都高分 = 极稀有的情况，代表一家同时具备<strong>深厚护城河、真实秘密和基本面改善动量</strong>的公司（本系列中，WPM和Alphabet最接近这个描述）。</div>
+    </div>
+
+    <div class="ind-block">
+      <div class="ind-block-title">② 识别"风险的真实来源"</div>
+      <div class="ind-block-body">当三人对同一风险的判断截然不同时，这揭示了风险的本质。以富途控股的CSRC罚款为例：巴菲特担忧的是<strong>结构性的VIE风险</strong>（监管可以随时重新定义游戏规则）；Thiel 担忧的是<strong>秘密被强制关闭</strong>（监管套利窗口永久消失）；施梅尔看到的是<strong>一次性事件的过度反应</strong>（罚款已被计提，基本面未变）。三种解读都是真实的，但它们描述的是同一风险的不同层次。</div>
+    </div>
+
+    <div class="ind-block">
+      <div class="ind-block-title">③ 识别"共识的高可信度"</div>
+      <div class="ind-block-body">当三位使用完全不同框架的投资者，分别从护城河、秘密、动量三个维度得出了相同结论，这种<strong>三角验证</strong>的可信度远高于单一框架的分析。本系列中，WPM和Alphabet的高共识评分，意味着这两家公司从三个完全独立的分析维度都具有真实价值——这比单一分析师的目标价提升更具说服力。</div>
+    </div>
+
+    <div class="ind-block">
+      <div class="ind-block-title">④ 识别"估值工具的局限"</div>
+      <div class="ind-block-body">SpaceX的案例最能说明这一点：Morningstar用DCF得出$780B公允价值（约$100/股），但Thiel给出86分高度认可——<strong>这两个结论都是真实的，但它们回答的不是同一个问题</strong>。DCF回答的是"当前业务产生的现金流值多少钱"；Thiel的评分回答的是"这家公司正在建造的垄断的未来潜力有多真实"。三镜头框架帮助读者认识到，任何单一估值工具都只能看到公司价值的一个维度。</div>
+    </div>
+
+    <div class="ind-block">
+      <div class="ind-block-title">⑤ 识别"你自己的投资哲学"</div>
+      <div class="ind-block-body">三镜头框架的一个意外价值：它迫使读者思考自己更认同哪种世界观。<strong>你是相信护城河是持久的（巴菲特），还是相信垄断总会被下一个秘密颠覆（Thiel），还是相信市场总在犯错而你能比市场更快纠正（施梅尔）？</strong>没有标准答案，但你对这个问题的回答，决定了哪种视角的信号对你的决策最有参考价值。</div>
+    </div>
+
+    <div class="ind-block">
+      <div class="ind-block-title">⑥ 识别"不同持有周期的适配性"</div>
+      <div class="ind-block-body">三位投资者的时间维度根本不同：巴菲特的判断对应10年+的持有期；Thiel的判断对应"垄断形成前"的早期阶段，可能是5–15年；施梅尔的判断对应1–3年的催化剂驱动窗口。<strong>同一家公司，从不同持有期来看的风险收益比可能截然不同</strong>——施梅尔看到的是3个月的交易机会，巴菲特看到的是10年的护城河是否依然存在。</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SIGNAL MATRIX -->
+<div class="signal-section">
+  <div class="phil-section-title" style="margin-bottom:6px">典型场景信号矩阵 · 三人不同组合的含义</div>
+  <table class="contrast-table">
+    <thead>
+      <tr>
+        <th class="dim">场景</th>
+        <th class="B">Buffett</th>
+        <th class="T">Thiel</th>
+        <th class="S">Schmehl</th>
+        <th class="dim">含义</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="dim">全面共识</td>
+        <td>高分 ↑</td>
+        <td>高分 ↑</td>
+        <td>高分 ↑</td>
+        <td>护城河深厚 + 仍有真实秘密 + 基本面改善 · 极稀有 · 本系列中 WPM/Alphabet 最接近</td>
+      </tr>
+      <tr>
+        <td class="dim">成熟护城河</td>
+        <td>高分 ↑</td>
+        <td>中低分 ↓</td>
+        <td>中分 →</td>
+        <td>已建立的优质企业，无新的零到一叙事，但估值合理时值得长期持有 · 典型如Adobe</td>
+      </tr>
+      <tr>
+        <td class="dim">早期垄断建造</td>
+        <td>低分 ↓</td>
+        <td>高分 ↑</td>
+        <td>中高分 ↑</td>
+        <td>真实的秘密 + 执行风险高 · 高风险高潜力 · 适合风险偏好较高的投资者 · 典型如早期SpaceX</td>
+      </tr>
+      <tr>
+        <td class="dim">监管事件折价</td>
+        <td>低分 ↓</td>
+        <td>中分 →</td>
+        <td>高分 ↑</td>
+        <td>一次性冲击 + 基本面未变 · 施梅尔最典型的"过度反应"猎场 · 典型如富途控股CSRC事件</td>
+      </tr>
+      <tr>
+        <td class="dim">AI叙事折价</td>
+        <td>高分 ↑</td>
+        <td>低分 ↓</td>
+        <td>高分 ↑</td>
+        <td>护城河与AI无关 + 叙事驱动股价下跌 · 典型如Duolingo（行为惯性护城河）</td>
+      </tr>
+      <tr>
+        <td class="dim">IPO热门股</td>
+        <td>低分 ↓</td>
+        <td>高分 ↑</td>
+        <td>中分 →</td>
+        <td>真实的垄断潜力 + 估值脱离现实 · 等待价格回调至安全边际 · 典型如SpaceX当前估值</td>
+      </tr>
+      <tr>
+        <td class="dim">全面质疑</td>
+        <td>低分 ↓</td>
+        <td>低分 ↓</td>
+        <td>低分 ↓</td>
+        <td>护城河存疑 + 无真实秘密 + 基本面恶化 · 三人一致回避 · 本系列中 Bloom Energy 最接近</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- HOW TO READ -->
+<div class="how-to">
+  <div class="section-label" style="padding:0 0 4px">使用指南</div>
+  <div class="section-title" style="font-size:18px; margin-bottom:16px">如何阅读一份三镜头报告</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">先读"当前处境"和"核心判断题"</div>
+        <div class="step-body">这两个部分给出公司当前最关键的背景事实和三人共同关注的核心争议。在进入各自视角分析之前，先建立对公司处境的客观认知——避免因为先入为主的立场影响对具体论点的理解。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">读每位投资者的"判决"引言，感受分歧的直觉</div>
+        <div class="step-body">每个人物栏的引言用第一人称口吻表达该投资者对这家公司的核心直觉。这是三位投资者思维方式差异最直接的呈现——同一家公司，三个不同的"第一感觉"。注意它们在哪里彼此矛盾，这正是你最需要深入理解的地方。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">逐条对比各位投资者对同一议题的判断</div>
+        <div class="step-body">例如，三位投资者都会分析同一家公司的护城河——但他们对"护城河是否真实、是否持久"的判断可能截然不同。这种对同一议题的多视角呈现，是三镜头框架最核心的价值。试着问自己：<strong>他们分歧的根源是什么？是对同一事实的不同解读，还是对不同时间维度的判断，或是对"什么算护城河"的定义本身的分歧？</strong></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">用评分汇总看"共识程度"而非绝对分数</div>
+        <div class="step-body">评分的绝对值是为了呈现相对强度，共识程度才是关键信息。<strong>三人都高分 = 三角验证，高可信度</strong>；分歧大 = 这家公司的价值高度依赖你相信哪种世界观。评分不是买入卖出的信号，而是对"分析的确定性程度"的量化呈现。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <div class="step-title">读"综合叙事"理解分歧的深层根源</div>
+        <div class="step-body">报告底部的综合叙事部分，尝试解释三种分析之间的关系——它们为什么不同，各自看到了什么别人没有看到的东西，以及哪个视角的论点更接近你自己对这家公司的判断。这一部分是报告里最适合"慢读"的地方。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <div class="step-title">识别自己的"主镜头"并用其他两个镜头做压力测试</div>
+        <div class="step-body">随着阅读积累，你会发现自己天然地更认同某种投资哲学——这很正常。但请<strong>刻意用另外两个镜头来压力测试你的判断</strong>：你认同的那个视角给高分，但另外两个视角看到了什么风险你可能忽略了？这才是三镜头框架最实际的个人应用价值。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KEY QUESTION -->
+<div class="key-q">
+  <div class="kq-label">框架的根本前提</div>
+  <div class="kq-text">三镜头框架不承诺提供"正确答案"——它承诺的是<strong>更诚实地呈现分析的不确定性</strong>。一份单一视角的研究报告，给你一个结论；三镜头框架给你三个相互独立的诚实判断，以及它们之间分歧的明确来源。<br><br>
+  <strong>当三人共识时，结论的可信度得到三角验证；当三人分歧时，分歧本身告诉你这家公司的价值高度依赖你持有的世界观——而这是任何单一框架都无法告诉你的信息。</strong></div>
+</div>
+
+<!-- SERIES INDEX -->
+<div class="series">
+  <div class="phil-section-title" style="margin-bottom:6px">已完成报告 · 按共识评分排列</div>
+  <table class="series-table">
+    <thead>
+      <tr>
+        <th>公司</th>
+        <th>代码</th>
+        <th>Buffett</th>
+        <th>Thiel</th>
+        <th>Schmehl</th>
+        <th>共识</th>
+        <th>核心分歧特征</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="company">Alphabet</td>
+        <td class="ticker">GOOGL</td>
+        <td><span class="score-chip sc-b">88</span></td>
+        <td><span class="score-chip sc-t">74</span></td>
+        <td><span class="score-chip sc-s">72</span></td>
+        <td><span class="score-chip sc-x">78</span></td>
+        <td>动态强大的帝国垄断 · Berkshire已入股</td>
+      </tr>
+      <tr>
+        <td class="company">Wheaton Precious Metals</td>
+        <td class="ticker">WPM</td>
+        <td><span class="score-chip sc-b">85</span></td>
+        <td><span class="score-chip sc-t">68</span></td>
+        <td><span class="score-chip sc-s">77</span></td>
+        <td><span class="score-chip sc-x">77</span></td>
+        <td>静态完美 · 无颠覆风险 · 流媒体零到一</td>
+      </tr>
+      <tr>
+        <td class="company">Duolingo</td>
+        <td class="ticker">DUOL</td>
+        <td><span class="score-chip sc-b">72</span></td>
+        <td><span class="score-chip sc-t">44</span></td>
+        <td><span class="score-chip sc-s">81</span></td>
+        <td><span class="score-chip sc-x">66</span></td>
+        <td>行为惯性护城河 · AI威胁是叙事而非实质</td>
+      </tr>
+      <tr>
+        <td class="company">Netflix</td>
+        <td class="ticker">NFLX</td>
+        <td><span class="score-chip sc-b">69</span></td>
+        <td><span class="score-chip sc-t">38</span></td>
+        <td><span class="score-chip sc-s">76</span></td>
+        <td><span class="score-chip sc-x">61</span></td>
+        <td>规模是否等于护城河 · WBD落败叙事崩塌</td>
+      </tr>
+      <tr>
+        <td class="company">富途控股</td>
+        <td class="ticker">FUTU</td>
+        <td><span class="score-chip sc-b">41</span></td>
+        <td><span class="score-chip sc-t">62</span></td>
+        <td><span class="score-chip sc-s">74</span></td>
+        <td><span class="score-chip sc-x">59</span></td>
+        <td>监管一次性事件 vs VIE结构根本性顾虑</td>
+      </tr>
+      <tr>
+        <td class="company">Adobe</td>
+        <td class="ticker">ADBE</td>
+        <td><span class="score-chip sc-b">78</span></td>
+        <td><span class="score-chip sc-t">31</span></td>
+        <td><span class="score-chip sc-s">63</span></td>
+        <td><span class="score-chip sc-x">57</span></td>
+        <td>AI是否重构护城河本质 · P/FCF历史低点</td>
+      </tr>
+      <tr>
+        <td class="company">SpaceX</td>
+        <td class="ticker">SPCX</td>
+        <td><span class="score-chip sc-b">19</span></td>
+        <td><span class="score-chip sc-t">86</span></td>
+        <td><span class="score-chip sc-s">58</span></td>
+        <td><span class="score-chip sc-x">54</span></td>
+        <td>史上最纯粹零到一 vs 史上最贵IPO估值</td>
+      </tr>
+      <tr>
+        <td class="company">IREN Limited</td>
+        <td class="ticker">IREN</td>
+        <td><span class="score-chip sc-b">14</span></td>
+        <td><span class="score-chip sc-t">71</span></td>
+        <td><span class="score-chip sc-s">79</span></td>
+        <td><span class="score-chip sc-x">55</span></td>
+        <td>比特币现金流转AI基建 · 执行风险是核心</td>
+      </tr>
+      <tr>
+        <td class="company">Circle Internet Group</td>
+        <td class="ticker">CRCL</td>
+        <td><span class="score-chip sc-b">22</span></td>
+        <td><span class="score-chip sc-t">51</span></td>
+        <td><span class="score-chip sc-s">—</span></td>
+        <td><span class="score-chip sc-x">37</span></td>
+        <td>利差模式护城河 vs 数字美元基础设施叙事</td>
+      </tr>
+      <tr>
+        <td class="company">Bloom Energy</td>
+        <td class="ticker">BE</td>
+        <td><span class="score-chip sc-b">8</span></td>
+        <td><span class="score-chip sc-t">58</span></td>
+        <td><span class="score-chip sc-s">35</span></td>
+        <td><span class="score-chip sc-x">34</span></td>
+        <td>真实技术突破 vs 估值已充分甚至过度定价</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>No5fisher · Investment Research · 三镜头判决框架使用说明 · Buffett / Thiel / Schmehl</span>
+  <span>报告库：no5fisher.github.io/investment-research · 数据截至 2026年6月21日</span>
+</div>
+
+</body>
+</html>
