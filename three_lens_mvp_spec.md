@@ -417,7 +417,7 @@ export async function fetchCompanyData(ticker) {
 预计等待时间：2-5 分钟
 报告完成后将自动显示下载链接，并发送至您的邮箱。
 
-如等待超过 10 分钟请联系：support@yourdomain.com
+如等待超过 10 分钟请联系：support@multiple-lens.com
 ```
 
 - 每 5 秒轮询 `GET /api/status?job_id=xxx`
@@ -456,13 +456,13 @@ PAYJS_KEY=xxx
 
 # Resend（邮件）
 RESEND_API_KEY=re_xxx
-FROM_EMAIL=reports@yourdomain.com
+FROM_EMAIL=reports@multiple-lens.com
 
 # Finnhub（市场数据）
 FINNHUB_API_KEY=xxx
 
 # 应用
-NEXT_PUBLIC_APP_URL=https://yourdomain.com
+NEXT_PUBLIC_APP_URL=https://multiple-lens.com
 REPORT_LINK_EXPIRY_HOURS=72
 CACHE_TTL_DAYS=90
 ```
