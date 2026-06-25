@@ -1,565 +1,337 @@
-# 三镜头投资报告 · MVP 产品需求与技术规格
+# 三镜头投资报告 · MVP 最终规格
 
-**文档版本：** v1.0  
-**日期：** 2026-06-23  
+**版本：** v2.0 Final  
+**日期：** 2026-06-24  
 **执行对象：** Claude Code  
-**产品名称：** 三镜头判决 · 投资研究报告服务  
-**目标用户：** 海外华人投资者（主要），国内投资者（兼顾）
+**域名：** multiple-lens.com  
+**仓库：** No5fisher/investment-research  
+**定价货币：** CAD
 
 ---
 
-## 一、产品概述
+## 一、产品定位
 
-### 核心体验
-用户通过一个独立页面，完成付费 → 输入请求 → 接收报告的完整闭环。  
-系统接到请求后，优先返回缓存报告（按财报周期），否则实时生成，最终以 **PDF 下载链接**形式交付给用户。
-
-### 体验路径（一句话描述）
-> 用户扫码/点链接进入页面 → 选择付费套餐 → 输入公司名称 → 系统处理（实时或缓存）→ 收到 PDF 报告链接。
+面向海外华人投资者的专业投资研究报告服务。用户付费后提交公司名称，系统自动生成巴菲特 / 蒂尔 / 施梅尔三镜头分析报告，以 PDF 文件发送至注册邮箱。
 
 ---
 
-## 二、系统架构（路径 A 极简 MVP）
+## 二、功能范围（极简 MVP）
+
+### 包含功能
+- 用户注册 / 登录（Email）
+- 查看框架使用说明页
+- 选择套餐并通过 Stripe Payment Link 完成支付
+- 提交请求：公司名称（必填）+ 分析侧重（可选）
+- 系统自动生成报告并发送 PDF 至注册邮箱
+- 后台日志：查询记录、交付状态、扣款记录（不对用户展示）
+
+### 不包含功能（P1 后续迭代）
+- 报告在线展示
+- 用户报告历史页面
+- 状态实时轮询进度条
+- 微信支付
+- 管理后台界面
+- 月度订阅自动续费
+
+---
+
+## 三、技术架构
 
 ```
 用户浏览器
     │
     ▼
-静态落地页（Vercel 托管）
-    │  输入：公司名、联系方式（邮件/微信）
-    │  付费：Stripe / 微信支付（Payjs）验证
+Next.js 落地页（Vercel 托管 · multiple-lens.com）
+    │
+    ├── 支付：Stripe Payment Link（跳转 Stripe 托管结账页）
+    │         付款成功 → Stripe Webhook → 触发报告生成
+    │
     ▼
-Vercel Serverless Function（API Route）
+Vercel Serverless Functions
     │
-    ├── 查询缓存层（Upstash Redis）
-    │       命中：直接返回已有 PDF 的 CDN 链接
-    │       未命中：触发生成流程
+    ├── Redis（Upstash）— 缓存层，按财报季度缓存 PDF URL
     │
-    ├── 生成层（Anthropic API）
-    │       调用三镜头框架 Prompt
-    │       生成 HTML 报告内容
+    ├── 生成层（Anthropic API claude-sonnet-4-6）
+    │         注入 Finnhub 实时数据 + 三镜头 Prompt
+    │         temperature=0.3 保证质量一致性
     │
-    ├── PDF 转换（Puppeteer / html-pdf-node）
-    │       HTML → PDF
+    ├── PDF 转换（html-pdf-node）
     │
     ├── 存储层（Cloudflare R2）
-    │       存储 PDF 文件
-    │       返回带时效的签名下载链接（72小时有效）
+    │         上传 PDF，返回 72 小时有效签名链接
     │
-    └── 通知层（Resend 邮件）
-            发送包含 PDF 链接的邮件给用户
+    └── 邮件（Resend）
+              发送 PDF 链接至用户注册邮箱
 ```
 
 ### 技术栈
-| 层级 | 选择 | 说明 |
-|---|---|---|
-| 前端 / 托管 | Vercel | 零配置部署，免费额度够 MVP |
-| Serverless 函数 | Vercel Functions (Node.js) | 与前端同仓库 |
-| 缓存 | Upstash Redis | Serverless 友好，按请求计费 |
-| AI 生成 | Anthropic API (claude-sonnet-4-6) | 与当前报告生成能力一致 |
-| PDF 转换 | html-pdf-node（轻量）或 Puppeteer | 将 HTML 报告转为 PDF |
-| 文件存储 | Cloudflare R2 | 兼容 S3 API，无出流量费 |
-| 国际支付 | Stripe | 支持 CAD 定价，信用卡 |
-| 微信支付 | Payjs | 无需企业资质，扫码支付 |
-| 邮件 | Resend | 简洁 API，免费额度 3000封/月 |
-| 网页数据 | 搜索 API 或 Finnhub | 注入实时财务数据到 Prompt |
+| 层级 | 选择 |
+|---|---|
+| 前端 / 托管 | Next.js + Vercel |
+| 数据库（用户 / 日志） | Vercel Postgres 或 Supabase（免费层） |
+| 缓存 | Upstash Redis |
+| AI 生成 | Anthropic API (claude-sonnet-4-6) |
+| PDF 转换 | html-pdf-node |
+| 文件存储 | Cloudflare R2 |
+| 支付 | Stripe Payment Link |
+| 邮件 | Resend |
+| 市场数据 | Finnhub |
 
 ---
 
-## 三、文件结构
+## 四、文件结构
 
 ```
-project-root/
-├── package.json
+three-lens-reports/
 ├── .env.local                    # 所有密钥（不入 git）
-├── .env.example                  # 密钥示例（入 git）
-├── public/
-│   └── (静态资源)
+├── .env.example                  # 密钥模板（入 git）
+├── .gitignore                    # 包含 .env.local
+├── package.json
 ├── pages/
-│   ├── index.js                  # 落地页（付费 + 输入表单）
-│   ├── success.js                # 支付成功 + 状态轮询页
+│   ├── index.js                  # 落地页：说明 + 套餐 + 登录入口
+│   ├── login.js                  # 注册 / 登录页
+│   ├── dashboard.js              # 登录后：提交请求 + 消费记录
+│   ├── guide.js                  # 框架使用说明页（静态）
 │   └── api/
-│       ├── create-payment.js     # 创建 Stripe / Payjs 支付
-│       ├── webhook-stripe.js     # Stripe Webhook 回调
-│       ├── webhook-payjs.js      # Payjs 支付回调
-│       └── generate-report.js   # 核心：生成 / 缓存 / 返回报告
+│       ├── auth/
+│       │   ├── register.js       # 注册
+│       │   └── login.js          # 登录
+│       ├── webhook-stripe.js     # Stripe 支付回调 → 触发生成
+│       ├── generate-report.js    # 核心：生成 / 缓存 / 存储 / 发邮件
+│       └── status.js             # 查询生成状态（轮询用）
 ├── lib/
-│   ├── anthropic.js              # Claude API 调用 + Prompt 模板
-│   ├── cache.js                  # Upstash Redis 缓存逻辑
-│   ├── pdf.js                    # HTML → PDF 转换
-│   ├── storage.js                # Cloudflare R2 上传 / 签名链接
-│   ├── email.js                  # Resend 邮件发送
-│   └── validate-payment.js       # 支付验证工具函数
+│   ├── anthropic.js              # Claude API + Prompt 模板
+│   ├── cache.js                  # Redis 缓存逻辑
+│   ├── pdf.js                    # HTML → PDF
+│   ├── storage.js                # R2 上传 + 签名链接
+│   ├── email.js                  # Resend 发送
+│   ├── market-data.js            # Finnhub 数据获取
+│   └── db.js                     # 数据库操作（用户 / 日志）
 └── prompts/
-    └── three-lens-framework.js   # 完整的三镜头 Prompt 模板（见第五节）
+    └── three-lens-framework.js   # 三镜头 Prompt 模板
 ```
 
 ---
 
-## 四、核心业务逻辑
+## 五、支付流程（Payment Link 模式）
 
-### 4.1 缓存策略（关键设计）
+```
+1. 用户在 dashboard.js 选择套餐
+   - 单份报告 → 跳转 STRIPE_PLINK_SINGLE
+   - 10份套餐 → 跳转 STRIPE_PLINK_10PACK
 
-**缓存键规则：**
-```
-cache_key = `report:${ticker}:${fiscal_quarter}`
-例如：report:AAPL:2026Q2
-```
+2. Stripe 托管结账页完成支付
 
-**财报季度判断逻辑：**
-```javascript
-function getFiscalQuarter(date = new Date()) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const quarter = Math.ceil(month / 3);
-  return `${year}Q${quarter}`;
-}
-```
+3. Stripe 向 /api/webhook-stripe 发送 checkout.session.completed 事件
 
-**缓存流程：**
-```
-接收请求（ticker）
-    │
-    ▼
-生成 cache_key = `report:${ticker}:${getFiscalQuarter()}`
-    │
-    ├── Redis GET(cache_key)
-    │       命中 → 返回 { pdf_url, generated_at, expires_at }
-    │       未命中 → 进入生成流程
-    │
-    ▼（未命中）
-调用 Claude API 生成报告 HTML
-    │
-    ▼
-HTML → PDF 转换
-    │
-    ▼
-上传 PDF 到 Cloudflare R2
-    │
-    ▼
-Redis SET(cache_key, { pdf_url, ... }, EX: 90天)
-    │
-    ▼
-返回 pdf_url 给用户
+4. webhook-stripe.js 处理：
+   a. 验证 Stripe 签名（STRIPE_WEBHOOK_SECRET）
+   b. 从 metadata 取出 user_id + company + ticker
+   c. 扣减用户配额（写数据库）
+   d. 调用 generate-report.js 异步生成报告
+   e. 返回 200 给 Stripe
+
+5. 生成完成后发送邮件至用户注册邮箱
 ```
 
-**缓存过期机制：**
-- TTL 设为 **90天**（覆盖一个完整财报周期）
-- 用户请求时若距上次生成 > 30天且有重大新闻，可触发强制刷新（后期功能）
-
-### 4.2 支付验证流程
-
-**Stripe（国际用户）：**
-```
-前端 → create-payment API（创建 PaymentIntent）
-→ 前端用 Stripe.js 完成支付
-→ Stripe Webhook 回调 webhook-stripe.js
-→ 验证签名 → 标记支付成功 → 触发报告生成
-→ 邮件发送 PDF 链接
-```
-
-**Payjs（微信支付）：**
-```
-前端 → create-payment API（获取 Payjs 二维码）
-→ 用户微信扫码支付
-→ Payjs 回调 webhook-payjs.js
-→ 验证签名 → 标记支付成功 → 触发报告生成
-→ 邮件发送 PDF 链接
-```
-
-### 4.3 报告生成 API（核心接口）
-
-**接口：** `POST /api/generate-report`
-
-**请求体：**
-```json
-{
-  "company": "Alphabet",
-  "ticker": "GOOGL",
-  "payment_id": "pi_xxx",
-  "email": "user@example.com",
-  "lang": "zh"
-}
-```
-
-**处理流程：**
-1. 验证 payment_id 已成功支付（查 Redis 支付状态表）
-2. 检查缓存：`report:GOOGL:2026Q2`
-3. **命中缓存**：直接取 PDF URL，发送邮件，返回链接
-4. **未命中缓存**：
-   a. 调用 Finnhub / 搜索 API 获取公司最新数据
-   b. 将数据注入 Prompt（见第五节）
-   c. 调用 Claude API 生成报告 HTML
-   d. HTML → PDF（html-pdf-node）
-   e. 上传 PDF 到 R2，获取签名链接
-   f. 写入 Redis 缓存
-   g. 发送邮件
-   h. 返回 PDF 链接
-5. **响应超时处理**：生成可能需要 60-120秒，采用异步模式：
-   - 立即返回 `{ status: "processing", job_id: "xxx" }`
-   - 前端轮询 `GET /api/status?job_id=xxx`
-   - 完成后前端展示下载链接
+**Payment Link 配置要求（在 Stripe Dashboard 设置）：**
+- 在每个 Payment Link 的 "After payment" 设置中填写：
+  `https://multiple-lens.com/dashboard?payment=success`
+- 在 Metadata 中传入 `user_id` 和 `company`（通过 URL 参数 `?prefilled_email=` 和自定义 metadata）
 
 ---
 
-## 五、三镜头 Prompt 模板规格
-
-### 5.1 Prompt 结构
-
-文件路径：`prompts/three-lens-framework.js`
+## 六、缓存策略
 
 ```javascript
-// prompts/three-lens-framework.js
+// 缓存键：公司代码 + 财报季度
+const cache_key = `report:${ticker}:${getFiscalQuarter()}`
+// 例：report:GOOGL:2026Q2
 
-export function buildThreeLensPrompt(companyData) {
-  const { 
-    companyName,      // 公司名称（中英文）
-    ticker,           // 股票代码
-    exchange,         // 交易所
-    currentPrice,     // 当前股价
-    marketCap,        // 市值
-    revenue,          // 最新年度收入
-    revenueGrowth,    // 收入增长率
-    netIncome,        // 净利润
-    freeCashFlow,     // 自由现金流
-    pe,               // 市盈率
-    recentNews,       // 最近重要新闻摘要（3-5条）
-    sector,           // 行业
-    reportDate,       // 报告日期
-    fiscalQuarter,    // 财报季度
-  } = companyData;
-
-  return `你是一个投资研究分析师，需要以三位不同的投资大师视角对同一家公司进行深度分析。
-
-## 公司基础数据
-- 公司：${companyName}（${ticker} · ${exchange}）
-- 当前股价：${currentPrice}
-- 市值：${marketCap}
-- 最新财年收入：${revenue}（YoY ${revenueGrowth}）
-- 净利润：${netIncome}
-- 自由现金流：${freeCashFlow}
-- P/E：${pe}
-- 行业：${sector}
-- 最新重要事件：
-${recentNews.map((n, i) => `  ${i+1}. ${n}`).join('\n')}
-
-## 分析框架说明
-
-请严格按照以下三个投资者的独立哲学框架，对上述公司进行分析。**每个视角必须完全独立，不得相互影响。**
-
-### 视角一：Warren Buffett（巴菲特）
-核心问题：十年后这家公司的护城河是否还在？
-分析维度：
-- 护城河的性质与持久性（品牌、转换成本、网络效应、规模经济、成本优势）
-- 定价权验证
-- 自由现金流的可预期性
-- 管理层资本配置纪律
-- 当前估值的安全边际
-- 判决：[明确买入/观望/回避] + 一句话理由
-
-### 视角二：Peter Thiel（蒂尔）
-核心问题：这家公司建立在什么别人还不相信的秘密之上？
-分析维度：
-- 原始秘密是否仍然有效（是否已成为常识）
-- 垄断特征（专有技术10×、网络效应、规模经济、品牌）
-- 从小市场到大市场的扩张路径
-- 创始人特质
-- 是否有新的零到一潜力
-- 判决：[积极/中性/消极] + 一句话理由
-
-### 视角三：Mark Schmehl（施梅尔）
-核心问题：市场对这家公司正在发生的变化，定价正确吗？
-分析维度：
-- 正在发生的核心正面变化及市场定价程度
-- 是否存在负面事件过度反应的机会
-- 明确催化剂的识别
-- 股价动量与基本面动量的对齐程度
-- 卖出触发条件
-- 判决：[强烈关注/观望/已充分定价] + 一句话理由
-
-## 输出格式要求
-
-请输出完整的 HTML 报告，严格遵循以下格式规范：
-
-1. 使用指定的 CSS 设计系统（见下方 CSS 变量）
-2. 报告结构：公司概述 → 数据条 → 当前处境（三个情境块）→ 分节分隔线 → 三栏人物分析 → 评分汇总 → 核心判断题 → 综合叙事 → 页脚
-3. 每位投资者的分析包含：人物标题 → 核心问题 → 判决框 → 6个标准分析条目（每条含评级徽章）
-4. 评分：每位投资者给出 0-100 分，三人共识取平均分
-5. 语言：中文为主，专业术语保留英文
-6. 务必提供深度、独立、有实质内容的分析，每个分析条目不少于100字
-
-## CSS 设计系统（必须完整嵌入报告）
-
-\`\`\`css
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
-
-:root {
-  --ink: #1a1a1a; --ink-2: #3d3d3d; --ink-3: #7a7a7a; --ink-4: #b8b8b8;
-  --paper: #f7f4ef; --paper-2: #eeebe4; --rule: #d8d4cc;
-  --buffett: #1d4e2f; --buffett-l: #e8f2ec;
-  --thiel: #2b1f4e; --thiel-l: #ece9f5;
-  --schmehl: #7a2020; --schmehl-l: #f5eaea;
-  --gold: #b8972a; --gold-l: #fdf6e3;
-  --serif: 'Libre Baskerville', Georgia, serif;
-  --mono: 'DM Mono', monospace;
-  --sans: 'Inter', system-ui, sans-serif;
-}
-\`\`\`
-
-报告页脚需包含：公司名称 · 股票代码 · 三镜头投资判决框架 · 生成日期 ${reportDate} · ${fiscalQuarter}版本
-
-请立即开始生成完整的 HTML 报告。`;
-}
-```
-
-### 5.2 数据注入层
-
-文件路径：`lib/market-data.js`
-
-```javascript
-// lib/market-data.js
-// 从 Finnhub 或 Alpha Vantage 获取公司基础财务数据
-// 并结合搜索 API 获取最近重要新闻
-
-export async function fetchCompanyData(ticker) {
-  // 1. 基础财务数据（Finnhub 免费 API）
-  const profile = await fetch(
-    `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`
-  ).then(r => r.json());
-
-  const quote = await fetch(
-    `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`
-  ).then(r => r.json());
-
-  const financials = await fetch(
-    `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${process.env.FINNHUB_API_KEY}`
-  ).then(r => r.json());
-
-  // 2. 最近新闻（Finnhub News API）
-  const news = await fetch(
-    `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${thirtyDaysAgo()}&to=${today()}&token=${process.env.FINNHUB_API_KEY}`
-  ).then(r => r.json());
-
-  const topNews = news.slice(0, 5).map(n => n.headline);
-
-  return {
-    companyName: profile.name,
-    ticker,
-    exchange: profile.exchange,
-    currentPrice: `$${quote.c}`,
-    marketCap: formatMarketCap(profile.marketCapitalization),
-    revenue: formatRevenue(financials.metric?.revenuePerShareTTM),
-    revenueGrowth: `${financials.metric?.revenueGrowthTTMYoy?.toFixed(1)}%`,
-    netIncome: formatRevenue(financials.metric?.netProfitMarginTTM),
-    freeCashFlow: formatRevenue(financials.metric?.freeCashFlowTTM),
-    pe: financials.metric?.peBasicExclExtraTTM?.toFixed(1) || 'N/A',
-    sector: profile.finnhubIndustry,
-    recentNews: topNews,
-    reportDate: new Date().toLocaleDateString('zh-CN'),
-    fiscalQuarter: getFiscalQuarter(),
-  };
-}
+// TTL：90天（覆盖一个完整财报周期）
+// 同一公司同一季度内，所有用户共享同一份 PDF
+// 季度切换后第一个请求触发重新生成
 ```
 
 ---
 
-## 六、落地页规格（pages/index.js）
+## 七、Prompt 规格
 
-### 页面内容结构（中文）
+文件：`prompts/three-lens-framework.js`
 
-```
-┌─────────────────────────────────────────────┐
-│  三镜头投资判决                              │
-│  专业级公司深度研究报告                      │
-│  以巴菲特 · 蒂尔 · 施梅尔三种视角独立评判    │
-├─────────────────────────────────────────────┤
-│  [体验版报告示例]  → 链接到 GitHub Pages     │
-├─────────────────────────────────────────────┤
-│  选择套餐                                   │
-│  ┌──────────┐  ┌──────────┐               │
-│  │单份报告  │  │包月不限  │               │
-│  │ CA$18    │  │ CA$198   │               │
-│  │Stripe/微信│  │/月       │               │
-│  └──────────┘  └──────────┘               │
-├─────────────────────────────────────────────┤
-│  支付方式选择                               │
-│  [信用卡（Stripe）] [微信支付（扫码）]       │
-├─────────────────────────────────────────────┤
-│  输入公司请求                               │
-│  公司名称或股票代码：[_______________]       │
-│  您的邮箱（接收报告）：[_______________]     │
-│  备注（可选）：[_______________]             │
-│  [提交请求]                                 │
-├─────────────────────────────────────────────┤
-│  📌 报告将在 2-5 分钟内发送到您的邮箱        │
-│  📌 同一公司季度内重复请求直接返回缓存版本    │
-│  📌 报告有效期：PDF 链接 72 小时有效         │
-└─────────────────────────────────────────────┘
-```
+**关键参数：**
+- Model: `claude-sonnet-4-6`
+- Temperature: `0.3`（降低随机性，保证质量一致性）
+- Max tokens: `8000`
 
-### 关键 UI 说明
-- 移动端优先，支持微信内置浏览器
-- 支付按钮根据选择切换 Stripe 或 Payjs 二维码弹窗
-- 表单提交后立即跳转 success.js 页面，显示进度轮询
-- 语言：中文为主，CAD 定价
+**数据注入（来自 Finnhub）：**
+- 公司基础信息（名称、交易所、行业）
+- 当前股价、市值
+- 最新财年收入及增速、净利润、自由现金流
+- P/E 比率
+- 最近5条重要新闻标题
+
+**输出格式：**
+- 完整 HTML 报告
+- 内嵌 Adobe 设计系统 CSS（Libre Baskerville + DM Mono + Inter）
+- 三栏布局：Buffett（绿 #1d4e2f）/ Thiel（紫 #2b1f4e）/ Schmehl（红 #7a2020）
+- 每位投资者6个分析条目 + 评分（0-100）
+- 报告结构：masthead → 数据条 → 情境三栏 → 分隔线 → 三栏分析 → 评分带 → 核心问题 → 综合叙事 → 页脚
 
 ---
 
-## 七、状态追踪页（pages/success.js）
+## 八、页面规格
 
-```
-付款确认 ✓
-─────────────────────────────
-正在为您生成《${companyName}》三镜头投资报告...
+### index.js（落地页，未登录可见）
+- 产品标题 + 一句话描述
+- 三位投资者简介
+- 套餐卡片：单份 CA$18 / 10份套餐 CA$148（原价CA$180，打折）
+- 体验报告示例链接 → no5fisher.github.io/investment-research
+- 登录 / 注册按钮
+- 语言：中文为主
 
-[░░░░░░░░░░░░░░░░░░░░] 处理中...
+### login.js（注册 / 登录）
+- Email + 密码
+- 发送验证邮件（Resend）
+- 登录成功跳转 dashboard.js
 
-预计等待时间：2-5 分钟
-报告完成后将自动显示下载链接，并发送至您的邮箱。
+### dashboard.js（登录后核心页面）
+- 显示账户余额（剩余报告份数）
+- 提交请求表单：
+  - 公司名称或股票代码（必填）
+  - 分析侧重（可选：默认三镜头 / 偏巴菲特 / 偏蒂尔 / 偏施梅尔）
+  - 提交邮箱确认（默认用注册邮箱）
+- 提交后显示："已收到请求，报告将在 5-10 分钟内发送至 [email]"
+- 历史记录列表：日期 / 公司名 / 状态（生成中 / 已发送）
 
-如等待超过 10 分钟请联系：support@multiple-lens.com
-```
-
-- 每 5 秒轮询 `GET /api/status?job_id=xxx`
-- 完成后自动展示：**[立即下载 PDF]** 按钮
-- 同时提示：邮件已发送，链接 72 小时有效
+### guide.js（使用说明，静态页面）
+- 直接嵌入 framework_guide.html 的内容
+- 或链接跳转到 GitHub Pages 版本
 
 ---
 
-## 八、环境变量清单
+## 九、数据库表设计（最小化）
 
-文件：`.env.example`
+```sql
+-- 用户表
+CREATE TABLE users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  credits INTEGER DEFAULT 0,      -- 剩余报告份数
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 查询日志
+CREATE TABLE report_requests (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id),
+  company TEXT NOT NULL,
+  ticker TEXT,
+  status TEXT DEFAULT 'pending',  -- pending / generating / sent / failed
+  cache_hit BOOLEAN DEFAULT FALSE,
+  pdf_url TEXT,
+  email_sent_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 支付记录
+CREATE TABLE payments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id),
+  stripe_session_id TEXT UNIQUE,
+  amount_cad DECIMAL(10,2),
+  credits_added INTEGER,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+---
+
+## 十、环境变量（完整）
+
+参见项目根目录 `.env.local`（不入 git）。
+
+主要变量：
+```
+ANTHROPIC_API_KEY         # Claude API
+FINNHUB_API_KEY           # 市场数据
+UPSTASH_REDIS_REST_URL    # Redis
+UPSTASH_REDIS_REST_TOKEN  # Redis
+RESEND_API_KEY            # 邮件
+FROM_EMAIL                # reports@multiple-lens.com
+R2_ENDPOINT               # Cloudflare R2
+R2_BUCKET_NAME            # multiple-lens-report
+R2_ACCESS_KEY_ID          # R2 访问密钥
+R2_SECRET_ACCESS_KEY      # R2 密钥
+STRIPE_PUBLISHABLE_KEY    # Stripe 前端
+STRIPE_SECRET_KEY         # Stripe 后端
+STRIPE_PLINK_SINGLE       # 单份支付链接
+STRIPE_PLINK_10PACK       # 10份套餐支付链接
+STRIPE_WEBHOOK_SECRET     # 部署后补充
+NEXT_PUBLIC_APP_URL       # https://multiple-lens.com
+REPORT_LINK_EXPIRY_HOURS  # 72
+CACHE_TTL_DAYS            # 90
+```
+
+---
+
+## 十一、Claude Code 执行顺序
 
 ```bash
-# Anthropic
-ANTHROPIC_API_KEY=sk-ant-xxx
+# Step 1：初始化项目
+npx create-next-app@latest three-lens-reports --js --tailwind --no-app
+cd three-lens-reports
+npm install @anthropic-ai/sdk @upstash/redis @aws-sdk/client-s3 \
+  html-pdf-node resend stripe finnhub-js bcryptjs jsonwebtoken \
+  @vercel/postgres
 
-# Upstash Redis
-UPSTASH_REDIS_REST_URL=https://xxx.upstash.io
-UPSTASH_REDIS_REST_TOKEN=xxx
+# Step 2：复制 .env.local 到项目根目录
 
-# Cloudflare R2
-CLOUDFLARE_ACCOUNT_ID=xxx
-R2_ACCESS_KEY_ID=xxx
-R2_SECRET_ACCESS_KEY=xxx
-R2_BUCKET_NAME=three-lens-reports
+# Step 3：实现顺序（由内向外）
+# 3a. lib/market-data.js     — Finnhub 数据获取
+# 3b. prompts/three-lens-framework.js — Prompt 模板
+# 3c. lib/anthropic.js       — Claude 调用
+# 3d. lib/cache.js           — Redis 缓存
+# 3e. lib/pdf.js             — HTML → PDF
+# 3f. lib/storage.js         — R2 上传
+# 3g. lib/email.js           — Resend 发送
+# 3h. lib/db.js              — 数据库操作
+# 3i. pages/api/generate-report.js — 串联所有 lib
+# 3j. pages/api/webhook-stripe.js  — 支付回调
+# 3k. pages/api/auth/         — 注册登录
+# 3l. pages/index.js          — 落地页
+# 3m. pages/login.js          — 登录页
+# 3n. pages/dashboard.js      — 用户主页
 
-# Stripe
-STRIPE_SECRET_KEY=sk_live_xxx
-STRIPE_WEBHOOK_SECRET=whsec_xxx
-STRIPE_PRICE_SINGLE=price_xxx    # CA$18 单份
-STRIPE_PRICE_MONTHLY=price_xxx   # CA$198 包月
+# Step 4：本地测试顺序
+# 4a. 用 mock 数据测试 generate-report.js（跳过支付）
+# 4b. 确认 PDF 输出质量
+# 4c. 测试 Redis 缓存命中逻辑
+# 4d. 测试 Stripe Webhook（用 stripe listen 本地转发）
+# 4e. 端到端测试完整流程
 
-# Payjs（微信支付）
-PAYJS_MCHID=xxx
-PAYJS_KEY=xxx
-
-# Resend（邮件）
-RESEND_API_KEY=re_xxx
-FROM_EMAIL=reports@multiple-lens.com
-
-# Finnhub（市场数据）
-FINNHUB_API_KEY=xxx
-
-# 应用
-NEXT_PUBLIC_APP_URL=https://multiple-lens.com
-REPORT_LINK_EXPIRY_HOURS=72
-CACHE_TTL_DAYS=90
+# Step 5：部署
+vercel --prod
+# 在 Vercel Dashboard 设置所有环境变量
+# 在 Stripe Dashboard 配置 Webhook → 获取 STRIPE_WEBHOOK_SECRET
+# 在 Resend 验证 multiple-lens.com 域名
+# 在 Cloudflare 将 DNS 指向 Vercel
 ```
 
 ---
 
-## 九、定价策略
+## 十二、上线检查清单
 
-| 套餐 | 价格 | 说明 |
-|---|---|---|
-| 单份报告 | CA$18 | 一次付费，一份报告，PDF 链接 72小时有效 |
-| 月度订阅 | CA$198/月 | 不限份数，同季度缓存版本即时返回 |
-
-**体验版（免费）：** GitHub Pages 上保留 3-5 份示例报告 + 框架说明，作为产品入口。
-
----
-
-## 十、MVP 范围界定
-
-### 必须实现（P0）
-- [ ] 落地页（移动端适配）
-- [ ] Stripe 支付（信用卡）
-- [ ] Payjs 支付（微信扫码）
-- [ ] 核心生成 API（Claude + Prompt）
-- [ ] Upstash Redis 缓存（按季度）
-- [ ] HTML → PDF 转换
-- [ ] Cloudflare R2 存储
-- [ ] 邮件发送（PDF 链接）
-- [ ] 状态轮询页
-
-### 暂不实现（P1，后续迭代）
-- 用户账号系统
-- 报告历史记录
-- 微信通知推送
-- 报告强制刷新（重大新闻触发）
-- 管理员后台
-- 月度订阅自动续费（Stripe Billing）
+- [ ] 本地端到端测试通过
+- [ ] Vercel 部署成功，域名绑定
+- [ ] Stripe Webhook 配置，STRIPE_WEBHOOK_SECRET 已填入 Vercel
+- [ ] Resend 域名验证完成，测试邮件正常收到
+- [ ] R2 Bucket 权限确认（可写入，签名链接有效）
+- [ ] Redis 缓存逻辑测试（同一公司第二次请求命中缓存）
+- [ ] GitHub Pages 体验版链接放入落地页
+- [ ] 生产环境 Stripe 收款测试（小额真实支付）
 
 ---
 
-## 十一、Claude Code 执行指令
-
-按以下顺序执行：
-
-1. **初始化项目**
-   ```bash
-   npx create-next-app@latest three-lens-reports --js --tailwind --no-app
-   cd three-lens-reports
-   npm install @anthropic-ai/sdk @upstash/redis @aws-sdk/client-s3 \
-     html-pdf-node resend stripe finnhub-js
-   ```
-
-2. **创建目录结构**（按第三节文件结构）
-
-3. **实现优先级**
-   - 先实现 `lib/anthropic.js`（核心生成逻辑，含完整 Prompt）
-   - 再实现 `lib/cache.js`（Redis 缓存）
-   - 再实现 `lib/pdf.js`（HTML → PDF）
-   - 再实现 `lib/storage.js`（R2 上传）
-   - 再实现 `lib/email.js`（Resend）
-   - 再实现 `pages/api/generate-report.js`（主接口，串联所有 lib）
-   - 再实现 `pages/api/create-payment.js` 和两个 Webhook
-   - 最后实现 `pages/index.js` 和 `pages/success.js`
-
-4. **测试顺序**
-   - 先用 mock 数据测试 `generate-report.js`（跳过支付验证）
-   - 确认 PDF 生成质量与 HTML 版本一致
-   - 再集成 Stripe 测试支付（test mode）
-   - 再集成 Payjs（沙盒模式）
-   - 最后端到端测试完整流程
-
-5. **部署**
-   ```bash
-   vercel --prod
-   ```
-   - 在 Vercel Dashboard 设置所有环境变量
-   - 在 Stripe Dashboard 配置 Webhook（指向 `/api/webhook-stripe`）
-   - 在 Payjs 配置回调 URL（指向 `/api/webhook-payjs`）
-
----
-
-## 十二、质量保证机制
-
-### Prompt 一致性
-- Prompt 模板固化在 `prompts/three-lens-framework.js`，版本控制管理
-- 三位投资者的框架描述文字从本项目现有报告中提炼，已经过10份报告的实际验证
-- 温度参数（temperature）设为 **0.3**（降低随机性，提高一致性）
-
-### 缓存一致性
-- 同一公司同一季度，所有用户获取同一份 PDF
-- 季度更新自动触发（新财报发布后第一个请求触发重新生成）
-
-### PDF 质量
-- PDF 使用与 GitHub Pages 版本完全一致的 CSS 设计系统
-- 字体通过 Google Fonts URL 嵌入（html-pdf-node 支持在线字体加载）
-- A4 纸张，打印友好
-
----
-
-*本文档由 Claude 生成，供 Claude Code 执行使用。如有任何歧义，以本文档为准，不依赖对话上下文。*
+*本文档为最终执行版，供 Claude Code 直接使用。凭证详情见 .env.local。*
