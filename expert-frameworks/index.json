@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "updated": "2026-06-25",
+  "description": "三镜头投资判决框架 · 专家库索引",
+  "frameworks": [
+    {
+      "id": "three-lens",
+      "name": "三镜头判决框架",
+      "type": "investment-analysis",
+      "experts": ["buffett", "thiel", "schmehl"],
+      "files": [
+        "three-lens/buffett.md",
+        "three-lens/thiel.md",
+        "three-lens/schmehl.md",
+        "three-lens/output-spec.md"
+      ],
+      "validated_companies": [
+        "GOOGL", "WPM", "DUOL", "NFLX", "ADBE",
+        "BE", "IREN", "FUTU", "SPCX", "PLTR", "CRCL"
+      ],
+      "usage": "生成三镜头投资判决报告，三个框架文件全部注入 Prompt"
+    },
+    {
+      "id": "company-analysis",
+      "name": "上市公司深度分析框架",
+      "type": "fundamental-analysis",
+      "files": [
+        "company-analysis/SKILL.md",
+        "company-analysis/references/tech-framework.md",
+        "company-analysis/references/traditional-enterprise.md",
+        "company-analysis/references/financial-checklist.md"
+      ],
+      "usage": "深度基本面分析，科技企业加载 tech-framework.md，传统企业加载 traditional-enterprise.md"
+    }
+  ],
+  "loading_instruction": "应用程序调用时，根据报告类型读取对应框架的所有文件，全部拼接后注入 Prompt。不得只读取部分文件或做任何摘要处理。"
+}
