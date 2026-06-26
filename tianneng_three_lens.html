@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天能动力 00819 · 三镜头判决</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink:      #1a1a1a;
+  --ink-2:    #3d3d3d;
+  --ink-3:    #7a7a7a;
+  --ink-4:    #b8b8b8;
+  --paper:    #f7f4ef;
+  --paper-2:  #eeebe4;
+  --rule:     #d8d4cc;
+  --buffett:  #1d4e2f;
+  --buffett-l:#e8f2ec;
+  --thiel:    #2b1f4e;
+  --thiel-l:  #ece9f5;
+  --schmehl:  #7a2020;
+  --schmehl-l:#f5eaea;
+  --gold:     #b8972a;
+  --gold-l:   #fdf6e3;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --mono:  'DM Mono', monospace;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 13.5px; line-height: 1.65; }
+
+.masthead { border-bottom: 2px solid var(--ink); padding: 28px 36px 20px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: end; }
+.eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.company-name { font-family: var(--serif); font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+.company-sub { font-family: var(--sans); font-size: 12px; color: var(--ink-3); margin-top: 6px; font-style: italic; }
+.price-cluster { text-align: right; }
+.price-main { font-family: var(--mono); font-size: 30px; font-weight: 500; letter-spacing: -0.02em; line-height: 1; }
+.price-sub { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+.price-up { color: var(--buffett); }
+.price-stat { display: inline-block; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 2px; font-family: var(--mono); font-size: 10px; padding: 2px 7px; margin-left: 6px; }
+
+.facts-strip { display: flex; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+.fact { flex: 1; min-width: 110px; padding: 12px 18px; border-right: 1px solid var(--rule); }
+.fact:last-child { border-right: none; }
+.fact-label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.fact-value { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--ink); }
+.fact-note { font-size: 10px; color: var(--ink-3); margin-top: 1px; }
+.fact-note-up { font-size: 10px; color: var(--buffett); margin-top: 1px; }
+.fact-note-dn { font-size: 10px; color: var(--schmehl); margin-top: 1px; }
+
+.situation-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); }
+.sit-block { padding: 14px 20px; border-right: 1px solid var(--rule); }
+.sit-block:last-child { border-right: none; }
+.sit-label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 7px; }
+.sit-body { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+.sit-body strong { color: var(--ink); }
+
+.section-rule { font-family: var(--serif); font-size: 12px; font-style: italic; color: var(--ink-3); text-align: center; padding: 10px 36px; border-bottom: 1px solid var(--rule); border-top: 1px solid var(--rule); background: var(--paper-2); }
+
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid var(--rule); }
+.persona-col { padding: 24px 28px; border-right: 1px solid var(--rule); }
+.persona-col:last-child { border-right: none; }
+
+.persona-header { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid; }
+.persona-header.buffett { border-color: var(--buffett); }
+.persona-header.thiel   { border-color: var(--thiel); }
+.persona-header.schmehl { border-color: var(--schmehl); }
+
+.persona-name { font-family: var(--serif); font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+.persona-name.buffett { color: var(--buffett); }
+.persona-name.thiel   { color: var(--thiel); }
+.persona-name.schmehl { color: var(--schmehl); }
+.persona-tag { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-3); }
+
+.verdict-box { border-left: 3px solid; padding: 10px 14px; margin-bottom: 18px; border-radius: 0 2px 2px 0; }
+.verdict-box.buffett { border-color: var(--buffett); background: var(--buffett-l); }
+.verdict-box.thiel   { border-color: var(--thiel);   background: var(--thiel-l); }
+.verdict-box.schmehl { border-color: var(--schmehl); background: var(--schmehl-l); }
+
+.verdict-stance { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 5px; }
+.verdict-stance.buffett { color: var(--buffett); }
+.verdict-stance.thiel   { color: var(--thiel); }
+.verdict-stance.schmehl { color: var(--schmehl); }
+.verdict-text { font-size: 12px; color: var(--ink-2); line-height: 1.5; font-style: italic; }
+
+.criterion { padding: 8px 0; border-bottom: 1px solid var(--rule); }
+.criterion:last-child { border-bottom: none; }
+.crit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.crit-name { font-size: 11.5px; font-weight: 600; color: var(--ink); }
+.crit-score { font-family: var(--mono); font-size: 10px; padding: 1px 8px; border-radius: 10px; white-space: nowrap; }
+.score-strong  { background:#d4edda; color:#155724; }
+.score-yes     { background:#d1ecf1; color:#0c5460; }
+.score-partial { background:#fff3cd; color:#856404; }
+.score-concern { background:#f8d7da; color:#721c24; }
+.score-no      { background:#e2e3e5; color:#495057; }
+.crit-body { font-size: 11.5px; color: var(--ink-2); line-height: 1.5; }
+
+.persona-question { font-family: var(--serif); font-size: 11px; font-style: italic; color: var(--ink-3); margin-bottom: 14px; padding: 8px 12px; background: var(--paper-2); border-radius: 2px; border-left: 2px solid var(--rule); }
+
+.score-band { display: flex; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
+.score-cell { flex: 1; padding: 14px 18px; border-right: 1px solid var(--rule); text-align: center; }
+.score-cell:last-child { border-right: none; }
+.score-cell-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.score-cell-label.buffett { color: var(--buffett); }
+.score-cell-label.thiel   { color: var(--thiel); }
+.score-cell-label.schmehl { color: var(--schmehl); }
+.score-num { font-family: var(--serif); font-size: 36px; font-weight: 700; line-height: 1; }
+.score-num.buffett { color: var(--buffett); }
+.score-num.thiel   { color: var(--thiel); }
+.score-num.schmehl { color: var(--schmehl); }
+.score-denom { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+.score-verdict-word { font-family: var(--serif); font-size: 12px; font-style: italic; color: var(--ink-3); margin-top: 4px; }
+
+.key-question { padding: 20px 36px; background: var(--gold-l); border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); }
+.kq-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.kq-text { font-family: var(--serif); font-size: 15px; font-style: italic; color: var(--ink); line-height: 1.6; }
+.kq-text strong { font-style: normal; }
+
+.synthesis { padding: 24px 36px; border-top: 1px solid var(--rule); }
+.synth-title { font-family: var(--serif); font-size: 16px; font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.synth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.synth-block { padding: 14px 16px; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 2px; }
+.synth-block-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+.synth-block-body { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+.synth-block-body strong { color: var(--ink); }
+
+.footer { border-top: 2px solid var(--ink); padding: 12px 36px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--ink-3); flex-wrap: wrap; gap: 6px; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-left">
+    <div class="eyebrow">HKEX: 00819 &nbsp;·&nbsp; 铅酸动力电池 · 储能 · 新型电池 &nbsp;·&nbsp; 三镜头判决框架</div>
+    <div class="company-name">天能动力国际</div>
+    <div class="company-sub">Tianneng Power International · 中国两轮车铅酸电池双寡头之一 · 浙江长兴 · 张天任创始人</div>
+  </div>
+  <div class="price-cluster">
+    <div class="price-main">~HK$7.5</div>
+    <div class="price-sub">
+      <span class="price-up">港股市值 ~HK$85亿</span>
+      <span class="price-stat">P/E 约5×</span>
+      <span class="price-stat">股息率 ~5%</span>
+    </div>
+  </div>
+</div>
+
+<!-- FACTS STRIP -->
+<div class="facts-strip">
+  <div class="fact">
+    <div class="fact-label">集团FY2025收入（港股口径）</div>
+    <div class="fact-value">RMB 538亿</div>
+    <div class="fact-note-dn">含循环经济（再生铅）同比-30%</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">制造业务收入</div>
+    <div class="fact-value">RMB 479亿</div>
+    <div class="fact-note-up">+10% YoY · 核心业务回暖</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">FY2025 归母净利润</div>
+    <div class="fact-value">RMB 14.4亿</div>
+    <div class="fact-note-up">+25.8% YoY</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">铅酸电池市占率</div>
+    <div class="fact-value">&gt;40%</div>
+    <div class="fact-note-up">双寡头合计近80%</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">终端用户网络</div>
+    <div class="fact-value">4亿用户</div>
+    <div class="fact-note">40万家门店</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">锂电H1 2025收入</div>
+    <div class="fact-value">RMB 5亿</div>
+    <div class="fact-note-up">+174.6% · 大幅减亏</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">资本支出趋势</div>
+    <div class="fact-value">RMB ~10亿/年</div>
+    <div class="fact-note-up">较高峰37亿大幅收缩</div>
+  </div>
+  <div class="fact">
+    <div class="fact-label">分红率（2025预计）</div>
+    <div class="fact-value">~40%</div>
+    <div class="fact-note-up">2024年仅15%，大幅提升</div>
+  </div>
+</div>
+
+<!-- SITUATION STRIP -->
+<div class="situation-strip">
+  <div class="sit-block">
+    <div class="sit-label">公司是什么</div>
+    <div class="sit-body">天能动力成立于1986年，总部浙江长兴，是中国<strong>电动两轮车铅酸动力电池双寡头之一</strong>（另一家超威动力00951，同在长兴）。主营铅酸动力电池（两轮/三轮电动车）、高端环保电池、循环经济（再生铅回收）。同时布局锂离子电池（10GWh产能）、钠离子电池、固态电池、储能等新型电池，形成"铅酸为基、多元扩展"的产品体系。年销量约4亿只电池，拥有4亿终端用户、40万家门店网络。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-label">当前关键变化</div>
+    <div class="sit-body">三个正在发生的变化：<strong>① 政策红利</strong>——2025年新国标将铅酸电池车型整车重量限值从55kg放宽至63kg，以旧换新政策对"以锂换铅"额外加补，直接利好铅酸路线；<strong>② CapEx 收缩</strong>——年度资本支出从37亿压缩至约10亿，自由现金流大幅改善；<strong>③ 锂电减亏</strong>——H1 2025锂电收入+174%，亏损从8亿缩减路径清晰，拖累消除在即。</div>
+  </div>
+  <div class="sit-block">
+    <div class="sit-label">三个核心争议</div>
+    <div class="sit-body">① <strong>铅酸电池是否是夕阳行业</strong>——锂电渗透率上升是否会系统性侵蚀铅酸份额？还是铅酸在成本、安全、回收上的优势确保10年内不被替代？② <strong>港股流动性折价是否合理</strong>——90天内无机构评级、成交量极低，这个折价是价值陷阱还是价值机会？③ <strong>钠离子电池的真实潜力</strong>——若钠电能在两轮车和储能上大规模渗透，天能是否有先发优势？</div>
+  </div>
+</div>
+
+<!-- SECTION RULE -->
+<div class="section-rule">
+  三位投资者面对本系列唯一的港股传统制造龙头——这道题测试的是框架能否跨越赛道边界
+</div>
+
+<!-- THREE COLUMNS -->
+<div class="three-col">
+
+  <!-- BUFFETT -->
+  <div class="persona-col">
+    <div class="persona-header buffett">
+      <div class="persona-name buffett">Warren Buffett</div>
+      <div class="persona-tag">护城河 · 双寡头格局 · 现金流 · 定价权</div>
+    </div>
+
+    <div class="persona-question">"铅酸电池是一门我能理解的生意吗？这个双寡头格局能持续多久？40万家门店是护城河，还是只是渠道规模？"</div>
+
+    <div class="verdict-box buffett">
+      <div class="verdict-stance buffett">判决 · 认真感兴趣 · 这类生意我最懂</div>
+      <div class="verdict-text">"我喜欢双寡头。可口可乐和百事可乐；Visa和Mastercard；天能和超威。两家公司加起来占80%市场，都不需要打价格战，因为谁也打不死谁。这个格局在中国传统制造业里极为罕见。5倍PE、5%股息率，而且CapEx正在大幅下降——这让我想起了1960年代我买See's Candies之前在研究的那类生意。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">双寡头护城河：比单一龙头更稳</span>
+        <span class="crit-score score-strong">结构性护城河</span>
+      </div>
+      <div class="crit-body">双寡头格局是巴菲特最欣赏的竞争结构之一——天能+超威合计近80%市场份额，但由于两家势均力敌，谁都不会发动价格战（代价太高，收益太低）。这造就了一个隐性的"合作性垄断"：双方在价格上相互默契，在渠道上各守一方。40万家门店网络意味着新进入者不可能在五年内复制类似的终端覆盖——这是真实的转换成本和渠道护城河，类似于他评估百威英博时看重的分销体系。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">定价权的验证</span>
+        <span class="crit-score score-yes">有但尚未充分利用</span>
+      </div>
+      <div class="crit-body">2025年7月，天能对产品实施约10-15%的提价，且毛利率随后改善至14.5-15%——这是一个重要的定价权验证。更重要的是，雪球投资者的评论揭示了一个隐含的定价权：天能和超威每年合计销售约8亿只电池，若每只提价2元，就是16亿元的增量毛利，而"几百元的电池涨价2元，消费者难以察觉"。这种"微小涨价×巨大数量"的定价结构，正是巴菲特最喜欢的低调定价权形态——它不显眼，但威力巨大。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">CapEx 收缩与自由现金流改善</span>
+        <span class="crit-score score-strong">这是关键转折点</span>
+      </div>
+      <div class="crit-body">天能从2022-2024年高峰期每年30-37亿元的资本支出，压缩至2025年约10亿元/年——这是巴菲特分析制造业公司时最看重的信号之一。"高CapEx期"意味着公司在消耗现金；"低CapEx期"意味着护城河建设完成、现金开始回流股东。这个转折将直接推动自由现金流改善和分红提升（2024年分红率仅15%，2025年预计回升至40%）。他把CapEx周期视为传统制造企业价值评估的关键节奏器。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">铅酸电池的技术寿命判断</span>
+        <span class="crit-score score-yes">10年内安全</span>
+      </div>
+      <div class="crit-body">铅酸电池的核心优势：成本低（一只铅酸电池约300-400元，锂电约500-700元）、安全性高（不会热失控起火）、铅几乎100%可回收（闭环供应链）、低温性能稳定。新国标将铅酸车型重量限值从55kg放宽至63kg，以旧换新政策对"以锂换铅"额外补贴——这些是政策层面对铅酸路线的明确背书。巴菲特对"10年内不会被替代"的判断：铅酸在低价市场的成本优势是根本性的，不会因为锂电技术进步而在短期内消失，他相信这个判断。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">港股流动性折价：风险还是机会</span>
+        <span class="crit-score score-partial">机会，但需要耐心</span>
+      </div>
+      <div class="crit-body">天能动力90天内无机构评级、成交量极低（日成交额约6000万港元）、港股市值仅85亿港元——这种"隐形状态"是很多港股传统制造企业的共同特征。巴菲特对此的判断是：这不是风险，这正是让他能以5倍PE买入一个80%市场份额双寡头的原因。若这家公司在纽交所上市，估值可能是20-25倍PE。这种流动性折价是信息不对称造成的，不是基本面造成的——而他最擅长识别信息不对称带来的估值错误。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">最大的顾虑：经营地区风险</span>
+        <span class="crit-score score-concern">中国政策和监管不确定性</span>
+      </div>
+      <div class="crit-body">巴菲特历来对在中国运营的企业保持更高的监管风险意识——政策可以快速改变游戏规则（想想教培行业）。铅酸电池虽然现在受政策支持，但若未来监管强制推进锂电替代（如曾经对铅酸环保问题的强监管），业务可能受到系统性冲击。此外，再生铅业务涉及环保合规，这在中国的监管环境下存在政策风险。他不会因此回避，但会把这个因素折价入估值，并要求更高的安全边际。</div>
+    </div>
+  </div>
+
+  <!-- THIEL -->
+  <div class="persona-col">
+    <div class="persona-header thiel">
+      <div class="persona-name thiel">Peter Thiel</div>
+      <div class="persona-tag">秘密 · 垄断 · 零到一 · 钠离子的可能性</div>
+    </div>
+
+    <div class="persona-question">"铅酸电池是一个注定被替代的行业，还是一个在被低估的方向上有真实护城河的生意？天能的秘密是什么——是市场份额，还是真正的技术积累？"</div>
+
+    <div class="verdict-box thiel">
+      <div class="verdict-stance thiel">判决 · 矛盾的中性 · 铅酸是成熟垄断，钠离子是唯一令他兴奋的地方</div>
+      <div class="verdict-text">"天能在铅酸电池上建立了真实的垄断——40%市场份额、40万家门店、铅回收闭环。但这个垄断建立在一个被大多数人认为是'过时技术'的产品上。我的框架里没有'维护一个正在衰退技术的垄断'这个高评分位置。但钠离子电池让我有些兴奋——若天能能在钠电路线上复制其铅酸时代的规模优势，这才是一个值得认真对待的零到一。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">铅酸护城河的Thiel解读：规模垄断，非技术垄断</span>
+        <span class="crit-score score-partial">垄断成立，但性质受限</span>
+      </div>
+      <div class="crit-body">天能在铅酸领域的垄断来源是规模经济+渠道网络+品牌，而不是他最看重的"专有技术10倍优势"或"网络效应"。铅酸电池本身是成熟技术，天能的铅酸产品与超威的差异有限，用户选择天能是因为渠道覆盖和价格，而不是因为天能的铅酸性能大幅优于超威。这种护城河在Thiel框架里属于"规模垄断"——真实、有效，但不是他最感兴趣的那种"技术垄断"。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">铅酸是否是被低估的"对的技术"</span>
+        <span class="crit-score score-yes">Thiel的反共识思维被激活</span>
+      </div>
+      <div class="crit-body">Thiel的框架里有一个重要的反直觉维度：当所有人都认为某个技术是"过时的"，而它实际上仍然是最优解，这种认知错误就是投资机会。铅酸电池被大多数人视为"落后技术"，但在中国4亿两轮车用户的实际使用场景中，铅酸的价格、安全、可回收性三个维度的综合表现仍然优于锂电——尤其是对价格敏感的中低收入用户群体。这个"众人皆以为落后、实际仍是最优解"的认知错位，正是他框架里的"秘密"候选。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">钠离子电池：唯一真正令他兴奋的部分</span>
+        <span class="crit-score score-strong">这里有零到一的可能</span>
+      </div>
+      <div class="crit-body">钠离子电池对Thiel来说是真正有趣的方向：原材料丰度是锂的2000倍（供应端几乎无瓶颈）、超宽温域性能（-30℃到60℃）、安全性高于锂电——这些特性组合在特定场景（北方低温、储能、低速电动车）构成了对锂电的10倍优势。天能已在钠电领域有产业化布局，且已实现小批量出货。若钠电在2027-2030年进入大规模量产，天能凭借其在两轮车渠道的垄断地位，可能快速成为钠电两轮车市场的主导者——这才是Thiel真正感兴趣的"秘密转化"叙事。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">创始人特质：张天任的民营制造范式</span>
+        <span class="crit-score score-yes">值得尊重</span>
+      </div>
+      <div class="crit-body">张天任从1986年小作坊起家，把天能做到中国铅酸双寡头之一，是典型的中国第一代民营制造业创业者路径。他在政策环境极其复杂的中国电池行业（铅污染监管、价格管控、竞争加剧）生存并持续做大，证明了超强的运营执行能力。Thiel对这类"在艰难环境里建立实质垄断的创始人"有独特的尊重——这不是他会投资的那种"疯狂的反直觉愿景者"，而是一个用工程师思维和运营纪律建立了真实产业霸主地位的人。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">锂电战略失误与纠偏</span>
+        <span class="crit-score score-yes">纠偏是理性的</span>
+      </div>
+      <div class="crit-body">天能在锂电上的大规模投入（10GWh产能）在竞争过剩的市场里造成了约8亿元/年的亏损，现在公司明确"不再新增锂电产能，专注提升现有产能利用率"。Thiel会把这个战略收缩评价为理性的——在一个竞争激烈、无差异化的市场里撤退，把资本集中到有护城河的核心业务（铅酸）和有潜力的新赛道（钠电），这符合他"集中而非分散"的资本配置原则。比盲目扩张更难的是承认错误并收缩，天能做到了。</div>
+    </div>
+  </div>
+
+  <!-- SCHMEHL -->
+  <div class="persona-col">
+    <div class="persona-header schmehl">
+      <div class="persona-name schmehl">Mark Schmehl</div>
+      <div class="persona-tag">动量 · 业绩反转 · CapEx周期 · 港股流动性</div>
+    </div>
+
+    <div class="persona-question">"净利润+25.8%、制造业务+10%、CapEx大幅收缩、分红从15%提升至40%——这些正面变化，市场定价了几成？5倍PE说明了什么？"</div>
+
+    <div class="verdict-box schmehl">
+      <div class="verdict-stance schmehl">判决 · 高度关注 · 这是他猎场里最被忽视的类型</div>
+      <div class="verdict-text">"港股小市值传统制造业，90天无机构覆盖，成交量极低，但基本面正在发生非常清晰的正面变化：利润反转、CapEx下降、分红提升、政策顺风。这些变化没有被市场定价——因为市场根本没有在看这只股票。这不是被低估，这是被遗忘。被遗忘和被低估的区别在于：一旦有人'发现'它，重新定价会非常迅速。"</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">正面变化：业绩反转已经发生</span>
+        <span class="crit-score score-strong">清晰且已有数据支撑</span>
+      </div>
+      <div class="crit-body">2025年H1净利润环比大增282.7%；全年归母净利润+25.8%至14.4亿元；铅酸电池毛利率从约13%提升至14.5-15%；7月提价10-15%效果已在财务数据中体现。这不是"预期会好转"，而是"已经在好转"的实测数据——Schmehl最看重这种"变化已经发生但尚未被市场定价"的信号。5倍PE对应14.4亿净利润、约25亿港元市值估计，市场定价方式完全忽视了这个已经发生的改善。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">CapEx收缩：自由现金流释放的催化剂</span>
+        <span class="crit-score score-strong">时间节点最明确的催化剂</span>
+      </div>
+      <div class="crit-body">年度CapEx从37亿压缩至10亿——这个数字变化极具Schmehl视角的分析价值：它意味着公司每年将有额外27亿元的现金可以用于分红或回购，而不是继续消耗在产能扩张上。分红率从15%提升至40%的路径已经明确——这将让当前股价对应的股息率从约1.5%提升至约5%，触发一批偏好高股息的港股价值投资者的重新发现。这是一个"已经宣布且时间明确"的催化剂，不是预测。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">政策顺风：市场完全没有定价</span>
+        <span class="crit-score score-strong">被低估的正面变化</span>
+      </div>
+      <div class="crit-body">两个政策变化正在同步发生：新国标将铅酸车型重量限值从55kg放宽至63kg（直接扩大铅酸电池可用容量空间）；以旧换新政策对"以锂换铅"额外补贴（政策在主动引导用户回流铅酸路线）。这两个政策利好在A股市场可能引发显著的估值重估，但在港股，天能90天内无机构覆盖的现实说明：这些政策利好几乎没有被市场消化。这是Schmehl框架里最典型的"正面变化尚未被定价"场景。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">港股流动性：障碍还是机会</span>
+        <span class="crit-score score-partial">核心的风险收益不对称点</span>
+      </div>
+      <div class="crit-body">日均成交额约6000万港元、90天无机构覆盖——这在Schmehl的系统里是一个"流动性折价"信号。他通常的猎场是有足够流动性的成长股，但天能这个案例特殊在于：流动性极低正是折价的原因，而不是折价的结果。若天能在未来启动港股通纳入流程，或有大型机构开始覆盖，流动性改善将触发快速的估值修复。这个催化剂时间不确定，是他会等待的"事件驱动"类型，而不是他能主动推动的。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">锂电减亏：拖累因素正在消失</span>
+        <span class="crit-score score-yes">负面消除是正面变化</span>
+      </div>
+      <div class="crit-body">锂电业务从年亏损8亿缩减路径已经明确（H1 2025同比收入+174%，利用率提升带动大幅减亏）。Schmehl的框架里，"拖累因素消失"与"正面因素增加"具有同等权重——当一个重大亏损来源开始收窄，对整体利润的边际改善可能是非线性的。若2026年锂电业务亏损缩减至3亿以内（从8亿高峰），直接带来约5亿元的利润改善，对应当前不到10倍PE的公司而言，这个改善将极为显著。</div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-header">
+        <span class="crit-name">卖出触发条件</span>
+        <span class="crit-score score-yes">清晰</span>
+      </div>
+      <div class="crit-body">① 铅酸电池毛利率回落至13%以下（定价权丧失或铅价大幅上涨侵蚀利润）；② CapEx重新扩大至20亿以上（公司重返扩张模式，自由现金流改善终止）；③ 分红率未能兑现40%承诺（资本配置纪律不达预期）；④ 锂电亏损未能持续收窄（技术整合失败）；⑤ 中国政策突然转向强制推广锂电（政策顺风逆转）。目前这些条件均未触发，持仓逻辑完整。</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SCORE BAND -->
+<div class="score-band">
+  <div class="score-cell">
+    <div class="score-cell-label buffett">Buffett 评分</div>
+    <div class="score-num buffett">74</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">认真感兴趣</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label thiel">Thiel 评分</div>
+    <div class="score-num thiel">41</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">铅酸成熟·钠电待验证</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label schmehl">Schmehl 评分</div>
+    <div class="score-num schmehl">79</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">高度关注·被遗忘的正面变化</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-cell-label" style="color:var(--gold)">三人共识</div>
+    <div class="score-num" style="color:var(--gold)">65</div>
+    <div class="score-denom">/ 100</div>
+    <div class="score-verdict-word">Thiel独立分歧</div>
+  </div>
+</div>
+
+<!-- KEY QUESTION -->
+<div class="key-question">
+  <div class="kq-label">三视角共同指向的核心判断题</div>
+  <div class="kq-text">天能动力是本系列里最独特的一道题：<strong>一家在双寡头格局中拥有40%市场份额的传统制造龙头，以5倍PE在港股长期被市场遗忘</strong>。三位投资者的分歧核心不在于天能好不好，而在于对"铅酸电池行业寿命"的判断：<br><br>
+  巴菲特和施梅尔（分别74/79）认为铅酸10年内不会被替代，当前估值有巨大的安全边际，双寡头格局和CapEx收缩构成了清晰的价值回归路径。蒂尔（41分）认为成熟技术的垄断没有高评分，除非钠离子能真正开启下一轮零到一。<br><br>
+  <strong>这道题的核心不是"铅酸和锂电谁赢"，而是：在铅酸替代完成之前（至少5-10年），5倍PE的双寡头龙头是否值得持有？巴菲特说是。施梅尔说是。蒂尔说这不是他的猎场，但他尊重这个生意。</strong></div>
+</div>
+
+<!-- SYNTHESIS -->
+<div class="synthesis">
+  <div class="synth-title">三镜头综合叙事 · 被港股遗忘的中国制造双寡头</div>
+  <div class="synth-grid">
+    <div class="synth-block">
+      <div class="synth-block-title">Buffett：为什么5倍PE的双寡头是他最熟悉的那类机会</div>
+      <div class="synth-block-body">巴菲特整个投资生涯里，他最成功的投资往往来自两类：要么是被市场高度关注、正在以合理价格成长的优质企业（可口可乐、苹果）；要么是被市场完全忽视的优质生意，以远低于内在价值的价格出售（早年的华盛顿邮报、See's Candies）。天能动力属于后一类——<strong>双寡头、稳定现金流、低CapEx、政策顺风，以5倍PE出售</strong>。他会在意港股流动性，但不会因为流动性低而放弃一个真实的护城河。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">Thiel：为什么他给铅酸公司打了比Adobe还低的分</div>
+      <div class="synth-block-body">Thiel给Adobe 31分（认为AI重构了护城河），给天能41分——这个比较很有启发性。Adobe的问题是"垄断正在被侵蚀"；天能的问题是"垄断建立在一个被认为'过时技术'的产品上"。<strong>蒂尔的分数反映的不是对天能的否定，而是框架本身的局限：他的工具箱是为"零到一"而设计的，对"一到N的稳定垄断"天然评分偏低</strong>。钠离子电池是唯一让他考虑给天能更高评分的方向，但需要等待技术规模化的验证。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">Schmehl：为什么"被遗忘"比"被低估"更有吸引力</div>
+      <div class="synth-block-body">"被低估"意味着市场看到了信息，但做出了错误的判断；"被遗忘"意味着市场根本没有在处理这些信息。<strong>天能动力属于后者：90天无机构覆盖、港股成交量极低——基本面正在改善的信号完全没有传递到定价机制里</strong>。一旦有机构开始覆盖（这是最可预期的催化剂），重新定价的速度会非常快，因为不需要改变市场的判断，只需要让市场"注意到"这家公司。</div>
+    </div>
+    <div class="synth-block">
+      <div class="synth-block-title">天能 vs WPM：两种不同的"传统产业垄断"</div>
+      <div class="synth-block-body">WPM（共识77）是贵金属流媒体模式，护城河来自"零运营风险的资产权利"；天能（共识65）是传统制造的双寡头，护城河来自渠道网络和规模经济。<strong>两者都是三位投资者相对认可的传统非科技公司，但WPM的护城河与技术替代风险无关，天能的护城河有技术替代的长期阴影</strong>。这解释了约12分的共识分差——天能的护城河是真实的，但它的时间价值（10年？20年？）是这道题最大的不确定性变量。</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>天能动力国际有限公司 · HKEX: 00819 · 三镜头投资判决框架 · Buffett / Thiel / Schmehl</span>
+  <span>数据截至 2026年6月26日 · FY2025 年报 March 27, 2026 · 子公司天能股份（688819.SH）同步上市</span>
+</div>
+
+</body>
+</html>
